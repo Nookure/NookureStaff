@@ -32,14 +32,14 @@ public class CustomCommandItem extends StaffItem implements ExecutableItem, Play
       return;
     }
 
-    if (customItemPartial.getType() == CustomItemType.COMMAND_TARGET_AS_PLAYER) {
+    if (customItemPartial.getType() == CustomItemType.COMMAND_AS_PLAYER) {
       Bukkit.dispatchCommand(staff.getPlayer(), customItemPartial.getCommand()
           .replace("{player}", staff.getName())
           .replace("{player_uuid}", staff.getUniqueId().toString())
       );
     }
 
-    if (customItemPartial.getType() == CustomItemType.COMMAND_TARGET_AS_CONSOLE) {
+    if (customItemPartial.getType() == CustomItemType.COMMAND_AS_CONSOLE) {
       Bukkit.dispatchCommand(Bukkit.getConsoleSender(), customItemPartial.getCommand()
           .replace("{player}", staff.getName())
           .replace("{player_uuid}", staff.getUniqueId().toString())
