@@ -101,6 +101,8 @@ public class DefaultLibRepo {
         .version(Constants.NOOKURE_INVENTORY_VERSION)
         .isolatedLoad(false)
         .resolveTransitiveDependencies(true)
+        .relocate("jakarta{}xml", "com{}nookure{}staff{}libs{}jakarta{}xml")
+        .relocate("org{}glassfish{}jaxb", "com{}nookure{}staff{}libs{}org{}glassfish{}jaxb")
         .build();
 
     try {
@@ -109,13 +111,7 @@ public class DefaultLibRepo {
       libraries.add(sqlite);
     }
 
-    try {
-      Class.forName("com.nookure.core.inv.NookureInventoryEngine");
-    } catch (ClassNotFoundException e) {
-      libraries.add(nookureInventory);
-    }
-
-    Stream.of(hikariCP, caffeine, jedis, commons, commonsPool2, json, protobuf).forEach(libraries::add);
+    Stream.of(hikariCP, caffeine, jedis, commons, commonsPool2, json, protobuf, nookureInventory).forEach(libraries::add);
 
     try {
       Class.forName("io.ebean.Database");
