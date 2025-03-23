@@ -10,6 +10,7 @@ import com.nookure.staff.api.config.bukkit.BukkitConfig;
 import com.nookure.staff.api.config.bukkit.BukkitMessages;
 import com.nookure.staff.api.database.model.StaffStateModel;
 import com.nookure.staff.api.database.repository.StaffStateRepository;
+import com.nookure.staff.api.event.EventManager;
 import com.nookure.staff.api.extension.StaffPlayerExtension;
 import com.nookure.staff.api.extension.StaffPlayerExtensionManager;
 import com.nookure.staff.api.extension.VanishExtension;
@@ -18,6 +19,7 @@ import com.nookure.staff.api.item.StaffItem;
 import com.nookure.staff.api.state.PlayerState;
 import com.nookure.staff.api.util.Scheduler;
 import com.nookure.staff.api.util.ServerUtils;
+import com.nookure.staff.api.util.TextUtils;
 import com.nookure.staff.paper.bootstrap.StaffPaperPlayerWrapperModule;
 import com.nookure.staff.paper.data.ServerStaffModeData;
 import io.ebean.Database;
@@ -45,6 +47,7 @@ public class StaffPaperPlayerWrapper extends PaperPlayerWrapper implements Staff
   private final AtomicReference<StaffStateModel> staffDataModel = new AtomicReference<>();
   private final AtomicBoolean staffMode = new AtomicBoolean(false);
   private final AtomicBoolean staffChatAsDefault = new AtomicBoolean(false);
+  private final EventManager eventManager;
   private VanishExtension vanishExtension;
   private StaffModeExtension staffModeExtension;
 
@@ -59,6 +62,7 @@ public class StaffPaperPlayerWrapper extends PaperPlayerWrapper implements Staff
       @NotNull final Scheduler scheduler,
       @NotNull final StaffPlayerExtensionManager extensionManager,
       @NotNull final StaffStateRepository staffStateRepository,
+      @NotNull final EventManager eventManager,
       @NotNull @Assisted final Player player,
       @NotNull @Assisted final List<Class<? extends PlayerState>> states
   ) {
@@ -68,6 +72,7 @@ public class StaffPaperPlayerWrapper extends PaperPlayerWrapper implements Staff
     this.scheduler = scheduler;
     this.extensionManager = extensionManager;
     this.staffStateRepository = staffStateRepository;
+    this.eventManager = eventManager;
 
     AtomicReference<ServerStaffModeData> serverStaffModeData = new AtomicReference<>();
     this.injector = nookPlugin.getInjector().createChildInjector(
@@ -368,7 +373,7 @@ public class StaffPaperPlayerWrapper extends PaperPlayerWrapper implements Staff
 
   //<editor-fold desc="ActionBar">
   public void addActionBar() {
-    if (!staffMode.get()) return;
+    if (!staffMode.get() && !(config.get().staffMode.actionBarOnVanish() && isInVanish())) return;
     if (!config.get().staffMode.actionBar()) return;
     if (!hasPermission(Permissions.ACTION_BAR_PERMISSION)) return;
 
@@ -387,11 +392,13 @@ public class StaffPaperPlayerWrapper extends PaperPlayerWrapper implements Staff
     }
 
     sendActionbar(MiniMessage.miniMessage().deserialize(
+        TextUtils.parsePlaceholdersWithPAPI(
+            player,
             messages.get().staffMode.actionBar()
                 .replace("{vanished}", vanished)
                 .replace("{staffChat}", staffChat)
                 .replace("{tps}", tps)
-        )
+        ))
     );
   }
   //</editor-fold>
@@ -417,6 +424,8 @@ public class StaffPaperPlayerWrapper extends PaperPlayerWrapper implements Staff
         if (extension.base() != extension.extension()) {
           extensionMap.put(extension.base(), instance);
         }
+
+        eventManager.registerListenerWeakly(instance);
       } catch (Exception e) {
         logger.severe("An error occurred while adding extension %s for %s: %s", extension.base().getName(), player.getName(), e.getMessage());
       }
@@ -424,6 +433,10 @@ public class StaffPaperPlayerWrapper extends PaperPlayerWrapper implements Staff
 
     vanishExtension = getExtension(VanishExtension.class).orElse(null);
     staffModeExtension = getExtension(StaffModeExtension.class).orElse(null);
+  }
+
+  public void unregisterExtensions() {
+    extensionMap.values().forEach(eventManager::unregisterListener);
   }
   //</editor-fold>
 

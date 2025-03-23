@@ -43,7 +43,7 @@ public class StaffModePartial {
   @Comment("""
       Potion effects to add when the player enters the staff mode.
       Format: "effect:level:duration"
-       """)
+      """)
   private List<String> potionEffects = List.of(
       "speed:1:999999",
       "jump:1:999999"
@@ -67,6 +67,12 @@ public class StaffModePartial {
       they have the nookure.staff.actionbar permission.
       """)
   private boolean actionBar = true;
+
+  @Setting
+  @Comment("""
+      Enable or disable the action bar when the user is in vanish
+      """)
+  private boolean actionBarOnVanish = true;
 
   @Setting
   @Comment("""
@@ -112,6 +118,10 @@ public class StaffModePartial {
 
   public boolean actionBar() {
     return actionBar;
+  }
+
+  public boolean actionBarOnVanish() {
+    return actionBarOnVanish;
   }
 
   public VanishType vanishType() {
