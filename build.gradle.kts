@@ -121,9 +121,11 @@ tasks.withType(xyz.jpenilla.runtask.task.AbstractRun::class) {
   systemProperties["file.encoding"] = "UTF-8"
 }
 
+val minecraftVersion: String by project
+
 tasks {
   runServer {
-    minecraftVersion("1.21.4")
+    minecraftVersion(minecraftVersion)
   }
 }
 
