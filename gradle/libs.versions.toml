@@ -1,7 +1,7 @@
 [versions]
 hikariCP = "6.2.1"
 invApiVer = "4.1.10"
-gson = "2.12.2"
+gson = "2.12.1"
 libly = "2.0.0-SNAPSHOT"
 reflections = "0.10.2"
 paperLib = "1.0.7"
