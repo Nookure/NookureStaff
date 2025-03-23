@@ -7,6 +7,9 @@ import com.nookure.staff.api.NookureStaff;
 import com.nookure.staff.api.exception.EventHandlerException;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.ref.Reference;
+import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,9 +43,20 @@ public final class EventManager {
    * @param listener Listener class to unregister
    */
   public void unregisterListener(Object listener) {
-    listeners.values().forEach(eventVectors ->
-        eventVectors.removeIf(eventVector -> eventVector.listener().equals(listener))
-    );
+    for (Map.Entry<Class<? extends Event>, List<EventVector>> entry : listeners.entrySet()) {
+      final var eventVectors = entry.getValue();
+      final var eventVectorsIterator = eventVectors.iterator();
+
+      while (eventVectorsIterator.hasNext()) {
+        final var eventVector = eventVectorsIterator.next();
+        final var listenerRef = eventVector.listener();
+        final var actualListener = listenerRef.get();
+
+        if (actualListener == null || actualListener == listener) {
+          eventVectorsIterator.remove();
+        }
+      }
+    }
   }
 
   /**
@@ -59,7 +73,7 @@ public final class EventManager {
    *
    * @param listener Listener object to register
    */
-  public void registerListener(@NotNull Object listener) {
+  public void registerListenerReference(@NotNull Reference<Object> listener) {
     Objects.requireNonNull(listener, "Listener cannot be null");
 
     Class<?> clazz = listener.getClass();
@@ -96,6 +110,14 @@ public final class EventManager {
     }
   }
 
+  public void registerListener(@NotNull final Object listener) {
+    registerListenerReference(new SoftReference<>(listener));
+  }
+
+  public void registerListenerWeakly(@NotNull final Object listener) {
+    registerListenerReference(new WeakReference<>(listener));
+  }
+
   /**
    * Call an event
    * This will call all the methods annotated with {@link NookSubscribe}
@@ -123,6 +145,13 @@ public final class EventManager {
     return CompletableFuture.supplyAsync(() -> {
       eventVectors.forEach(eventVector -> {
         try {
+          final var listener = eventVector.listener().get();
+
+          if (listener == null) {
+            unregisterListener(eventVector.listener());
+            return;
+          }
+
           eventVector.method().invoke(eventVector.listener(), event);
         } catch (Exception e) {
           throw new EventHandlerException("Could not invoke event handler", e);

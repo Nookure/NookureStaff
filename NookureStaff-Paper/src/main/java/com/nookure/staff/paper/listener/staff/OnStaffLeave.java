@@ -3,6 +3,7 @@ package com.nookure.staff.paper.listener.staff;
 import com.google.inject.Inject;
 import com.nookure.staff.api.StaffPlayerWrapper;
 import com.nookure.staff.api.manager.PlayerWrapperManager;
+import com.nookure.staff.paper.StaffPaperPlayerWrapper;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,7 +23,8 @@ public class OnStaffLeave implements Listener {
       return;
     }
 
-    StaffPlayerWrapper wrapper = optional.get();
+    StaffPaperPlayerWrapper wrapper = (StaffPaperPlayerWrapper) optional.get();
+    wrapper.unregisterExtensions();
 
     if (wrapper.isInStaffMode()) {
       wrapper.clearInventory();

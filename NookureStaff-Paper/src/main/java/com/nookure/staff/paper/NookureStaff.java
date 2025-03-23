@@ -5,7 +5,6 @@ import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import com.nookure.staff.api.Logger;
 import com.nookure.staff.api.addons.AddonManager;
-import com.nookure.staff.api.annotation.PluginMessageSecretKey;
 import com.nookure.staff.api.command.Command;
 import com.nookure.staff.api.config.ConfigurationContainer;
 import com.nookure.staff.api.config.bukkit.*;
@@ -64,16 +63,13 @@ import com.nookure.staff.paper.task.FreezeTimerTask;
 import com.nookure.staff.paper.task.PinTask;
 import com.nookure.staff.paper.task.StaffModeActionbar;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import javax.crypto.SecretKey;
 import java.io.Closeable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Stream;
 
 @Singleton
@@ -118,9 +114,6 @@ public class NookureStaff {
   private Injector injector;
   @Inject
   private Logger logger;
-  @Inject
-  @PluginMessageSecretKey
-  private AtomicReference<SecretKey> pluginMessageSecretKey;
   @Inject
   private PaperCommandManager commandManager;
   @Inject
