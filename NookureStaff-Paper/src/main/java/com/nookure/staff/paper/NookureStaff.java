@@ -40,6 +40,7 @@ import com.nookure.staff.paper.listener.freeze.OnPlayerChatFreeze;
 import com.nookure.staff.paper.listener.server.OnServerBroadcast;
 import com.nookure.staff.paper.listener.staff.OnPlayerInStaffChatTalk;
 import com.nookure.staff.paper.listener.staff.OnShiftAndRightClick;
+import com.nookure.staff.paper.listener.staff.state.OnSpawnerSpawn;
 import com.nookure.staff.paper.listener.staff.OnStaffLeave;
 import com.nookure.staff.paper.listener.staff.command.OnStaffPlayerCommand;
 import com.nookure.staff.paper.listener.staff.items.OnInventoryClick;
@@ -181,7 +182,8 @@ public class NookureStaff {
           OnItemSwap.class,
           OnPlayerAttack.class,
           OnWorldChange.class,
-          OnStaffPlayerCommand.class
+          OnStaffPlayerCommand.class,
+          OnSpawnerSpawn.class
       ).forEach(this::registerListener);
     }
 
