@@ -136,6 +136,15 @@ public interface StaffPlayerWrapper extends PlayerWrapper {
   void toggleNightVision();
 
   /**
+   * Check if the player is in staff mode or vanish mode.
+   *
+   * @return true if the player is in staff mode or vanish mode
+   */
+  default boolean isStaffModeOrVanish() {
+    return isInStaffMode() || isInVanish();
+  }
+
+  /**
    * Return the player's staff mode extension.
    *
    * @param extension the extension class that you want to get
