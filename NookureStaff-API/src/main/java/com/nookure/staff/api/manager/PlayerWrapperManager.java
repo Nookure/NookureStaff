@@ -95,6 +95,22 @@ public final class PlayerWrapperManager<T> {
     return Optional.empty();
   }
 
+  @Nullable
+  public StaffPlayerWrapper getStaffPlayerOrNull(@NotNull UUID uuid) {
+    Objects.requireNonNull(uuid, "UUID cannot be null");
+    Optional<PlayerWrapper> optionalPlayerWrapper = getPlayerWrapper(uuid);
+
+    if (optionalPlayerWrapper.isPresent()) {
+      PlayerWrapper playerWrapper = optionalPlayerWrapper.get();
+
+      if (playerWrapper instanceof StaffPlayerWrapper) {
+        return (StaffPlayerWrapper) playerWrapper;
+      }
+    }
+
+    return null;
+  }
+
   /**
    * Gets a player by its player wrapper.
    *

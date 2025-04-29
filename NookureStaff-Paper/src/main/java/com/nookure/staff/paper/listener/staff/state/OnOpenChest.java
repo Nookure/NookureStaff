@@ -25,7 +25,7 @@ public class OnOpenChest implements Listener {
 
     StaffPlayerWrapper playerWrapper = playerWrapperManager.getStaffPlayer(player.getUniqueId()).orElseThrow();
 
-    if (!playerWrapper.isInStaffMode()) {
+    if (!playerWrapper.isStaffModeOrVanish()) {
       return;
     }
 

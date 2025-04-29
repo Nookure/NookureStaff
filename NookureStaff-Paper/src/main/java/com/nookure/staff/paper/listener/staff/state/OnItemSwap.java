@@ -14,7 +14,7 @@ public class OnItemSwap implements Listener {
   @EventHandler
   public void onItemSwap(PlayerSwapHandItemsEvent event) {
     playerWrapperManager.getStaffPlayer(event.getPlayer().getUniqueId()).ifPresent(playerWrapper -> {
-      if (playerWrapper.isInStaffMode()) event.setCancelled(true);
+      if (playerWrapper.isStaffModeOrVanish()) event.setCancelled(true);
     });
   }
 }

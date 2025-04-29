@@ -22,6 +22,7 @@ import com.nookure.staff.api.extension.staff.StaffModeExtension;
 import com.nookure.staff.api.messaging.Channels;
 import com.nookure.staff.api.messaging.EventMessenger;
 import com.nookure.staff.api.util.AbstractLoader;
+import com.nookure.staff.api.util.ServerUtils;
 import com.nookure.staff.paper.bootstrap.StaffBootstrapper;
 import com.nookure.staff.paper.command.*;
 import com.nookure.staff.paper.command.main.NookureStaffCommand;
@@ -40,6 +41,7 @@ import com.nookure.staff.paper.listener.freeze.OnPlayerChatFreeze;
 import com.nookure.staff.paper.listener.server.OnServerBroadcast;
 import com.nookure.staff.paper.listener.staff.OnPlayerInStaffChatTalk;
 import com.nookure.staff.paper.listener.staff.OnShiftAndRightClick;
+import com.nookure.staff.paper.listener.staff.state.OnSpawnerSpawn;
 import com.nookure.staff.paper.listener.staff.OnStaffLeave;
 import com.nookure.staff.paper.listener.staff.command.OnStaffPlayerCommand;
 import com.nookure.staff.paper.listener.staff.items.OnInventoryClick;
@@ -181,8 +183,13 @@ public class NookureStaff {
           OnItemSwap.class,
           OnPlayerAttack.class,
           OnWorldChange.class,
-          OnStaffPlayerCommand.class
+          OnStaffPlayerCommand.class,
+          OnPlayerAdvancementCriterionGrant.class
       ).forEach(this::registerListener);
+
+      if (ServerUtils.MINECRAFT_VERSION.isAtLeast(1, 21, 0)) {
+        registerListener(OnSpawnerSpawn.class);
+      }
     }
 
     if (config.get().staffMode.silentChestOpen()) {

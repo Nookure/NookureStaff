@@ -14,7 +14,7 @@ public class OnItemDrop implements Listener {
   @EventHandler
   public void onItemDrop(PlayerDropItemEvent event) {
     playerWrapperManager.getStaffPlayer(event.getPlayer().getUniqueId()).ifPresent(playerWrapper -> {
-      if (playerWrapper.isInStaffMode()) event.setCancelled(true);
+      if (playerWrapper.isStaffModeOrVanish()) event.setCancelled(true);
     });
   }
 }

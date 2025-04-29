@@ -20,7 +20,7 @@ public class OnWorldChange implements Listener {
     Player player = event.getPlayer();
 
     playerWrapperManager.getStaffPlayer(player.getUniqueId()).ifPresent(playerWrapper -> {
-      if (!playerWrapper.isInStaffMode()) {
+      if (!playerWrapper.isStaffModeOrVanish()) {
         return;
       }
 
