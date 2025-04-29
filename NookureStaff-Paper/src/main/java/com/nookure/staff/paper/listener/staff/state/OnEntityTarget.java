@@ -22,7 +22,7 @@ public class OnEntityTarget implements Listener {
     }
 
     playerWrapperManager.getStaffPlayer(player.getUniqueId()).ifPresent(
-        pw -> event.setCancelled(pw.isInStaffMode())
+        pw -> event.setCancelled(pw.isStaffModeOrVanish())
     );
   }
 }

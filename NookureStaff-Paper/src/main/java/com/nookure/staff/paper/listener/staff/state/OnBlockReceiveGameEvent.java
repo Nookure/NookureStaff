@@ -18,7 +18,7 @@ public class OnBlockReceiveGameEvent implements Listener {
     }
 
     playerWrapperManager.getStaffPlayer(player.getUniqueId()).ifPresent(playerWrapper -> {
-      if (playerWrapper.isInVanish()) {
+      if (playerWrapper.isStaffModeOrVanish()) {
         event.setCancelled(true);
       }
     });

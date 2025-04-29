@@ -22,7 +22,7 @@ public class OnPlayerAttack implements Listener {
     }
 
     playerWrapperManager.getStaffPlayer(player.getUniqueId()).ifPresent(playerWrapper -> {
-      if (playerWrapper.isInStaffMode()) {
+      if (playerWrapper.isStaffModeOrVanish()) {
         event.setCancelled(true);
       }
     });

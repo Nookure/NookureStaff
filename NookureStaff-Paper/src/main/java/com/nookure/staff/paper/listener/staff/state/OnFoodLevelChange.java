@@ -18,7 +18,7 @@ public class OnFoodLevelChange implements Listener {
     }
 
     playerWrapperManager.getStaffPlayer(player.getUniqueId()).ifPresent(playerWrapper -> {
-      if (playerWrapper.isInStaffMode()) event.setCancelled(true);
+      if (playerWrapper.isStaffModeOrVanish()) event.setCancelled(true);
     });
   }
 }
