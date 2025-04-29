@@ -22,6 +22,7 @@ import com.nookure.staff.api.extension.staff.StaffModeExtension;
 import com.nookure.staff.api.messaging.Channels;
 import com.nookure.staff.api.messaging.EventMessenger;
 import com.nookure.staff.api.util.AbstractLoader;
+import com.nookure.staff.api.util.ServerUtils;
 import com.nookure.staff.paper.bootstrap.StaffBootstrapper;
 import com.nookure.staff.paper.command.*;
 import com.nookure.staff.paper.command.main.NookureStaffCommand;
@@ -183,8 +184,12 @@ public class NookureStaff {
           OnPlayerAttack.class,
           OnWorldChange.class,
           OnStaffPlayerCommand.class,
-          OnSpawnerSpawn.class
+          OnPlayerAdvancementCriterionGrant.class
       ).forEach(this::registerListener);
+
+      if (ServerUtils.MINECRAFT_VERSION.isAtLeast(1, 21, 0)) {
+        registerListener(OnSpawnerSpawn.class);
+      }
     }
 
     if (config.get().staffMode.silentChestOpen()) {
