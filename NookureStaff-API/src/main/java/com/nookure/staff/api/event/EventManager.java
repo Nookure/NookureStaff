@@ -7,9 +7,6 @@ import com.nookure.staff.api.NookureStaff;
 import com.nookure.staff.api.exception.EventHandlerException;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.ref.Reference;
-import java.lang.ref.SoftReference;
-import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,8 +46,7 @@ public final class EventManager {
 
       while (eventVectorsIterator.hasNext()) {
         final var eventVector = eventVectorsIterator.next();
-        final var listenerRef = eventVector.listener();
-        final var actualListener = listenerRef.get();
+        final var actualListener = eventVector.listener();
 
         if (actualListener == null || actualListener == listener) {
           eventVectorsIterator.remove();
@@ -73,7 +69,7 @@ public final class EventManager {
    *
    * @param listener Listener object to register
    */
-  public void registerListenerReference(@NotNull Reference<Object> listener) {
+  public void registerListenerReference(@NotNull final Object listener, final boolean weak) {
     Objects.requireNonNull(listener, "Listener cannot be null");
 
     Class<?> clazz = listener.getClass();
@@ -106,16 +102,16 @@ public final class EventManager {
         listeners.put(eventClass, new ArrayList<>());
       }
 
-      listeners.get(eventClass).add(new EventVector(method, listener, nookSubscribe));
+      listeners.get(eventClass).add(new EventVector(method, listener, nookSubscribe, weak));
     }
   }
 
   public void registerListener(@NotNull final Object listener) {
-    registerListenerReference(new SoftReference<>(listener));
+    registerListenerReference(listener, false);
   }
 
   public void registerListenerWeakly(@NotNull final Object listener) {
-    registerListenerReference(new WeakReference<>(listener));
+    registerListenerReference(listener, true);
   }
 
   /**
@@ -145,7 +141,7 @@ public final class EventManager {
     return CompletableFuture.supplyAsync(() -> {
       eventVectors.forEach(eventVector -> {
         try {
-          final var listener = eventVector.listener().get();
+          final var listener = eventVector.listener();
 
           if (listener == null) {
             unregisterListener(eventVector.listener());

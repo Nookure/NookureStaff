@@ -1,6 +1,7 @@
 package com.nookure.staff.paper.listener.staff.state;
 
 import com.google.inject.Inject;
+import com.nookure.staff.api.Logger;
 import com.nookure.staff.api.manager.PlayerWrapperManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,7 +14,7 @@ public class OnSpawnerSpawn implements Listener {
   private final PlayerWrapperManager<Player> playerWrapperManager;
 
   @Inject
-  public OnSpawnerSpawn(final PlayerWrapperManager<Player> playerWrapperManager) {
+  public OnSpawnerSpawn(@NotNull final PlayerWrapperManager<Player> playerWrapperManager) {
     this.playerWrapperManager = playerWrapperManager;
   }
 
