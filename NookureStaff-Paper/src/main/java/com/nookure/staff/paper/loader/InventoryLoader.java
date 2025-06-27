@@ -10,6 +10,7 @@ import com.nookure.staff.api.config.ConfigurationContainer;
 import com.nookure.staff.api.config.bukkit.BukkitConfig;
 import com.nookure.staff.api.util.AbstractLoader;
 import com.nookure.staff.api.util.JarUtil;
+import com.nookure.staff.paper.inventory.action.TeleportToPlayerAction;
 import com.nookure.staff.paper.inventory.extenion.DataFormatExtension;
 import com.nookure.staff.paper.inventory.extenion.NookurePlayerExtension;
 import com.nookure.staff.paper.pin.action.PinButtonPressed;
@@ -74,6 +75,9 @@ public class InventoryLoader implements AbstractLoader {
     if (config.get().modules.isPinCode()) {
       registry.registerAction(injector.getInstance(PinButtonPressed.class));
     }
+    
+    // Register native teleportation action
+    registry.registerAction(injector.getInstance(TeleportToPlayerAction.class));
   }
 
   @Override
