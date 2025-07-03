@@ -47,7 +47,7 @@
                 </LoreLine>
             </Lore>
             <Actions>
-                <Action type="RUN_COMMAND_AS_PLAYER" value="tp {{ player.name }}"/>
+                <Action type="teleport_to_player" value="{{ player.uniqueId }}"/>
                 <Action type="CLOSE_INVENTORY"/>
             </Actions>
         </Item>
