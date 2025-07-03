@@ -148,7 +148,7 @@ modrinth {
 
   changelog.set(changeLog)
   uploadFile.set(tasks.shadowJar.get().archiveFile)
-  gameVersions.addAll("1.19.4", "1.20.6", "1.21", "1.21.4", "1.21.5", "1.21.6, 1.21.7")
+  gameVersions.addAll("1.19.4", "1.20.6", "1.21", "1.21.4", "1.21.5", "1.21.6", "1.21.7")
   loaders.addAll("paper", "purpur", "velocity")
 
   syncBodyFrom = rootProject.file("README.md").readText()
