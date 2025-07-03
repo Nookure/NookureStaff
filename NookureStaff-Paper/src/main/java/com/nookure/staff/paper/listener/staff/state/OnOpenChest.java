@@ -25,7 +25,7 @@ public class OnOpenChest implements Listener {
 
     StaffPlayerWrapper playerWrapper = playerWrapperManager.getStaffPlayer(player.getUniqueId()).orElseThrow();
 
-    if (!playerWrapper.isStaffModeOrVanish()) {
+    if (!playerWrapper.isInStaffMode() || !playerWrapper.isInVanish()) { // TODO: Make a real good implementation for vanish, avoiding duplication
       return;
     }
 
