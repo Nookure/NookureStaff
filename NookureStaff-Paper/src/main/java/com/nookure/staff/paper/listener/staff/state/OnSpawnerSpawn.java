@@ -26,20 +26,33 @@ public class OnSpawnerSpawn implements Listener {
     final var location = spawner.getLocation();
     final var range = spawner.getSpawnRange();
 
-    boolean spawn = false;
-
     if (location.getWorld() == null) return;
+
+    boolean shouldInterfere = false;
+    boolean hasValidPlayers = false;
 
     for (final var entity : location.getWorld().getNearbyEntities(location, range, range, range)) {
       if (!(entity instanceof Player player)) continue;
 
-      if (canTriggerSpawner(player)) {
-        spawn = true;
+      if (playerWrapperManager.isStaffPlayer(player.getUniqueId())) {
+        shouldInterfere = true; // We have staff players nearby, so we need to manage spawning
+        final var staffPlayer = playerWrapperManager.getStaffPlayerOrNull(player.getUniqueId());
+        if (staffPlayer != null && !staffPlayer.isStaffModeOrVanish()) {
+          hasValidPlayers = true;
+          break;
+        }
+      } else {
+        // Normal player found
+        hasValidPlayers = true;
         break;
       }
     }
 
-    if (!spawn) event.setCancelled(true);
+    // Only interfere with spawning if there are staff players nearby
+    // If no staff players are nearby, let vanilla Minecraft handle spawning
+    if (shouldInterfere && !hasValidPlayers) {
+      event.setCancelled(true);
+    }
   }
 
   @SuppressWarnings("UnstableApiUsage")
