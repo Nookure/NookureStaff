@@ -4,6 +4,9 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+### Compiled class files ###
+*.class
+
 ### IntelliJ IDEA ###
 .idea/
 .idea/modules.xml
