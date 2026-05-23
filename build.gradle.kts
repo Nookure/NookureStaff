@@ -7,6 +7,7 @@ plugins {
   alias(libs.plugins.runPaper)
   alias(libs.plugins.testLogger)
   alias(libs.plugins.minotaur)
+  alias(libs.plugins.ebean)
 }
 
 val major: String by project
@@ -58,17 +59,17 @@ allprojects {
   apply<JavaPlugin>()
   apply(plugin = rootProject.libs.plugins.shadowJar.get().pluginId)
   apply(plugin = rootProject.libs.plugins.testLogger.get().pluginId)
+  apply(plugin = rootProject.libs.plugins.ebean.get().pluginId)
 
   repositories {
     mavenCentral()
+    maven("https://central.sonatype.com/repository/maven-snapshots/")
     maven("https://jitpack.io")
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://maven.nookure.com")
     maven("https://mvn.exceptionflug.de/repository/exceptionflug-public/")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
-    maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
     maven("https://repo.dmulloy2.net/repository/public/")
-    maven("https://repo.aikar.co/content/groups/aikar/")
   }
 
   dependencies {
@@ -101,9 +102,9 @@ allprojects {
   }
 
   java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
-    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
+    toolchain.languageVersion.set(JavaLanguageVersion.of(25))
   }
 
   testlogger {
@@ -112,11 +113,6 @@ allprojects {
 }
 
 tasks.withType(xyz.jpenilla.runtask.task.AbstractRun::class) {
-  javaLauncher = javaToolchains.launcherFor {
-    vendor = JvmVendorSpec.JETBRAINS
-    languageVersion = JavaLanguageVersion.of(21)
-  }
-  jvmArgs("-XX:+AllowEnhancedClassRedefinition", "-XX:+AllowRedefinitionToAddDeleteMethods")
   systemProperties["nkstaff.inventory.replace"] = "true"
   systemProperties["file.encoding"] = "UTF-8"
 }
@@ -148,7 +144,7 @@ modrinth {
 
   changelog.set(changeLog)
   uploadFile.set(tasks.shadowJar.get().archiveFile)
-  gameVersions.addAll("1.19.4", "1.20.6", "1.21", "1.21.4", "1.21.5", "1.21.6", "1.21.7")
+  gameVersions.addAll("1.19.4", "1.20.6", "1.21", "1.21.4", "1.21.5", "1.21.6", "1.21.7", "1.21.11", "26.1.2")
   loaders.addAll("paper", "purpur", "velocity")
 
   syncBodyFrom = rootProject.file("README.md").readText()
