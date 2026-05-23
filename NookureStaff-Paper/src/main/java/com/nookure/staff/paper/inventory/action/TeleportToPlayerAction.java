@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
-@CustomActionData(value = "teleport_to_player", hasValue = true)
+@CustomActionData(value = "TELEPORT_TO_PLAYER", hasValue = true)
 public class TeleportToPlayerAction extends CustomPaperAction {
   @Inject
   private PlayerWrapperManager<Player> playerWrapperManager;
