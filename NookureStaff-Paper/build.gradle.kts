@@ -2,7 +2,6 @@ import net.minecrell.pluginyml.paper.PaperPluginDescription
 
 plugins {
   alias(libs.plugins.pluginYmlPaper)
-  alias(libs.plugins.pluginYmlBukkit)
 }
 
 group = "com.nookure.staff"
@@ -20,8 +19,6 @@ dependencies {
   compileOnly(libs.nookure.core.inventory)
   compileOnly(libs.lucko.luckperms)
   compileOnly(libs.neznamy.tab.api)
-  bukkitLibrary(libs.guice)
-  bukkitLibrary(libs.google.guice.assistedinject)
   paperLibrary(libs.guice)
 
   /* Start of MockBukkit stuff */
@@ -46,26 +43,16 @@ dependencies {
   /* End of MockBukkit stuff */
 }
 
-bukkit {
-  name = "NookureStaff"
-  version = rootProject.version.toString()
-  apiVersion = "1.16"
-  description = "A staff plugin by Nookure"
-  website = "https://angelillo15.es/"
-  authors = listOf("Angelillo15")
-  main = "com.nookure.staff.paper.bootstrap.StaffBootstrapper"
-  softDepend = listOf("PlaceholderAPI", "LuckPerms", "SuperVanish", "PremiumVanish", "TAB")
-}
-
 paper {
   name = "NookureStaff"
   version = rootProject.version.toString()
   description = "A staff plugin by Nookure"
-  apiVersion = "1.19"
-  website = "https://angelillo15.es/"
-  authors = listOf("Angelillo15")
+  apiVersion = "1.21"
+  website = "https://lunna.dev/"
+  authors = listOf("Lunna5")
   loader = "com.nookure.staff.paper.bootstrap.StaffPaperPluginLoader"
   main = "com.nookure.staff.paper.bootstrap.StaffBootstrapper"
+  generateLibrariesJson = true
   serverDependencies {
     register("PlaceholderAPI") {
       required = false
