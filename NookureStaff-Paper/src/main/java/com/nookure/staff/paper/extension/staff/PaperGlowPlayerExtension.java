@@ -6,6 +6,7 @@ import com.nookure.staff.api.config.ConfigurationContainer;
 import com.nookure.staff.api.config.bukkit.GlowConfig;
 import com.nookure.staff.api.extension.staff.GlowPlayerExtension;
 import com.nookure.staff.api.hook.PermissionHook;
+import com.nookure.staff.api.util.Scheduler;
 import com.nookure.staff.api.util.transformer.NameTagTransformer;
 import com.nookure.staff.paper.StaffPaperPlayerWrapper;
 import org.jetbrains.annotations.NotNull;
@@ -15,13 +16,15 @@ public class PaperGlowPlayerExtension extends GlowPlayerExtension {
   private final ConfigurationContainer<GlowConfig> config;
   private final NameTagTransformer nameTagTransformer;
   private final PermissionHook permissionHook;
+  private final Scheduler scheduler;
 
   @Inject
   public PaperGlowPlayerExtension(
       @NotNull final StaffPlayerWrapper player,
       @NotNull final ConfigurationContainer<GlowConfig> config,
       @NotNull final NameTagTransformer nameTagTransformer,
-      @NotNull final PermissionHook permissionHook
+      @NotNull final PermissionHook permissionHook,
+      @NotNull final Scheduler scheduler
   ) {
     super(player);
 
@@ -29,13 +32,16 @@ public class PaperGlowPlayerExtension extends GlowPlayerExtension {
     this.config = config;
     this.nameTagTransformer = nameTagTransformer;
     this.permissionHook = permissionHook;
+    this.scheduler = scheduler;
   }
 
   @Override
   public void onStaffModeEnabled() {
     final String color = getGlowColor();
-    nameTagTransformer.setPrefix(player, color);
-    player.getPlayer().setGlowing(true);
+    scheduler.sync(() -> {
+      nameTagTransformer.setPrefix(player, color);
+      player.getPlayer().setGlowing(true);
+    }, 1L);
   }
 
   @Override
