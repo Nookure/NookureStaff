@@ -105,6 +105,9 @@ public class PaperStaffModeExtension extends StaffModeExtension {
       player.getExtensions().values().forEach(StaffPlayerExtension::onStaffModeEnabled);
     } catch (Exception e) {
       logger.severe("An error occurred while enabling staff mode for %s: %s", player.getName(), e.getMessage());
+      if (nookPlugin.isDebug()) {
+        logger.severe(e);
+      }
     }
 
     logger.debug("Staff mode enabled for %s in %dms", player.getName(), System.currentTimeMillis() - time);
@@ -133,7 +136,10 @@ public class PaperStaffModeExtension extends StaffModeExtension {
     try {
       player.getExtensions().values().forEach(StaffPlayerExtension::onStaffModeDisabled);
     } catch (Exception e) {
-      logger.severe("An error occurred while enabling staff mode for %s: %s", player.getName(), e.getMessage());
+      logger.severe("An error occurred while disabling staff mode for %s: %s", player.getName(), e.getMessage());
+      if (nookPlugin.isDebug()) {
+        logger.severe(e);
+      }
     }
 
     logger.debug("Staff mode disabled for %s in %dms", player.getName(), System.currentTimeMillis() - time);
