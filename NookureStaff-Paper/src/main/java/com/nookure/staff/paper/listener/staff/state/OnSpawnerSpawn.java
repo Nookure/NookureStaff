@@ -26,18 +26,21 @@ public class OnSpawnerSpawn implements Listener {
     final var location = spawner.getLocation();
     final var range = spawner.getRequiredPlayerRange();
 
-    boolean spawn = false;
-
-    if (location.getWorld() == null) return;
+    boolean shouldInterfere = false;
+    boolean hasValidPlayers = false;
 
     for (final var player : location.getWorld().getNearbyPlayers(location, range, range, range)) {
-      if (canTriggerSpawner(player)) {
-        spawn = true;
+      if (!canTriggerSpawner(player)) {
+        shouldInterfere = true;
+      } else {
+        hasValidPlayers = true;
         break;
       }
     }
 
-    if (!spawn) event.setCancelled(true);
+    if (shouldInterfere && !hasValidPlayers) {
+      event.setCancelled(true);
+    }
   }
 
   @SuppressWarnings("UnstableApiUsage")
