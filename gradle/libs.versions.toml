@@ -1,6 +1,5 @@
 [versions]
 hikariCP = "6.3.3"
-invApiVer = "4.1.10"
 gson = "2.14.0"
 libly = "2.0.0-SNAPSHOT"
 reflections = "0.10.2"
@@ -22,7 +21,6 @@ pluginYml = "0.9.0"
 guava = "33.4.5-jre"
 apacheCommons = "3.14.0"
 ebean = "17.2.0"
-flyway = "10.12.0"
 protoc = "4.29.1"
 super-vanish = "6.2.18-3"
 inventory = "1.0.0-ee06bf8"
@@ -33,14 +31,9 @@ google-auto-value = "1.11.0"
 google-auto-service = "1.1.1"
 luckperms = "5.4"
 neznamy-tab-api = "5.0.3"
-incendo-cloud = "2.0.0-beta.10"
 
 [libraries]
 hikariCP = { group = "com.zaxxer", name = "HikariCP", version.ref = "hikariCP" }
-invCore = { group = "com.github.hamza-cskn.obliviate-invs", name = "core", version.ref = "invApiVer" }
-invAdvancedSlots = { group = "com.github.hamza-cskn.obliviate-invs", name = "advancedslot", version.ref = "invApiVer" }
-invPagination = { group = "com.github.hamza-cskn.obliviate-invs", name = "pagination", version.ref = "invApiVer" }
-configurableGui = { group = "com.github.hamza-cskn.obliviate-invs", name = "configurablegui", version.ref = "invApiVer" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 liblyBukkit = { group = "com.alessiodp.libby", name = "libby-bukkit", version.ref = "libly" }
 liblyBungee = { group = "com.alessiodp.libby", name = "libby-bungee", version.ref = "libly" }
@@ -57,7 +50,6 @@ jedis = { group = "redis.clients", name = "jedis", version.ref = "jedis" }
 miniMessage = { group = "net.kyori", name = "adventure-text-minimessage", version.ref = "adventure" }
 adventureApi = { group = "net.kyori", name = "adventure-api", version.ref = "adventure" }
 adventureBukkit = { group = "net.kyori", name = "adventure-platform-bukkit", version.ref = "adventurePlatform" }
-adventureBungee = { group = "net.kyori", name = "adventure-platform-bungeecord", version.ref = "adventurePlatform" }
 textPlainSerializer = { group = "net.kyori", name = "adventure-text-serializer-plain", version.ref = "adventure" }
 textLegacySerializer = { group = "net.kyori", name = "adventure-text-serializer-legacy", version.ref = "adventure" }
 velocity = { group = "com.velocitypowered", name = "velocity-api", version.ref = "velocity" }
@@ -94,7 +86,6 @@ lucko-luckperms = { group = "net.luckperms", name = "api", version.ref = "luckpe
 neznamy-tab-api = { group = "com.github.NEZNAMY", name = "TAB-API", version.ref = "neznamy-tab-api" }
 
 [bundles]
-invAPI = ["invCore", "invAdvancedSlots", "invPagination", "configurableGui"]
 scoreboard = ["scoreboard", "scoreboard-implementation", "scoreboard-modern", "scoreboard-packetevents", "scoreboard-8"]
 
 [plugins]
@@ -103,7 +94,6 @@ pluginYmlPaper = { id = "de.eldoria.plugin-yml.paper", version.ref = "pluginYml"
 grgit = { id = "org.ajoberstar.grgit", version = "5.2.1" }
 grgitPublish = { id = "org.ajoberstar.git-publish", version = "4.2.1" }
 ebean = { id = "io.ebean", version.ref = "ebean" }
-libby = { id = "xyz.kyngs.libby.plugin", version = "1.0.0" }
 runPaper = { id = "xyz.jpenilla.run-paper", version = "3.0.2" }
 testLogger = { id = "com.adarshr.test-logger", version = "4.0.0"}
 minotaur = { id = "com.modrinth.minotaur", version = "2.+" }
