@@ -24,7 +24,7 @@ public class OnSpawnerSpawn implements Listener {
     if (spawner == null) return;
 
     final var location = spawner.getLocation();
-    final var range = spawner.getSpawnRange();
+    final var range = spawner.getRequiredPlayerRange();
 
     boolean spawn = false;
 
