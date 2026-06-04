@@ -20,27 +20,6 @@ dependencies {
   compileOnly(libs.lucko.luckperms)
   compileOnly(libs.neznamy.tab.api)
   paperLibrary(libs.guice)
-
-  /* Start of MockBukkit stuff */
-  testImplementation(libs.mockBukkit)
-  testImplementation(libs.guice)
-  testImplementation(libs.google.guice.assistedinject)
-  testImplementation(libs.libbyPaper)
-  testImplementation(libs.configurateYaml)
-  testImplementation(libs.nookure.core.inventory)
-  testImplementation(libs.jedis)
-  testImplementation(libs.libbyPaper)
-  testImplementation(libs.liblyBukkit)
-  testImplementation(libs.adventureApi)
-  testImplementation(libs.miniMessage)
-  testImplementation(libs.adventureBukkit)
-  testImplementation(libs.ebean)
-  testImplementation(libs.hikariCP)
-
-  testImplementation("org.xerial:sqlite-jdbc:3.46.0.0")
-  testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
-  testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-  /* End of MockBukkit stuff */
 }
 
 paper {
