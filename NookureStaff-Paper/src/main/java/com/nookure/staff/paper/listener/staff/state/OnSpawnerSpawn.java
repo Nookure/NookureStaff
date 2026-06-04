@@ -30,9 +30,7 @@ public class OnSpawnerSpawn implements Listener {
 
     if (location.getWorld() == null) return;
 
-    for (final var entity : location.getWorld().getNearbyEntities(location, range, range, range)) {
-      if (!(entity instanceof Player player)) continue;
-
+    for (final var player : location.getWorld().getNearbyPlayers(location, range, range, range)) {
       if (canTriggerSpawner(player)) {
         spawn = true;
         break;
