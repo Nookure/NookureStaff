@@ -24,22 +24,23 @@ public class OnSpawnerSpawn implements Listener {
     if (spawner == null) return;
 
     final var location = spawner.getLocation();
-    final var range = spawner.getSpawnRange();
+    final var range = spawner.getRequiredPlayerRange();
 
-    boolean spawn = false;
+    boolean shouldInterfere = false;
+    boolean hasValidPlayers = false;
 
-    if (location.getWorld() == null) return;
-
-    for (final var entity : location.getWorld().getNearbyEntities(location, range, range, range)) {
-      if (!(entity instanceof Player player)) continue;
-
-      if (canTriggerSpawner(player)) {
-        spawn = true;
+    for (final var player : location.getWorld().getNearbyPlayers(location, range, range, range)) {
+      if (!canTriggerSpawner(player)) {
+        shouldInterfere = true;
+      } else {
+        hasValidPlayers = true;
         break;
       }
     }
 
-    if (!spawn) event.setCancelled(true);
+    if (shouldInterfere && !hasValidPlayers) {
+      event.setCancelled(true);
+    }
   }
 
   @SuppressWarnings("UnstableApiUsage")

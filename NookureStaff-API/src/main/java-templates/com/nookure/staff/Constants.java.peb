@@ -1,12 +1,12 @@
 package com.nookure.staff;
 
 public final class Constants {
-	public static final String VERSION = "{{ version }}";
-	public static final String BRANCH = "{{ branch }}";
-	public static final String COMMIT = "{{ commit }}";
-	public static final String VERSION_CODE = "{{ versionCode }}";
-	public static final String BUILD_TIME = "{{ time }}";
-	public static final String NOOKURE_INVENTORY_VERSION = "{{ nookureInventoryVersion }}";
+  public static final String VERSION = "{{ version }}";
+  public static final String BRANCH = "{{ branch }}";
+  public static final String COMMIT = "{{ commit }}";
+  public static final String VERSION_CODE = "{{ versionCode }}";
+  public static final String BUILD_TIME = "{{ time }}";
+  public static final String NOOKURE_INVENTORY_VERSION = "{{ nookureInventoryVersion }}";
 
   // Jenkins related constants
   public static final int JENKINS_BUILD_NUMBER = Integer.parseInt("{{ jenkinsBuildNumber }}");
@@ -14,6 +14,5 @@ public final class Constants {
   public static final String JENKINS_BUILD_URL = "{{ jenkinsBuildUrl }}";
 
   public static final String JENKINS_JOB_NAME = "NookureStaff";
-
-	private Constants() {}
+  private Constants() {}
 }

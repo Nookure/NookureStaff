@@ -5,16 +5,6 @@ import org.bukkit.util.io.BukkitObjectInputStream;
 import java.io.IOException;
 
 public class PluginObjectInputStream extends BukkitObjectInputStream {
-  private final static Class<?> wrapper;
-
-  static {
-    try {
-      wrapper = Class.forName("org.bukkit.util.io.Wrapper");
-    } catch (ClassNotFoundException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
   protected PluginObjectInputStream() throws IOException, SecurityException {
   }
 
