@@ -89,7 +89,7 @@ tasks {
   withType<Javadoc> {
     val o = options as StandardJavadocDocletOptions
     o.encoding = "UTF-8"
-    o.source = "17"
+    o.source = "21"
 
     o.links(
       "https://guava.dev/releases/${libs.guava.get().version}/api/docs/",
