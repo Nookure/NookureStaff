@@ -43,14 +43,13 @@ public class OnPlayerInStaffChatTalk implements Listener {
             return;
         }
 
-        String message = messages.get()
-                .staffChat
-                .format()
-                .replace("{player}", staffPlayerWrapper.getName())
-                .replace("{server}", config.get().getServerName())
-                .replace("{message}", PlainTextComponentSerializer.plainText().serialize(event.message()));
+        String message = messages.get().staffChat.format();
 
         message = TextUtils.parsePlaceholdersWithPAPI(event.getPlayer(), message);
+
+        message = message.replace("{player}", staffPlayerWrapper.getName())
+                .replace("{server}", config.get().getServerName())
+                .replace("{message}", PlainTextComponentSerializer.plainText().serialize(event.message()));
 
         serverUtils.broadcast(message, Permissions.STAFF_CHAT, config.get().staffChat.logStaffChatInConsole);
 
