@@ -8,6 +8,7 @@ import com.nookure.staff.api.config.bukkit.BukkitConfig;
 import com.nookure.staff.api.config.bukkit.BukkitMessages;
 import com.nookure.staff.api.manager.PlayerWrapperManager;
 import com.nookure.staff.api.util.ServerUtils;
+import com.nookure.staff.api.util.TextUtils;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import java.util.Optional;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
@@ -48,6 +49,8 @@ public class OnPlayerInStaffChatTalk implements Listener {
                 .replace("{player}", staffPlayerWrapper.getName())
                 .replace("{server}", config.get().getServerName())
                 .replace("{message}", PlainTextComponentSerializer.plainText().serialize(event.message()));
+
+        message = TextUtils.parsePlaceholdersWithPAPI(event.getPlayer(), message);
 
         serverUtils.broadcast(message, Permissions.STAFF_CHAT, config.get().staffChat.logStaffChatInConsole);
 

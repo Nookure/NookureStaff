@@ -1,0 +1,27 @@
+Subject: [PATCH] feat(staffchat): add placeholder parsing support for staff chat messages
+---
+Index: NookureStaff-Paper/src/main/java/com/nookure/staff/paper/listener/staff/OnPlayerInStaffChatTalk.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/NookureStaff-Paper/src/main/java/com/nookure/staff/paper/listener/staff/OnPlayerInStaffChatTalk.java b/NookureStaff-Paper/src/main/java/com/nookure/staff/paper/listener/staff/OnPlayerInStaffChatTalk.java
+--- a/NookureStaff-Paper/src/main/java/com/nookure/staff/paper/listener/staff/OnPlayerInStaffChatTalk.java	(revision e3fbb2ee951eab6e92c8ad0b7f67ca0e4aef5037)
++++ b/NookureStaff-Paper/src/main/java/com/nookure/staff/paper/listener/staff/OnPlayerInStaffChatTalk.java	(revision 689be3c9e938bd0324fa63e324c58831bf0a6aa3)
+@@ -8,6 +8,7 @@
+ import com.nookure.staff.api.config.bukkit.BukkitMessages;
+ import com.nookure.staff.api.manager.PlayerWrapperManager;
+ import com.nookure.staff.api.util.ServerUtils;
++import com.nookure.staff.api.util.TextUtils;
+ import io.papermc.paper.event.player.AsyncChatEvent;
+ import java.util.Optional;
+ import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+@@ -49,6 +50,8 @@
+                 .replace("{server}", config.get().getServerName())
+                 .replace("{message}", PlainTextComponentSerializer.plainText().serialize(event.message()));
+ 
++        message = TextUtils.parsePlaceholdersWithPAPI(event.getPlayer(), message);
++
+         serverUtils.broadcast(message, Permissions.STAFF_CHAT, config.get().staffChat.logStaffChatInConsole);
+ 
+         event.setCancelled(true);
