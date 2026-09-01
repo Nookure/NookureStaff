@@ -6,932 +6,894 @@
 package com.nookure.staff.api.proto;
 
 public final class Player {
-  private Player() {}
-  public static void registerAllExtensions(
-      com.google.protobuf.ExtensionRegistryLite registry) {
-  }
-  public interface PlayerModelOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:com.nookure.staff.api.proto.PlayerModel)
-      com.google.protobuf.MessageLiteOrBuilder {
+    private Player() {}
 
-    /**
-     * <code>string username = 1;</code>
-     * @return The username.
-     */
-    java.lang.String getUsername();
-    /**
-     * <code>string username = 1;</code>
-     * @return The bytes for username.
-     */
-    com.google.protobuf.ByteString
-        getUsernameBytes();
+    public static void registerAllExtensions(com.google.protobuf.ExtensionRegistryLite registry) {}
 
-    /**
-     * <code>string uuid = 2;</code>
-     * @return The uuid.
-     */
-    java.lang.String getUuid();
-    /**
-     * <code>string uuid = 2;</code>
-     * @return The bytes for uuid.
-     */
-    com.google.protobuf.ByteString
-        getUuidBytes();
+    public interface PlayerModelOrBuilder
+            extends
+            // @@protoc_insertion_point(interface_extends:com.nookure.staff.api.proto.PlayerModel)
+            com.google.protobuf.MessageLiteOrBuilder {
 
-    /**
-     * <code>.google.protobuf.Timestamp lastLogin = 3;</code>
-     * @return Whether the lastLogin field is set.
-     */
-    boolean hasLastLogin();
-    /**
-     * <code>.google.protobuf.Timestamp lastLogin = 3;</code>
-     * @return The lastLogin.
-     */
-    com.google.protobuf.Timestamp getLastLogin();
+        /**
+         * <code>string username = 1;</code>
+         * @return The username.
+         */
+        java.lang.String getUsername();
+        /**
+         * <code>string username = 1;</code>
+         * @return The bytes for username.
+         */
+        com.google.protobuf.ByteString getUsernameBytes();
 
-    /**
-     * <code>.google.protobuf.Timestamp firstLogin = 4;</code>
-     * @return Whether the firstLogin field is set.
-     */
-    boolean hasFirstLogin();
-    /**
-     * <code>.google.protobuf.Timestamp firstLogin = 4;</code>
-     * @return The firstLogin.
-     */
-    com.google.protobuf.Timestamp getFirstLogin();
+        /**
+         * <code>string uuid = 2;</code>
+         * @return The uuid.
+         */
+        java.lang.String getUuid();
+        /**
+         * <code>string uuid = 2;</code>
+         * @return The bytes for uuid.
+         */
+        com.google.protobuf.ByteString getUuidBytes();
 
-    /**
-     * <code>string lastIp = 5;</code>
-     * @return The lastIp.
-     */
-    java.lang.String getLastIp();
-    /**
-     * <code>string lastIp = 5;</code>
-     * @return The bytes for lastIp.
-     */
-    com.google.protobuf.ByteString
-        getLastIpBytes();
+        /**
+         * <code>.google.protobuf.Timestamp lastLogin = 3;</code>
+         * @return Whether the lastLogin field is set.
+         */
+        boolean hasLastLogin();
+        /**
+         * <code>.google.protobuf.Timestamp lastLogin = 3;</code>
+         * @return The lastLogin.
+         */
+        com.google.protobuf.Timestamp getLastLogin();
 
-    /**
-     * <code>string firstIp = 6;</code>
-     * @return The firstIp.
-     */
-    java.lang.String getFirstIp();
-    /**
-     * <code>string firstIp = 6;</code>
-     * @return The bytes for firstIp.
-     */
-    com.google.protobuf.ByteString
-        getFirstIpBytes();
+        /**
+         * <code>.google.protobuf.Timestamp firstLogin = 4;</code>
+         * @return Whether the firstLogin field is set.
+         */
+        boolean hasFirstLogin();
+        /**
+         * <code>.google.protobuf.Timestamp firstLogin = 4;</code>
+         * @return The firstLogin.
+         */
+        com.google.protobuf.Timestamp getFirstLogin();
 
-    /**
-     * <code>optional bool online = 7;</code>
-     * @return Whether the online field is set.
-     */
-    boolean hasOnline();
-    /**
-     * <code>optional bool online = 7;</code>
-     * @return The online.
-     */
-    boolean getOnline();
-  }
-  /**
-   * Protobuf type {@code com.nookure.staff.api.proto.PlayerModel}
-   */
-  public  static final class PlayerModel extends
-      com.google.protobuf.GeneratedMessageLite<
-          PlayerModel, PlayerModel.Builder> implements
-      // @@protoc_insertion_point(message_implements:com.nookure.staff.api.proto.PlayerModel)
-      PlayerModelOrBuilder {
-    private PlayerModel() {
-      username_ = "";
-      uuid_ = "";
-      lastIp_ = "";
-      firstIp_ = "";
-    }
-    private int bitField0_;
-    public static final int USERNAME_FIELD_NUMBER = 1;
-    private java.lang.String username_;
-    /**
-     * <code>string username = 1;</code>
-     * @return The username.
-     */
-    @java.lang.Override
-    public java.lang.String getUsername() {
-      return username_;
-    }
-    /**
-     * <code>string username = 1;</code>
-     * @return The bytes for username.
-     */
-    @java.lang.Override
-    public com.google.protobuf.ByteString
-        getUsernameBytes() {
-      return com.google.protobuf.ByteString.copyFromUtf8(username_);
-    }
-    /**
-     * <code>string username = 1;</code>
-     * @param value The username to set.
-     */
-    private void setUsername(
-        java.lang.String value) {
-      java.lang.Class<?> valueClass = value.getClass();
-  
-      username_ = value;
-    }
-    /**
-     * <code>string username = 1;</code>
-     */
-    private void clearUsername() {
+        /**
+         * <code>string lastIp = 5;</code>
+         * @return The lastIp.
+         */
+        java.lang.String getLastIp();
+        /**
+         * <code>string lastIp = 5;</code>
+         * @return The bytes for lastIp.
+         */
+        com.google.protobuf.ByteString getLastIpBytes();
 
-      username_ = getDefaultInstance().getUsername();
-    }
-    /**
-     * <code>string username = 1;</code>
-     * @param value The bytes for username to set.
-     */
-    private void setUsernameBytes(
-        com.google.protobuf.ByteString value) {
-      checkByteStringIsUtf8(value);
-      username_ = value.toStringUtf8();
+        /**
+         * <code>string firstIp = 6;</code>
+         * @return The firstIp.
+         */
+        java.lang.String getFirstIp();
+        /**
+         * <code>string firstIp = 6;</code>
+         * @return The bytes for firstIp.
+         */
+        com.google.protobuf.ByteString getFirstIpBytes();
 
+        /**
+         * <code>optional bool online = 7;</code>
+         * @return Whether the online field is set.
+         */
+        boolean hasOnline();
+        /**
+         * <code>optional bool online = 7;</code>
+         * @return The online.
+         */
+        boolean getOnline();
     }
-
-    public static final int UUID_FIELD_NUMBER = 2;
-    private java.lang.String uuid_;
-    /**
-     * <code>string uuid = 2;</code>
-     * @return The uuid.
-     */
-    @java.lang.Override
-    public java.lang.String getUuid() {
-      return uuid_;
-    }
-    /**
-     * <code>string uuid = 2;</code>
-     * @return The bytes for uuid.
-     */
-    @java.lang.Override
-    public com.google.protobuf.ByteString
-        getUuidBytes() {
-      return com.google.protobuf.ByteString.copyFromUtf8(uuid_);
-    }
-    /**
-     * <code>string uuid = 2;</code>
-     * @param value The uuid to set.
-     */
-    private void setUuid(
-        java.lang.String value) {
-      java.lang.Class<?> valueClass = value.getClass();
-  
-      uuid_ = value;
-    }
-    /**
-     * <code>string uuid = 2;</code>
-     */
-    private void clearUuid() {
-
-      uuid_ = getDefaultInstance().getUuid();
-    }
-    /**
-     * <code>string uuid = 2;</code>
-     * @param value The bytes for uuid to set.
-     */
-    private void setUuidBytes(
-        com.google.protobuf.ByteString value) {
-      checkByteStringIsUtf8(value);
-      uuid_ = value.toStringUtf8();
-
-    }
-
-    public static final int LASTLOGIN_FIELD_NUMBER = 3;
-    private com.google.protobuf.Timestamp lastLogin_;
-    /**
-     * <code>.google.protobuf.Timestamp lastLogin = 3;</code>
-     */
-    @java.lang.Override
-    public boolean hasLastLogin() {
-      return ((bitField0_ & 0x00000001) != 0);
-    }
-    /**
-     * <code>.google.protobuf.Timestamp lastLogin = 3;</code>
-     */
-    @java.lang.Override
-    public com.google.protobuf.Timestamp getLastLogin() {
-      return lastLogin_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : lastLogin_;
-    }
-    /**
-     * <code>.google.protobuf.Timestamp lastLogin = 3;</code>
-     */
-    private void setLastLogin(com.google.protobuf.Timestamp value) {
-      value.getClass();
-  lastLogin_ = value;
-      bitField0_ |= 0x00000001;
-      }
-    /**
-     * <code>.google.protobuf.Timestamp lastLogin = 3;</code>
-     */
-    @java.lang.SuppressWarnings({"ReferenceEquality"})
-    private void mergeLastLogin(com.google.protobuf.Timestamp value) {
-      value.getClass();
-  if (lastLogin_ != null &&
-          lastLogin_ != com.google.protobuf.Timestamp.getDefaultInstance()) {
-        lastLogin_ =
-          com.google.protobuf.Timestamp.newBuilder(lastLogin_).mergeFrom(value).buildPartial();
-      } else {
-        lastLogin_ = value;
-      }
-      bitField0_ |= 0x00000001;
-    }
-    /**
-     * <code>.google.protobuf.Timestamp lastLogin = 3;</code>
-     */
-    private void clearLastLogin() {  lastLogin_ = null;
-      bitField0_ = (bitField0_ & ~0x00000001);
-    }
-
-    public static final int FIRSTLOGIN_FIELD_NUMBER = 4;
-    private com.google.protobuf.Timestamp firstLogin_;
-    /**
-     * <code>.google.protobuf.Timestamp firstLogin = 4;</code>
-     */
-    @java.lang.Override
-    public boolean hasFirstLogin() {
-      return ((bitField0_ & 0x00000002) != 0);
-    }
-    /**
-     * <code>.google.protobuf.Timestamp firstLogin = 4;</code>
-     */
-    @java.lang.Override
-    public com.google.protobuf.Timestamp getFirstLogin() {
-      return firstLogin_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : firstLogin_;
-    }
-    /**
-     * <code>.google.protobuf.Timestamp firstLogin = 4;</code>
-     */
-    private void setFirstLogin(com.google.protobuf.Timestamp value) {
-      value.getClass();
-  firstLogin_ = value;
-      bitField0_ |= 0x00000002;
-      }
-    /**
-     * <code>.google.protobuf.Timestamp firstLogin = 4;</code>
-     */
-    @java.lang.SuppressWarnings({"ReferenceEquality"})
-    private void mergeFirstLogin(com.google.protobuf.Timestamp value) {
-      value.getClass();
-  if (firstLogin_ != null &&
-          firstLogin_ != com.google.protobuf.Timestamp.getDefaultInstance()) {
-        firstLogin_ =
-          com.google.protobuf.Timestamp.newBuilder(firstLogin_).mergeFrom(value).buildPartial();
-      } else {
-        firstLogin_ = value;
-      }
-      bitField0_ |= 0x00000002;
-    }
-    /**
-     * <code>.google.protobuf.Timestamp firstLogin = 4;</code>
-     */
-    private void clearFirstLogin() {  firstLogin_ = null;
-      bitField0_ = (bitField0_ & ~0x00000002);
-    }
-
-    public static final int LASTIP_FIELD_NUMBER = 5;
-    private java.lang.String lastIp_;
-    /**
-     * <code>string lastIp = 5;</code>
-     * @return The lastIp.
-     */
-    @java.lang.Override
-    public java.lang.String getLastIp() {
-      return lastIp_;
-    }
-    /**
-     * <code>string lastIp = 5;</code>
-     * @return The bytes for lastIp.
-     */
-    @java.lang.Override
-    public com.google.protobuf.ByteString
-        getLastIpBytes() {
-      return com.google.protobuf.ByteString.copyFromUtf8(lastIp_);
-    }
-    /**
-     * <code>string lastIp = 5;</code>
-     * @param value The lastIp to set.
-     */
-    private void setLastIp(
-        java.lang.String value) {
-      java.lang.Class<?> valueClass = value.getClass();
-  
-      lastIp_ = value;
-    }
-    /**
-     * <code>string lastIp = 5;</code>
-     */
-    private void clearLastIp() {
-
-      lastIp_ = getDefaultInstance().getLastIp();
-    }
-    /**
-     * <code>string lastIp = 5;</code>
-     * @param value The bytes for lastIp to set.
-     */
-    private void setLastIpBytes(
-        com.google.protobuf.ByteString value) {
-      checkByteStringIsUtf8(value);
-      lastIp_ = value.toStringUtf8();
-
-    }
-
-    public static final int FIRSTIP_FIELD_NUMBER = 6;
-    private java.lang.String firstIp_;
-    /**
-     * <code>string firstIp = 6;</code>
-     * @return The firstIp.
-     */
-    @java.lang.Override
-    public java.lang.String getFirstIp() {
-      return firstIp_;
-    }
-    /**
-     * <code>string firstIp = 6;</code>
-     * @return The bytes for firstIp.
-     */
-    @java.lang.Override
-    public com.google.protobuf.ByteString
-        getFirstIpBytes() {
-      return com.google.protobuf.ByteString.copyFromUtf8(firstIp_);
-    }
-    /**
-     * <code>string firstIp = 6;</code>
-     * @param value The firstIp to set.
-     */
-    private void setFirstIp(
-        java.lang.String value) {
-      java.lang.Class<?> valueClass = value.getClass();
-  
-      firstIp_ = value;
-    }
-    /**
-     * <code>string firstIp = 6;</code>
-     */
-    private void clearFirstIp() {
-
-      firstIp_ = getDefaultInstance().getFirstIp();
-    }
-    /**
-     * <code>string firstIp = 6;</code>
-     * @param value The bytes for firstIp to set.
-     */
-    private void setFirstIpBytes(
-        com.google.protobuf.ByteString value) {
-      checkByteStringIsUtf8(value);
-      firstIp_ = value.toStringUtf8();
-
-    }
-
-    public static final int ONLINE_FIELD_NUMBER = 7;
-    private boolean online_;
-    /**
-     * <code>optional bool online = 7;</code>
-     * @return Whether the online field is set.
-     */
-    @java.lang.Override
-    public boolean hasOnline() {
-      return ((bitField0_ & 0x00000004) != 0);
-    }
-    /**
-     * <code>optional bool online = 7;</code>
-     * @return The online.
-     */
-    @java.lang.Override
-    public boolean getOnline() {
-      return online_;
-    }
-    /**
-     * <code>optional bool online = 7;</code>
-     * @param value The online to set.
-     */
-    private void setOnline(boolean value) {
-      bitField0_ |= 0x00000004;
-      online_ = value;
-    }
-    /**
-     * <code>optional bool online = 7;</code>
-     */
-    private void clearOnline() {
-      bitField0_ = (bitField0_ & ~0x00000004);
-      online_ = false;
-    }
-
-    public static com.nookure.staff.api.proto.Player.PlayerModel parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data);
-    }
-    public static com.nookure.staff.api.proto.Player.PlayerModel parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data, extensionRegistry);
-    }
-    public static com.nookure.staff.api.proto.Player.PlayerModel parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data);
-    }
-    public static com.nookure.staff.api.proto.Player.PlayerModel parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data, extensionRegistry);
-    }
-    public static com.nookure.staff.api.proto.Player.PlayerModel parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data);
-    }
-    public static com.nookure.staff.api.proto.Player.PlayerModel parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data, extensionRegistry);
-    }
-    public static com.nookure.staff.api.proto.Player.PlayerModel parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input);
-    }
-    public static com.nookure.staff.api.proto.Player.PlayerModel parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input, extensionRegistry);
-    }
-
-    public static com.nookure.staff.api.proto.Player.PlayerModel parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
-    }
-
-    public static com.nookure.staff.api.proto.Player.PlayerModel parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
-    }
-    public static com.nookure.staff.api.proto.Player.PlayerModel parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input);
-    }
-    public static com.nookure.staff.api.proto.Player.PlayerModel parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() {
-      return (Builder) DEFAULT_INSTANCE.createBuilder();
-    }
-    public static Builder newBuilder(com.nookure.staff.api.proto.Player.PlayerModel prototype) {
-      return DEFAULT_INSTANCE.createBuilder(prototype);
-    }
-
     /**
      * Protobuf type {@code com.nookure.staff.api.proto.PlayerModel}
      */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageLite.Builder<
-          com.nookure.staff.api.proto.Player.PlayerModel, Builder> implements
-        // @@protoc_insertion_point(builder_implements:com.nookure.staff.api.proto.PlayerModel)
-        com.nookure.staff.api.proto.Player.PlayerModelOrBuilder {
-      // Construct using com.nookure.staff.api.proto.Player.PlayerModel.newBuilder()
-      private Builder() {
-        super(DEFAULT_INSTANCE);
-      }
-
-
-      /**
-       * <code>string username = 1;</code>
-       * @return The username.
-       */
-      @java.lang.Override
-      public java.lang.String getUsername() {
-        return instance.getUsername();
-      }
-      /**
-       * <code>string username = 1;</code>
-       * @return The bytes for username.
-       */
-      @java.lang.Override
-      public com.google.protobuf.ByteString
-          getUsernameBytes() {
-        return instance.getUsernameBytes();
-      }
-      /**
-       * <code>string username = 1;</code>
-       * @param value The username to set.
-       * @return This builder for chaining.
-       */
-      public Builder setUsername(
-          java.lang.String value) {
-        copyOnWrite();
-        instance.setUsername(value);
-        return this;
-      }
-      /**
-       * <code>string username = 1;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearUsername() {
-        copyOnWrite();
-        instance.clearUsername();
-        return this;
-      }
-      /**
-       * <code>string username = 1;</code>
-       * @param value The bytes for username to set.
-       * @return This builder for chaining.
-       */
-      public Builder setUsernameBytes(
-          com.google.protobuf.ByteString value) {
-        copyOnWrite();
-        instance.setUsernameBytes(value);
-        return this;
-      }
-
-      /**
-       * <code>string uuid = 2;</code>
-       * @return The uuid.
-       */
-      @java.lang.Override
-      public java.lang.String getUuid() {
-        return instance.getUuid();
-      }
-      /**
-       * <code>string uuid = 2;</code>
-       * @return The bytes for uuid.
-       */
-      @java.lang.Override
-      public com.google.protobuf.ByteString
-          getUuidBytes() {
-        return instance.getUuidBytes();
-      }
-      /**
-       * <code>string uuid = 2;</code>
-       * @param value The uuid to set.
-       * @return This builder for chaining.
-       */
-      public Builder setUuid(
-          java.lang.String value) {
-        copyOnWrite();
-        instance.setUuid(value);
-        return this;
-      }
-      /**
-       * <code>string uuid = 2;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearUuid() {
-        copyOnWrite();
-        instance.clearUuid();
-        return this;
-      }
-      /**
-       * <code>string uuid = 2;</code>
-       * @param value The bytes for uuid to set.
-       * @return This builder for chaining.
-       */
-      public Builder setUuidBytes(
-          com.google.protobuf.ByteString value) {
-        copyOnWrite();
-        instance.setUuidBytes(value);
-        return this;
-      }
-
-      /**
-       * <code>.google.protobuf.Timestamp lastLogin = 3;</code>
-       */
-      @java.lang.Override
-      public boolean hasLastLogin() {
-        return instance.hasLastLogin();
-      }
-      /**
-       * <code>.google.protobuf.Timestamp lastLogin = 3;</code>
-       */
-      @java.lang.Override
-      public com.google.protobuf.Timestamp getLastLogin() {
-        return instance.getLastLogin();
-      }
-      /**
-       * <code>.google.protobuf.Timestamp lastLogin = 3;</code>
-       */
-      public Builder setLastLogin(com.google.protobuf.Timestamp value) {
-        copyOnWrite();
-        instance.setLastLogin(value);
-        return this;
+    public static final class PlayerModel
+            extends com.google.protobuf.GeneratedMessageLite<PlayerModel, PlayerModel.Builder>
+            implements
+            // @@protoc_insertion_point(message_implements:com.nookure.staff.api.proto.PlayerModel)
+            PlayerModelOrBuilder {
+        private PlayerModel() {
+            username_ = "";
+            uuid_ = "";
+            lastIp_ = "";
+            firstIp_ = "";
         }
-      /**
-       * <code>.google.protobuf.Timestamp lastLogin = 3;</code>
-       */
-      public Builder setLastLogin(
-          com.google.protobuf.Timestamp.Builder builderForValue) {
-        copyOnWrite();
-        instance.setLastLogin(builderForValue.build());
-        return this;
-      }
-      /**
-       * <code>.google.protobuf.Timestamp lastLogin = 3;</code>
-       */
-      public Builder mergeLastLogin(com.google.protobuf.Timestamp value) {
-        copyOnWrite();
-        instance.mergeLastLogin(value);
-        return this;
-      }
-      /**
-       * <code>.google.protobuf.Timestamp lastLogin = 3;</code>
-       */
-      public Builder clearLastLogin() {  copyOnWrite();
-        instance.clearLastLogin();
-        return this;
-      }
 
-      /**
-       * <code>.google.protobuf.Timestamp firstLogin = 4;</code>
-       */
-      @java.lang.Override
-      public boolean hasFirstLogin() {
-        return instance.hasFirstLogin();
-      }
-      /**
-       * <code>.google.protobuf.Timestamp firstLogin = 4;</code>
-       */
-      @java.lang.Override
-      public com.google.protobuf.Timestamp getFirstLogin() {
-        return instance.getFirstLogin();
-      }
-      /**
-       * <code>.google.protobuf.Timestamp firstLogin = 4;</code>
-       */
-      public Builder setFirstLogin(com.google.protobuf.Timestamp value) {
-        copyOnWrite();
-        instance.setFirstLogin(value);
-        return this;
+        private int bitField0_;
+        public static final int USERNAME_FIELD_NUMBER = 1;
+        private java.lang.String username_;
+        /**
+         * <code>string username = 1;</code>
+         * @return The username.
+         */
+        @java.lang.Override
+        public java.lang.String getUsername() {
+            return username_;
         }
-      /**
-       * <code>.google.protobuf.Timestamp firstLogin = 4;</code>
-       */
-      public Builder setFirstLogin(
-          com.google.protobuf.Timestamp.Builder builderForValue) {
-        copyOnWrite();
-        instance.setFirstLogin(builderForValue.build());
-        return this;
-      }
-      /**
-       * <code>.google.protobuf.Timestamp firstLogin = 4;</code>
-       */
-      public Builder mergeFirstLogin(com.google.protobuf.Timestamp value) {
-        copyOnWrite();
-        instance.mergeFirstLogin(value);
-        return this;
-      }
-      /**
-       * <code>.google.protobuf.Timestamp firstLogin = 4;</code>
-       */
-      public Builder clearFirstLogin() {  copyOnWrite();
-        instance.clearFirstLogin();
-        return this;
-      }
+        /**
+         * <code>string username = 1;</code>
+         * @return The bytes for username.
+         */
+        @java.lang.Override
+        public com.google.protobuf.ByteString getUsernameBytes() {
+            return com.google.protobuf.ByteString.copyFromUtf8(username_);
+        }
+        /**
+         * <code>string username = 1;</code>
+         * @param value The username to set.
+         */
+        private void setUsername(java.lang.String value) {
+            java.lang.Class<?> valueClass = value.getClass();
 
-      /**
-       * <code>string lastIp = 5;</code>
-       * @return The lastIp.
-       */
-      @java.lang.Override
-      public java.lang.String getLastIp() {
-        return instance.getLastIp();
-      }
-      /**
-       * <code>string lastIp = 5;</code>
-       * @return The bytes for lastIp.
-       */
-      @java.lang.Override
-      public com.google.protobuf.ByteString
-          getLastIpBytes() {
-        return instance.getLastIpBytes();
-      }
-      /**
-       * <code>string lastIp = 5;</code>
-       * @param value The lastIp to set.
-       * @return This builder for chaining.
-       */
-      public Builder setLastIp(
-          java.lang.String value) {
-        copyOnWrite();
-        instance.setLastIp(value);
-        return this;
-      }
-      /**
-       * <code>string lastIp = 5;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearLastIp() {
-        copyOnWrite();
-        instance.clearLastIp();
-        return this;
-      }
-      /**
-       * <code>string lastIp = 5;</code>
-       * @param value The bytes for lastIp to set.
-       * @return This builder for chaining.
-       */
-      public Builder setLastIpBytes(
-          com.google.protobuf.ByteString value) {
-        copyOnWrite();
-        instance.setLastIpBytes(value);
-        return this;
-      }
+            username_ = value;
+        }
+        /**
+         * <code>string username = 1;</code>
+         */
+        private void clearUsername() {
 
-      /**
-       * <code>string firstIp = 6;</code>
-       * @return The firstIp.
-       */
-      @java.lang.Override
-      public java.lang.String getFirstIp() {
-        return instance.getFirstIp();
-      }
-      /**
-       * <code>string firstIp = 6;</code>
-       * @return The bytes for firstIp.
-       */
-      @java.lang.Override
-      public com.google.protobuf.ByteString
-          getFirstIpBytes() {
-        return instance.getFirstIpBytes();
-      }
-      /**
-       * <code>string firstIp = 6;</code>
-       * @param value The firstIp to set.
-       * @return This builder for chaining.
-       */
-      public Builder setFirstIp(
-          java.lang.String value) {
-        copyOnWrite();
-        instance.setFirstIp(value);
-        return this;
-      }
-      /**
-       * <code>string firstIp = 6;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearFirstIp() {
-        copyOnWrite();
-        instance.clearFirstIp();
-        return this;
-      }
-      /**
-       * <code>string firstIp = 6;</code>
-       * @param value The bytes for firstIp to set.
-       * @return This builder for chaining.
-       */
-      public Builder setFirstIpBytes(
-          com.google.protobuf.ByteString value) {
-        copyOnWrite();
-        instance.setFirstIpBytes(value);
-        return this;
-      }
+            username_ = getDefaultInstance().getUsername();
+        }
+        /**
+         * <code>string username = 1;</code>
+         * @param value The bytes for username to set.
+         */
+        private void setUsernameBytes(com.google.protobuf.ByteString value) {
+            checkByteStringIsUtf8(value);
+            username_ = value.toStringUtf8();
+        }
 
-      /**
-       * <code>optional bool online = 7;</code>
-       * @return Whether the online field is set.
-       */
-      @java.lang.Override
-      public boolean hasOnline() {
-        return instance.hasOnline();
-      }
-      /**
-       * <code>optional bool online = 7;</code>
-       * @return The online.
-       */
-      @java.lang.Override
-      public boolean getOnline() {
-        return instance.getOnline();
-      }
-      /**
-       * <code>optional bool online = 7;</code>
-       * @param value The online to set.
-       * @return This builder for chaining.
-       */
-      public Builder setOnline(boolean value) {
-        copyOnWrite();
-        instance.setOnline(value);
-        return this;
-      }
-      /**
-       * <code>optional bool online = 7;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearOnline() {
-        copyOnWrite();
-        instance.clearOnline();
-        return this;
-      }
+        public static final int UUID_FIELD_NUMBER = 2;
+        private java.lang.String uuid_;
+        /**
+         * <code>string uuid = 2;</code>
+         * @return The uuid.
+         */
+        @java.lang.Override
+        public java.lang.String getUuid() {
+            return uuid_;
+        }
+        /**
+         * <code>string uuid = 2;</code>
+         * @return The bytes for uuid.
+         */
+        @java.lang.Override
+        public com.google.protobuf.ByteString getUuidBytes() {
+            return com.google.protobuf.ByteString.copyFromUtf8(uuid_);
+        }
+        /**
+         * <code>string uuid = 2;</code>
+         * @param value The uuid to set.
+         */
+        private void setUuid(java.lang.String value) {
+            java.lang.Class<?> valueClass = value.getClass();
 
-      // @@protoc_insertion_point(builder_scope:com.nookure.staff.api.proto.PlayerModel)
-    }
-    @java.lang.Override
-    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
-    protected final java.lang.Object dynamicMethod(
-        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
-        java.lang.Object arg0, java.lang.Object arg1) {
-      switch (method) {
-        case NEW_MUTABLE_INSTANCE: {
-          return new com.nookure.staff.api.proto.Player.PlayerModel();
+            uuid_ = value;
         }
-        case NEW_BUILDER: {
-          return new Builder();
+        /**
+         * <code>string uuid = 2;</code>
+         */
+        private void clearUuid() {
+
+            uuid_ = getDefaultInstance().getUuid();
         }
-        case BUILD_MESSAGE_INFO: {
-            java.lang.Object[] objects = new java.lang.Object[] {
-              "bitField0_",
-              "username_",
-              "uuid_",
-              "lastLogin_",
-              "firstLogin_",
-              "lastIp_",
-              "firstIp_",
-              "online_",
-            };
-            java.lang.String info =
-                "\u0000\u0007\u0000\u0001\u0001\u0007\u0007\u0000\u0000\u0000\u0001\u0208\u0002\u0208" +
-                "\u0003\u1009\u0000\u0004\u1009\u0001\u0005\u0208\u0006\u0208\u0007\u1007\u0002";
-            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        /**
+         * <code>string uuid = 2;</code>
+         * @param value The bytes for uuid to set.
+         */
+        private void setUuidBytes(com.google.protobuf.ByteString value) {
+            checkByteStringIsUtf8(value);
+            uuid_ = value.toStringUtf8();
         }
-        // fall through
-        case GET_DEFAULT_INSTANCE: {
-          return DEFAULT_INSTANCE;
+
+        public static final int LASTLOGIN_FIELD_NUMBER = 3;
+        private com.google.protobuf.Timestamp lastLogin_;
+        /**
+         * <code>.google.protobuf.Timestamp lastLogin = 3;</code>
+         */
+        @java.lang.Override
+        public boolean hasLastLogin() {
+            return ((bitField0_ & 0x00000001) != 0);
         }
-        case GET_PARSER: {
-          com.google.protobuf.Parser<com.nookure.staff.api.proto.Player.PlayerModel> parser = PARSER;
-          if (parser == null) {
-            synchronized (com.nookure.staff.api.proto.Player.PlayerModel.class) {
-              parser = PARSER;
-              if (parser == null) {
-                parser =
-                    new DefaultInstanceBasedParser<com.nookure.staff.api.proto.Player.PlayerModel>(
-                        DEFAULT_INSTANCE);
-                PARSER = parser;
-              }
+        /**
+         * <code>.google.protobuf.Timestamp lastLogin = 3;</code>
+         */
+        @java.lang.Override
+        public com.google.protobuf.Timestamp getLastLogin() {
+            return lastLogin_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : lastLogin_;
+        }
+        /**
+         * <code>.google.protobuf.Timestamp lastLogin = 3;</code>
+         */
+        private void setLastLogin(com.google.protobuf.Timestamp value) {
+            value.getClass();
+            lastLogin_ = value;
+            bitField0_ |= 0x00000001;
+        }
+        /**
+         * <code>.google.protobuf.Timestamp lastLogin = 3;</code>
+         */
+        @java.lang.SuppressWarnings({"ReferenceEquality"})
+        private void mergeLastLogin(com.google.protobuf.Timestamp value) {
+            value.getClass();
+            if (lastLogin_ != null && lastLogin_ != com.google.protobuf.Timestamp.getDefaultInstance()) {
+                lastLogin_ = com.google.protobuf.Timestamp.newBuilder(lastLogin_)
+                        .mergeFrom(value)
+                        .buildPartial();
+            } else {
+                lastLogin_ = value;
             }
-          }
-          return parser;
-      }
-      case GET_MEMOIZED_IS_INITIALIZED: {
-        return (byte) 1;
-      }
-      case SET_MEMOIZED_IS_INITIALIZED: {
-        return null;
-      }
-      }
-      throw new UnsupportedOperationException();
+            bitField0_ |= 0x00000001;
+        }
+        /**
+         * <code>.google.protobuf.Timestamp lastLogin = 3;</code>
+         */
+        private void clearLastLogin() {
+            lastLogin_ = null;
+            bitField0_ = (bitField0_ & ~0x00000001);
+        }
+
+        public static final int FIRSTLOGIN_FIELD_NUMBER = 4;
+        private com.google.protobuf.Timestamp firstLogin_;
+        /**
+         * <code>.google.protobuf.Timestamp firstLogin = 4;</code>
+         */
+        @java.lang.Override
+        public boolean hasFirstLogin() {
+            return ((bitField0_ & 0x00000002) != 0);
+        }
+        /**
+         * <code>.google.protobuf.Timestamp firstLogin = 4;</code>
+         */
+        @java.lang.Override
+        public com.google.protobuf.Timestamp getFirstLogin() {
+            return firstLogin_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : firstLogin_;
+        }
+        /**
+         * <code>.google.protobuf.Timestamp firstLogin = 4;</code>
+         */
+        private void setFirstLogin(com.google.protobuf.Timestamp value) {
+            value.getClass();
+            firstLogin_ = value;
+            bitField0_ |= 0x00000002;
+        }
+        /**
+         * <code>.google.protobuf.Timestamp firstLogin = 4;</code>
+         */
+        @java.lang.SuppressWarnings({"ReferenceEquality"})
+        private void mergeFirstLogin(com.google.protobuf.Timestamp value) {
+            value.getClass();
+            if (firstLogin_ != null && firstLogin_ != com.google.protobuf.Timestamp.getDefaultInstance()) {
+                firstLogin_ = com.google.protobuf.Timestamp.newBuilder(firstLogin_)
+                        .mergeFrom(value)
+                        .buildPartial();
+            } else {
+                firstLogin_ = value;
+            }
+            bitField0_ |= 0x00000002;
+        }
+        /**
+         * <code>.google.protobuf.Timestamp firstLogin = 4;</code>
+         */
+        private void clearFirstLogin() {
+            firstLogin_ = null;
+            bitField0_ = (bitField0_ & ~0x00000002);
+        }
+
+        public static final int LASTIP_FIELD_NUMBER = 5;
+        private java.lang.String lastIp_;
+        /**
+         * <code>string lastIp = 5;</code>
+         * @return The lastIp.
+         */
+        @java.lang.Override
+        public java.lang.String getLastIp() {
+            return lastIp_;
+        }
+        /**
+         * <code>string lastIp = 5;</code>
+         * @return The bytes for lastIp.
+         */
+        @java.lang.Override
+        public com.google.protobuf.ByteString getLastIpBytes() {
+            return com.google.protobuf.ByteString.copyFromUtf8(lastIp_);
+        }
+        /**
+         * <code>string lastIp = 5;</code>
+         * @param value The lastIp to set.
+         */
+        private void setLastIp(java.lang.String value) {
+            java.lang.Class<?> valueClass = value.getClass();
+
+            lastIp_ = value;
+        }
+        /**
+         * <code>string lastIp = 5;</code>
+         */
+        private void clearLastIp() {
+
+            lastIp_ = getDefaultInstance().getLastIp();
+        }
+        /**
+         * <code>string lastIp = 5;</code>
+         * @param value The bytes for lastIp to set.
+         */
+        private void setLastIpBytes(com.google.protobuf.ByteString value) {
+            checkByteStringIsUtf8(value);
+            lastIp_ = value.toStringUtf8();
+        }
+
+        public static final int FIRSTIP_FIELD_NUMBER = 6;
+        private java.lang.String firstIp_;
+        /**
+         * <code>string firstIp = 6;</code>
+         * @return The firstIp.
+         */
+        @java.lang.Override
+        public java.lang.String getFirstIp() {
+            return firstIp_;
+        }
+        /**
+         * <code>string firstIp = 6;</code>
+         * @return The bytes for firstIp.
+         */
+        @java.lang.Override
+        public com.google.protobuf.ByteString getFirstIpBytes() {
+            return com.google.protobuf.ByteString.copyFromUtf8(firstIp_);
+        }
+        /**
+         * <code>string firstIp = 6;</code>
+         * @param value The firstIp to set.
+         */
+        private void setFirstIp(java.lang.String value) {
+            java.lang.Class<?> valueClass = value.getClass();
+
+            firstIp_ = value;
+        }
+        /**
+         * <code>string firstIp = 6;</code>
+         */
+        private void clearFirstIp() {
+
+            firstIp_ = getDefaultInstance().getFirstIp();
+        }
+        /**
+         * <code>string firstIp = 6;</code>
+         * @param value The bytes for firstIp to set.
+         */
+        private void setFirstIpBytes(com.google.protobuf.ByteString value) {
+            checkByteStringIsUtf8(value);
+            firstIp_ = value.toStringUtf8();
+        }
+
+        public static final int ONLINE_FIELD_NUMBER = 7;
+        private boolean online_;
+        /**
+         * <code>optional bool online = 7;</code>
+         * @return Whether the online field is set.
+         */
+        @java.lang.Override
+        public boolean hasOnline() {
+            return ((bitField0_ & 0x00000004) != 0);
+        }
+        /**
+         * <code>optional bool online = 7;</code>
+         * @return The online.
+         */
+        @java.lang.Override
+        public boolean getOnline() {
+            return online_;
+        }
+        /**
+         * <code>optional bool online = 7;</code>
+         * @param value The online to set.
+         */
+        private void setOnline(boolean value) {
+            bitField0_ |= 0x00000004;
+            online_ = value;
+        }
+        /**
+         * <code>optional bool online = 7;</code>
+         */
+        private void clearOnline() {
+            bitField0_ = (bitField0_ & ~0x00000004);
+            online_ = false;
+        }
+
+        public static com.nookure.staff.api.proto.Player.PlayerModel parseFrom(java.nio.ByteBuffer data)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return com.google.protobuf.GeneratedMessageLite.parseFrom(DEFAULT_INSTANCE, data);
+        }
+
+        public static com.nookure.staff.api.proto.Player.PlayerModel parseFrom(
+                java.nio.ByteBuffer data, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return com.google.protobuf.GeneratedMessageLite.parseFrom(DEFAULT_INSTANCE, data, extensionRegistry);
+        }
+
+        public static com.nookure.staff.api.proto.Player.PlayerModel parseFrom(com.google.protobuf.ByteString data)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return com.google.protobuf.GeneratedMessageLite.parseFrom(DEFAULT_INSTANCE, data);
+        }
+
+        public static com.nookure.staff.api.proto.Player.PlayerModel parseFrom(
+                com.google.protobuf.ByteString data, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return com.google.protobuf.GeneratedMessageLite.parseFrom(DEFAULT_INSTANCE, data, extensionRegistry);
+        }
+
+        public static com.nookure.staff.api.proto.Player.PlayerModel parseFrom(byte[] data)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return com.google.protobuf.GeneratedMessageLite.parseFrom(DEFAULT_INSTANCE, data);
+        }
+
+        public static com.nookure.staff.api.proto.Player.PlayerModel parseFrom(
+                byte[] data, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            return com.google.protobuf.GeneratedMessageLite.parseFrom(DEFAULT_INSTANCE, data, extensionRegistry);
+        }
+
+        public static com.nookure.staff.api.proto.Player.PlayerModel parseFrom(java.io.InputStream input)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageLite.parseFrom(DEFAULT_INSTANCE, input);
+        }
+
+        public static com.nookure.staff.api.proto.Player.PlayerModel parseFrom(
+                java.io.InputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageLite.parseFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+        }
+
+        public static com.nookure.staff.api.proto.Player.PlayerModel parseDelimitedFrom(java.io.InputStream input)
+                throws java.io.IOException {
+            return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+        }
+
+        public static com.nookure.staff.api.proto.Player.PlayerModel parseDelimitedFrom(
+                java.io.InputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws java.io.IOException {
+            return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+        }
+
+        public static com.nookure.staff.api.proto.Player.PlayerModel parseFrom(
+                com.google.protobuf.CodedInputStream input) throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageLite.parseFrom(DEFAULT_INSTANCE, input);
+        }
+
+        public static com.nookure.staff.api.proto.Player.PlayerModel parseFrom(
+                com.google.protobuf.CodedInputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws java.io.IOException {
+            return com.google.protobuf.GeneratedMessageLite.parseFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+        }
+
+        public static Builder newBuilder() {
+            return (Builder) DEFAULT_INSTANCE.createBuilder();
+        }
+
+        public static Builder newBuilder(com.nookure.staff.api.proto.Player.PlayerModel prototype) {
+            return DEFAULT_INSTANCE.createBuilder(prototype);
+        }
+
+        /**
+         * Protobuf type {@code com.nookure.staff.api.proto.PlayerModel}
+         */
+        public static final class Builder
+                extends com.google.protobuf.GeneratedMessageLite.Builder<
+                        com.nookure.staff.api.proto.Player.PlayerModel, Builder>
+                implements
+                // @@protoc_insertion_point(builder_implements:com.nookure.staff.api.proto.PlayerModel)
+                com.nookure.staff.api.proto.Player.PlayerModelOrBuilder {
+            // Construct using com.nookure.staff.api.proto.Player.PlayerModel.newBuilder()
+            private Builder() {
+                super(DEFAULT_INSTANCE);
+            }
+
+            /**
+             * <code>string username = 1;</code>
+             * @return The username.
+             */
+            @java.lang.Override
+            public java.lang.String getUsername() {
+                return instance.getUsername();
+            }
+            /**
+             * <code>string username = 1;</code>
+             * @return The bytes for username.
+             */
+            @java.lang.Override
+            public com.google.protobuf.ByteString getUsernameBytes() {
+                return instance.getUsernameBytes();
+            }
+            /**
+             * <code>string username = 1;</code>
+             * @param value The username to set.
+             * @return This builder for chaining.
+             */
+            public Builder setUsername(java.lang.String value) {
+                copyOnWrite();
+                instance.setUsername(value);
+                return this;
+            }
+            /**
+             * <code>string username = 1;</code>
+             * @return This builder for chaining.
+             */
+            public Builder clearUsername() {
+                copyOnWrite();
+                instance.clearUsername();
+                return this;
+            }
+            /**
+             * <code>string username = 1;</code>
+             * @param value The bytes for username to set.
+             * @return This builder for chaining.
+             */
+            public Builder setUsernameBytes(com.google.protobuf.ByteString value) {
+                copyOnWrite();
+                instance.setUsernameBytes(value);
+                return this;
+            }
+
+            /**
+             * <code>string uuid = 2;</code>
+             * @return The uuid.
+             */
+            @java.lang.Override
+            public java.lang.String getUuid() {
+                return instance.getUuid();
+            }
+            /**
+             * <code>string uuid = 2;</code>
+             * @return The bytes for uuid.
+             */
+            @java.lang.Override
+            public com.google.protobuf.ByteString getUuidBytes() {
+                return instance.getUuidBytes();
+            }
+            /**
+             * <code>string uuid = 2;</code>
+             * @param value The uuid to set.
+             * @return This builder for chaining.
+             */
+            public Builder setUuid(java.lang.String value) {
+                copyOnWrite();
+                instance.setUuid(value);
+                return this;
+            }
+            /**
+             * <code>string uuid = 2;</code>
+             * @return This builder for chaining.
+             */
+            public Builder clearUuid() {
+                copyOnWrite();
+                instance.clearUuid();
+                return this;
+            }
+            /**
+             * <code>string uuid = 2;</code>
+             * @param value The bytes for uuid to set.
+             * @return This builder for chaining.
+             */
+            public Builder setUuidBytes(com.google.protobuf.ByteString value) {
+                copyOnWrite();
+                instance.setUuidBytes(value);
+                return this;
+            }
+
+            /**
+             * <code>.google.protobuf.Timestamp lastLogin = 3;</code>
+             */
+            @java.lang.Override
+            public boolean hasLastLogin() {
+                return instance.hasLastLogin();
+            }
+            /**
+             * <code>.google.protobuf.Timestamp lastLogin = 3;</code>
+             */
+            @java.lang.Override
+            public com.google.protobuf.Timestamp getLastLogin() {
+                return instance.getLastLogin();
+            }
+            /**
+             * <code>.google.protobuf.Timestamp lastLogin = 3;</code>
+             */
+            public Builder setLastLogin(com.google.protobuf.Timestamp value) {
+                copyOnWrite();
+                instance.setLastLogin(value);
+                return this;
+            }
+            /**
+             * <code>.google.protobuf.Timestamp lastLogin = 3;</code>
+             */
+            public Builder setLastLogin(com.google.protobuf.Timestamp.Builder builderForValue) {
+                copyOnWrite();
+                instance.setLastLogin(builderForValue.build());
+                return this;
+            }
+            /**
+             * <code>.google.protobuf.Timestamp lastLogin = 3;</code>
+             */
+            public Builder mergeLastLogin(com.google.protobuf.Timestamp value) {
+                copyOnWrite();
+                instance.mergeLastLogin(value);
+                return this;
+            }
+            /**
+             * <code>.google.protobuf.Timestamp lastLogin = 3;</code>
+             */
+            public Builder clearLastLogin() {
+                copyOnWrite();
+                instance.clearLastLogin();
+                return this;
+            }
+
+            /**
+             * <code>.google.protobuf.Timestamp firstLogin = 4;</code>
+             */
+            @java.lang.Override
+            public boolean hasFirstLogin() {
+                return instance.hasFirstLogin();
+            }
+            /**
+             * <code>.google.protobuf.Timestamp firstLogin = 4;</code>
+             */
+            @java.lang.Override
+            public com.google.protobuf.Timestamp getFirstLogin() {
+                return instance.getFirstLogin();
+            }
+            /**
+             * <code>.google.protobuf.Timestamp firstLogin = 4;</code>
+             */
+            public Builder setFirstLogin(com.google.protobuf.Timestamp value) {
+                copyOnWrite();
+                instance.setFirstLogin(value);
+                return this;
+            }
+            /**
+             * <code>.google.protobuf.Timestamp firstLogin = 4;</code>
+             */
+            public Builder setFirstLogin(com.google.protobuf.Timestamp.Builder builderForValue) {
+                copyOnWrite();
+                instance.setFirstLogin(builderForValue.build());
+                return this;
+            }
+            /**
+             * <code>.google.protobuf.Timestamp firstLogin = 4;</code>
+             */
+            public Builder mergeFirstLogin(com.google.protobuf.Timestamp value) {
+                copyOnWrite();
+                instance.mergeFirstLogin(value);
+                return this;
+            }
+            /**
+             * <code>.google.protobuf.Timestamp firstLogin = 4;</code>
+             */
+            public Builder clearFirstLogin() {
+                copyOnWrite();
+                instance.clearFirstLogin();
+                return this;
+            }
+
+            /**
+             * <code>string lastIp = 5;</code>
+             * @return The lastIp.
+             */
+            @java.lang.Override
+            public java.lang.String getLastIp() {
+                return instance.getLastIp();
+            }
+            /**
+             * <code>string lastIp = 5;</code>
+             * @return The bytes for lastIp.
+             */
+            @java.lang.Override
+            public com.google.protobuf.ByteString getLastIpBytes() {
+                return instance.getLastIpBytes();
+            }
+            /**
+             * <code>string lastIp = 5;</code>
+             * @param value The lastIp to set.
+             * @return This builder for chaining.
+             */
+            public Builder setLastIp(java.lang.String value) {
+                copyOnWrite();
+                instance.setLastIp(value);
+                return this;
+            }
+            /**
+             * <code>string lastIp = 5;</code>
+             * @return This builder for chaining.
+             */
+            public Builder clearLastIp() {
+                copyOnWrite();
+                instance.clearLastIp();
+                return this;
+            }
+            /**
+             * <code>string lastIp = 5;</code>
+             * @param value The bytes for lastIp to set.
+             * @return This builder for chaining.
+             */
+            public Builder setLastIpBytes(com.google.protobuf.ByteString value) {
+                copyOnWrite();
+                instance.setLastIpBytes(value);
+                return this;
+            }
+
+            /**
+             * <code>string firstIp = 6;</code>
+             * @return The firstIp.
+             */
+            @java.lang.Override
+            public java.lang.String getFirstIp() {
+                return instance.getFirstIp();
+            }
+            /**
+             * <code>string firstIp = 6;</code>
+             * @return The bytes for firstIp.
+             */
+            @java.lang.Override
+            public com.google.protobuf.ByteString getFirstIpBytes() {
+                return instance.getFirstIpBytes();
+            }
+            /**
+             * <code>string firstIp = 6;</code>
+             * @param value The firstIp to set.
+             * @return This builder for chaining.
+             */
+            public Builder setFirstIp(java.lang.String value) {
+                copyOnWrite();
+                instance.setFirstIp(value);
+                return this;
+            }
+            /**
+             * <code>string firstIp = 6;</code>
+             * @return This builder for chaining.
+             */
+            public Builder clearFirstIp() {
+                copyOnWrite();
+                instance.clearFirstIp();
+                return this;
+            }
+            /**
+             * <code>string firstIp = 6;</code>
+             * @param value The bytes for firstIp to set.
+             * @return This builder for chaining.
+             */
+            public Builder setFirstIpBytes(com.google.protobuf.ByteString value) {
+                copyOnWrite();
+                instance.setFirstIpBytes(value);
+                return this;
+            }
+
+            /**
+             * <code>optional bool online = 7;</code>
+             * @return Whether the online field is set.
+             */
+            @java.lang.Override
+            public boolean hasOnline() {
+                return instance.hasOnline();
+            }
+            /**
+             * <code>optional bool online = 7;</code>
+             * @return The online.
+             */
+            @java.lang.Override
+            public boolean getOnline() {
+                return instance.getOnline();
+            }
+            /**
+             * <code>optional bool online = 7;</code>
+             * @param value The online to set.
+             * @return This builder for chaining.
+             */
+            public Builder setOnline(boolean value) {
+                copyOnWrite();
+                instance.setOnline(value);
+                return this;
+            }
+            /**
+             * <code>optional bool online = 7;</code>
+             * @return This builder for chaining.
+             */
+            public Builder clearOnline() {
+                copyOnWrite();
+                instance.clearOnline();
+                return this;
+            }
+
+            // @@protoc_insertion_point(builder_scope:com.nookure.staff.api.proto.PlayerModel)
+        }
+
+        @java.lang.Override
+        @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+        protected final java.lang.Object dynamicMethod(
+                com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+                java.lang.Object arg0,
+                java.lang.Object arg1) {
+            switch (method) {
+                case NEW_MUTABLE_INSTANCE: {
+                    return new com.nookure.staff.api.proto.Player.PlayerModel();
+                }
+                case NEW_BUILDER: {
+                    return new Builder();
+                }
+                case BUILD_MESSAGE_INFO: {
+                    java.lang.Object[] objects = new java.lang.Object[] {
+                        "bitField0_",
+                        "username_",
+                        "uuid_",
+                        "lastLogin_",
+                        "firstLogin_",
+                        "lastIp_",
+                        "firstIp_",
+                        "online_",
+                    };
+                    java.lang.String info =
+                            "\u0000\u0007\u0000\u0001\u0001\u0007\u0007\u0000\u0000\u0000\u0001\u0208\u0002\u0208"
+                                    + "\u0003\u1009\u0000\u0004\u1009\u0001\u0005\u0208\u0006\u0208\u0007\u1007\u0002";
+                    return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+                }
+                // fall through
+                case GET_DEFAULT_INSTANCE: {
+                    return DEFAULT_INSTANCE;
+                }
+                case GET_PARSER: {
+                    com.google.protobuf.Parser<com.nookure.staff.api.proto.Player.PlayerModel> parser = PARSER;
+                    if (parser == null) {
+                        synchronized (com.nookure.staff.api.proto.Player.PlayerModel.class) {
+                            parser = PARSER;
+                            if (parser == null) {
+                                parser = new DefaultInstanceBasedParser<com.nookure.staff.api.proto.Player.PlayerModel>(
+                                        DEFAULT_INSTANCE);
+                                PARSER = parser;
+                            }
+                        }
+                    }
+                    return parser;
+                }
+                case GET_MEMOIZED_IS_INITIALIZED: {
+                    return (byte) 1;
+                }
+                case SET_MEMOIZED_IS_INITIALIZED: {
+                    return null;
+                }
+            }
+            throw new UnsupportedOperationException();
+        }
+
+        // @@protoc_insertion_point(class_scope:com.nookure.staff.api.proto.PlayerModel)
+        private static final com.nookure.staff.api.proto.Player.PlayerModel DEFAULT_INSTANCE;
+
+        static {
+            PlayerModel defaultInstance = new PlayerModel();
+            // New instances are implicitly immutable so no need to make
+            // immutable.
+            DEFAULT_INSTANCE = defaultInstance;
+            com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(PlayerModel.class, defaultInstance);
+        }
+
+        public static com.nookure.staff.api.proto.Player.PlayerModel getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        private static volatile com.google.protobuf.Parser<PlayerModel> PARSER;
+
+        public static com.google.protobuf.Parser<PlayerModel> parser() {
+            return DEFAULT_INSTANCE.getParserForType();
+        }
     }
 
-
-    // @@protoc_insertion_point(class_scope:com.nookure.staff.api.proto.PlayerModel)
-    private static final com.nookure.staff.api.proto.Player.PlayerModel DEFAULT_INSTANCE;
     static {
-      PlayerModel defaultInstance = new PlayerModel();
-      // New instances are implicitly immutable so no need to make
-      // immutable.
-      DEFAULT_INSTANCE = defaultInstance;
-      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
-        PlayerModel.class, defaultInstance);
     }
 
-    public static com.nookure.staff.api.proto.Player.PlayerModel getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static volatile com.google.protobuf.Parser<PlayerModel> PARSER;
-
-    public static com.google.protobuf.Parser<PlayerModel> parser() {
-      return DEFAULT_INSTANCE.getParserForType();
-    }
-  }
-
-
-  static {
-  }
-
-  // @@protoc_insertion_point(outer_class_scope)
+    // @@protoc_insertion_point(outer_class_scope)
 }

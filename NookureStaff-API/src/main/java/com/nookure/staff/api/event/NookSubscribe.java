@@ -8,10 +8,10 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface NookSubscribe {
-  /**
-   * The event priority
-   *
-   * @return The event priority
-   */
-  EventPriority priority() default EventPriority.NORMAL;
+    /**
+     * The event priority
+     *
+     * @return The event priority
+     */
+    EventPriority priority() default EventPriority.NORMAL;
 }

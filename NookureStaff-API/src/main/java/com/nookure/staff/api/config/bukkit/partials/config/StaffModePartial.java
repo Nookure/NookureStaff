@@ -1,134 +1,127 @@
 package com.nookure.staff.api.config.bukkit.partials.config;
 
 import com.nookure.staff.api.config.bukkit.partials.VanishType;
+import java.util.List;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.meta.Comment;
 import org.spongepowered.configurate.objectmapping.meta.Setting;
 
-import java.util.List;
-
 @ConfigSerializable
 public class StaffModePartial {
-  @Comment(
-      """
+    @Comment("""
           If true when a chest is opened by a staff member, the chest will not make any sound
           or animation.
-          """
-  )
-  @Setting
-  private boolean silentChestOpen = true;
+          """)
+    @Setting
+    private boolean silentChestOpen = true;
 
-  @Comment(
-      """
+    @Comment("""
           If true when a staff disables staff mode, they will be teleported to their previous location.
           This is useful for preventing staff members abusing the staff mode to teleport to a player or
           fly to a location.
-          """
-  )
-  @Setting
-  private boolean teleportToPreviousLocation = true;
-  @Setting
-  @Comment("""
+          """)
+    @Setting
+    private boolean teleportToPreviousLocation = true;
+
+    @Setting
+    @Comment("""
       Enable or disable night vision when the player enters the staff mode.
       """)
-  private boolean nightVision = true;
+    private boolean nightVision = true;
 
-  @Setting
-  @Comment("""
+    @Setting
+    @Comment("""
       Enable or disable custom potion effects when the player enters the staff mode.
       """)
-  private boolean customPotionEffects = false;
+    private boolean customPotionEffects = false;
 
-  @Setting
-  @Comment("""
+    @Setting
+    @Comment("""
       Potion effects to add when the player enters the staff mode.
       Format: "effect:level:duration"
       """)
-  private List<String> potionEffects = List.of(
-      "speed:1:999999",
-      "jump:1:999999"
-  );
+    private List<String> potionEffects = List.of("speed:1:999999", "jump:1:999999");
 
-  @Setting
-  @Comment("""
+    @Setting
+    @Comment("""
       Enable the vanish when the staff member enables the staff mode.
       """)
-  private boolean enableVanishOnStaffEnable = true;
+    private boolean enableVanishOnStaffEnable = true;
 
-  @Setting
-  @Comment("""
+    @Setting
+    @Comment("""
       Disable the vanish when the staff member disables the staff mode.
       """)
-  private boolean disableVanishOnStaffDisable = true;
+    private boolean disableVanishOnStaffDisable = true;
 
-  @Setting
-  @Comment("""
+    @Setting
+    @Comment("""
       Enable or disable the action bar for the people who are in staff mode and
       they have the nookure.staff.actionbar permission.
       """)
-  private boolean actionBar = true;
+    private boolean actionBar = true;
 
-  @Setting
-  @Comment("""
+    @Setting
+    @Comment("""
       Enable or disable the action bar when the user is in vanish
       """)
-  private boolean actionBarOnVanish = true;
+    private boolean actionBarOnVanish = true;
 
-  @Setting
-  @Comment("""
+    @Setting
+    @Comment("""
       The type of vanish to use when the player enters the staff mode.
       Available options:
       ----> INTERNAL_VANISH, SUPER_VANISH, PREMIUM_VANISH
       """)
-  private VanishType vanishType = VanishType.INTERNAL_VANISH;
+    private VanishType vanishType = VanishType.INTERNAL_VANISH;
 
-  @Setting
-  @Comment("""
+    @Setting
+    @Comment("""
       Time to create a PIN code, before the player is kick
       """)
-  private final String pinTime = "60s";
+    private final String pinTime = "60s";
 
-  public boolean silentChestOpen() {
-    return silentChestOpen;
-  }
+    public boolean silentChestOpen() {
+        return silentChestOpen;
+    }
 
-  public boolean teleportToPreviousLocation() {
-    return teleportToPreviousLocation;
-  }
+    public boolean teleportToPreviousLocation() {
+        return teleportToPreviousLocation;
+    }
 
-  public boolean nightVision() {
-    return nightVision;
-  }
+    public boolean nightVision() {
+        return nightVision;
+    }
 
-  public boolean customPotionEffects() {
-    return customPotionEffects;
-  }
+    public boolean customPotionEffects() {
+        return customPotionEffects;
+    }
 
-  public List<String> potionEffects() {
-    return potionEffects;
-  }
+    public List<String> potionEffects() {
+        return potionEffects;
+    }
 
-  public boolean enableVanishOnStaffEnable() {
-    return enableVanishOnStaffEnable;
-  }
+    public boolean enableVanishOnStaffEnable() {
+        return enableVanishOnStaffEnable;
+    }
 
-  public boolean disableVanishOnStaffDisable() {
-    return disableVanishOnStaffDisable;
-  }
+    public boolean disableVanishOnStaffDisable() {
+        return disableVanishOnStaffDisable;
+    }
 
-  public boolean actionBar() {
-    return actionBar;
-  }
+    public boolean actionBar() {
+        return actionBar;
+    }
 
-  public boolean actionBarOnVanish() {
-    return actionBarOnVanish;
-  }
+    public boolean actionBarOnVanish() {
+        return actionBarOnVanish;
+    }
 
-  public VanishType vanishType() {
-    return vanishType;
-  }
+    public VanishType vanishType() {
+        return vanishType;
+    }
 
-  public String pinTime() {
-    return pinTime;
-  }
+    public String pinTime() {
+        return pinTime;
+    }
 }

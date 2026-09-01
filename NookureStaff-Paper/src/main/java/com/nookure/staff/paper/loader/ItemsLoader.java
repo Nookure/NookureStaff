@@ -12,55 +12,59 @@ import com.nookure.staff.paper.factory.CustomCommandItemFactory;
 import com.nookure.staff.paper.item.*;
 
 public class ItemsLoader implements AbstractLoader {
-  @Inject
-  private StaffItemsManager manager;
-  @Inject
-  private ConfigurationContainer<ItemsConfig> itemConfig;
-  @Inject
-  private Injector injector;
-  @Inject
-  private Logger logger;
-  @Inject
-  private CustomCommandItemFactory customCommandItemFactory;
+    @Inject
+    private StaffItemsManager manager;
 
-  @Override
-  public void load() {
-    manager.clearItems();
+    @Inject
+    private ConfigurationContainer<ItemsConfig> itemConfig;
 
-    itemConfig.get().staffItems.getItems().forEach((name, item) -> {
-      logger.debug("Loading %s item class", name);
-      if (!item.isEnabled()) return;
+    @Inject
+    private Injector injector;
 
-      switch (Items.valueOf(name.toUpperCase())) {
-        case VANISH -> manager.addItem(name, injector.getInstance(VanishItem.class));
-        case ENDER_CHEST -> manager.addItem(name, injector.getInstance(EnderchestItem.class));
-        case FREEZE -> manager.addItem(name, injector.getInstance(FreezeItem.class));
-        case INVSEE -> manager.addItem(name, injector.getInstance(InventorySeeItem.class));
-        case NIGHT_VISION -> manager.addItem(name, injector.getInstance(NightVisionItem.class));
-        case RANDOM_PLAYER_TELEPORT -> manager.addItem(name, injector.getInstance(RandomTeleportItem.class));
-        case THRU -> manager.addItem(name, injector.getInstance(ThruItem.class));
-        default -> logger.severe("Could not find %s item class", name);
-      }
-    });
+    @Inject
+    private Logger logger;
 
-    itemConfig.get().staffItems.getCustomItems().forEach((name, item) -> {
-      if (!item.isEnabled()) return;
-      if (item.getCommand() == null) {
-        logger.severe("Could not find %s item command", name);
-        return;
-      }
+    @Inject
+    private CustomCommandItemFactory customCommandItemFactory;
 
-      if (item.getType() == null) {
-        logger.severe("Could not find %s item type", name);
-        return;
-      }
+    @Override
+    public void load() {
+        manager.clearItems();
 
-      manager.addItem(name, customCommandItemFactory.create(item));
-    });
-  }
+        itemConfig.get().staffItems.getItems().forEach((name, item) -> {
+            logger.debug("Loading %s item class", name);
+            if (!item.isEnabled()) return;
 
-  @Override
-  public void reload() {
-    load();
-  }
+            switch (Items.valueOf(name.toUpperCase())) {
+                case VANISH -> manager.addItem(name, injector.getInstance(VanishItem.class));
+                case ENDER_CHEST -> manager.addItem(name, injector.getInstance(EnderchestItem.class));
+                case FREEZE -> manager.addItem(name, injector.getInstance(FreezeItem.class));
+                case INVSEE -> manager.addItem(name, injector.getInstance(InventorySeeItem.class));
+                case NIGHT_VISION -> manager.addItem(name, injector.getInstance(NightVisionItem.class));
+                case RANDOM_PLAYER_TELEPORT -> manager.addItem(name, injector.getInstance(RandomTeleportItem.class));
+                case THRU -> manager.addItem(name, injector.getInstance(ThruItem.class));
+                default -> logger.severe("Could not find %s item class", name);
+            }
+        });
+
+        itemConfig.get().staffItems.getCustomItems().forEach((name, item) -> {
+            if (!item.isEnabled()) return;
+            if (item.getCommand() == null) {
+                logger.severe("Could not find %s item command", name);
+                return;
+            }
+
+            if (item.getType() == null) {
+                logger.severe("Could not find %s item type", name);
+                return;
+            }
+
+            manager.addItem(name, customCommandItemFactory.create(item));
+        });
+    }
+
+    @Override
+    public void reload() {
+        load();
+    }
 }

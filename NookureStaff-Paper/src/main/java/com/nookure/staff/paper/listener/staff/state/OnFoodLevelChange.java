@@ -8,17 +8,17 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 
 public class OnFoodLevelChange implements Listener {
-  @Inject
-  private PlayerWrapperManager<Player> playerWrapperManager;
+    @Inject
+    private PlayerWrapperManager<Player> playerWrapperManager;
 
-  @EventHandler
-  public void onFoodLevelChange(FoodLevelChangeEvent event) {
-    if (!(event.getEntity() instanceof Player player)) {
-      return;
+    @EventHandler
+    public void onFoodLevelChange(FoodLevelChangeEvent event) {
+        if (!(event.getEntity() instanceof Player player)) {
+            return;
+        }
+
+        playerWrapperManager.getStaffPlayer(player.getUniqueId()).ifPresent(playerWrapper -> {
+            if (playerWrapper.isStaffModeOrVanish()) event.setCancelled(true);
+        });
     }
-
-    playerWrapperManager.getStaffPlayer(player.getUniqueId()).ifPresent(playerWrapper -> {
-      if (playerWrapper.isStaffModeOrVanish()) event.setCancelled(true);
-    });
-  }
 }

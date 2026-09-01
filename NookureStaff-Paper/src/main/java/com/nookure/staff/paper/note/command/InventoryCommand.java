@@ -16,67 +16,68 @@ import com.nookure.staff.command.sender.ConsoleCommandSender;
 import com.nookure.staff.paper.PaperPlayerWrapper;
 import com.nookure.staff.paper.inventory.InventoryList;
 import io.ebean.Database;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
-
-@CommandData(
-    name = "inventory",
-    description = "Open the notes inventory"
-)
+@CommandData(name = "inventory", description = "Open the notes inventory")
 public class InventoryCommand extends Command {
-  @Inject
-  private UserNoteService userNoteService;
-  @Inject
-  private ConfigurationContainer<BukkitMessages> messages;
-  @Inject
-  private ConfigurationContainer<NoteMessages> noteMessages;
-  @Inject
-  private AtomicReference<PaperNookureInventoryEngine> engine;
-  @Inject
-  private AtomicReference<Database> db;
+    @Inject
+    private UserNoteService userNoteService;
 
-  @Override
-  public void onCommand(@NotNull CommandSender sender, @NotNull String label, @NotNull List<String> args) {
-    if (sender instanceof ConsoleCommandSender) {
-      sender.sendMiniMessage("<red>You must be a player to use this command");
-      return;
+    @Inject
+    private ConfigurationContainer<BukkitMessages> messages;
+
+    @Inject
+    private ConfigurationContainer<NoteMessages> noteMessages;
+
+    @Inject
+    private AtomicReference<PaperNookureInventoryEngine> engine;
+
+    @Inject
+    private AtomicReference<Database> db;
+
+    @Override
+    public void onCommand(@NotNull CommandSender sender, @NotNull String label, @NotNull List<String> args) {
+        if (sender instanceof ConsoleCommandSender) {
+            sender.sendMiniMessage("<red>You must be a player to use this command");
+            return;
+        }
+
+        PaperPlayerWrapper player = (PaperPlayerWrapper) sender;
+
+        if (args.isEmpty()) {
+            sender.sendMiniMessage(noteMessages.get().commands.getInventoryUsage());
+            return;
+        }
+
+        String username = args.getFirst();
+        PlayerModel playerModel = userNoteService.getByUsername(username);
+
+        if (playerModel == null) {
+            sender.sendMiniMessage(messages.get().playerNotFound(), "player", username);
+            return;
+        }
+
+        List<NoteModel> notes =
+                db.get().find(NoteModel.class).where().eq("player", playerModel).findList();
+
+        if (!player.hasPermission(Permissions.STAFF_NOTES_ADMIN)) {
+            notes = notes.stream()
+                    .filter(note -> !note.getShowOnlyToAdministrators())
+                    .toList();
+        }
+
+        engine.get()
+                .openAsync(player.getPlayer(), InventoryList.NOTE_LIST, "player", player, "page", 1, "notes", notes);
     }
 
-    PaperPlayerWrapper player = (PaperPlayerWrapper) sender;
-
-    if (args.isEmpty()) {
-      sender.sendMiniMessage(noteMessages.get().commands.getInventoryUsage());
-      return;
+    @Override
+    public @NotNull List<String> onTabComplete(
+            @NotNull CommandSender sender, @NotNull String label, @NotNull List<String> args) {
+        return getSuggestionFilter(
+                Bukkit.getOnlinePlayers().stream().map(Player::getName).toList(), args.getFirst());
     }
-
-    String username = args.getFirst();
-    PlayerModel playerModel = userNoteService.getByUsername(username);
-
-    if (playerModel == null) {
-      sender.sendMiniMessage(messages.get().playerNotFound(), "player", username);
-      return;
-    }
-
-    List<NoteModel> notes = db.get().find(NoteModel.class)
-        .where()
-        .eq("player", playerModel)
-        .findList();
-
-    if (!player.hasPermission(Permissions.STAFF_NOTES_ADMIN)) {
-      notes = notes.stream()
-          .filter(note -> !note.getShowOnlyToAdministrators())
-          .toList();
-    }
-
-    engine.get().openAsync(player.getPlayer(), InventoryList.NOTE_LIST, "player", player, "page", 1, "notes", notes);
-  }
-
-  @Override
-  public @NotNull List<String> onTabComplete(@NotNull CommandSender sender, @NotNull String label, @NotNull List<String> args) {
-    return getSuggestionFilter(Bukkit.getOnlinePlayers().stream().map(Player::getName).toList(), args.getFirst());
-  }
 }

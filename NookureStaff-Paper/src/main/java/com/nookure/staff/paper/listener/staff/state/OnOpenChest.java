@@ -12,48 +12,50 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 
 public class OnOpenChest implements Listener {
-  @Inject
-  private PlayerWrapperManager<Player> playerWrapperManager;
+    @Inject
+    private PlayerWrapperManager<Player> playerWrapperManager;
 
-  @EventHandler
-  public void onPlayerInteract(PlayerInteractEvent event) {
-    Player player = event.getPlayer();
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
 
-    if (playerWrapperManager.getStaffPlayer(player.getUniqueId()).isEmpty()) {
-      return;
+        if (playerWrapperManager.getStaffPlayer(player.getUniqueId()).isEmpty()) {
+            return;
+        }
+
+        StaffPlayerWrapper playerWrapper =
+                playerWrapperManager.getStaffPlayer(player.getUniqueId()).orElseThrow();
+
+        if (!playerWrapper.isInStaffMode()
+                || !playerWrapper
+                        .isInVanish()) { // TODO: Make a real good implementation for vanish, avoiding duplication
+            return;
+        }
+
+        if (event.getClickedBlock() == null) {
+            return;
+        }
+
+        if (event.getClickedBlock().getState() instanceof EnderChest) {
+            event.setCancelled(true);
+            player.openInventory(player.getEnderChest());
+            return;
+        }
+
+        if (!(event.getClickedBlock().getState() instanceof Container container)) {
+            return;
+        }
+
+        if (container instanceof Chest || container instanceof Barrel || container instanceof ShulkerBox) {
+            Inventory bInv = Bukkit.createInventory(
+                    null,
+                    container.getInventory().getSize(),
+                    container.getInventory().getType().defaultTitle());
+
+            bInv.setContents(container.getInventory().getContents());
+
+            player.openInventory(bInv);
+            event.setCancelled(true);
+        }
     }
-
-    StaffPlayerWrapper playerWrapper = playerWrapperManager.getStaffPlayer(player.getUniqueId()).orElseThrow();
-
-    if (!playerWrapper.isInStaffMode() || !playerWrapper.isInVanish()) { // TODO: Make a real good implementation for vanish, avoiding duplication
-      return;
-    }
-
-    if (event.getClickedBlock() == null) {
-      return;
-    }
-
-    if (event.getClickedBlock().getState() instanceof EnderChest) {
-      event.setCancelled(true);
-      player.openInventory(player.getEnderChest());
-      return;
-    }
-
-    if (!(event.getClickedBlock().getState() instanceof Container container)) {
-      return;
-    }
-
-    if (container instanceof Chest || container instanceof Barrel || container instanceof ShulkerBox) {
-      Inventory bInv = Bukkit.createInventory(
-          null,
-          container.getInventory().getSize(),
-          container.getInventory().getType().defaultTitle()
-      );
-
-      bInv.setContents(container.getInventory().getContents());
-
-      player.openInventory(bInv);
-      event.setCancelled(true);
-    }
-  }
 }

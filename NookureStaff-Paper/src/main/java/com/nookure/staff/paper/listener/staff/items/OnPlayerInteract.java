@@ -14,47 +14,49 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
 public class OnPlayerInteract extends CommonPlayerInteraction implements Listener {
-  @Inject
-  private PlayerWrapperManager<Player> playerWrapperManager;
-  @Inject
-  private Logger logger;
+    @Inject
+    private PlayerWrapperManager<Player> playerWrapperManager;
 
-  @EventHandler
-  public void onPlayerInteract(PlayerInteractEvent event) {
-    long start = System.currentTimeMillis();
-    Player player = event.getPlayer();
+    @Inject
+    private Logger logger;
 
-    if (playerWrapperManager.getStaffPlayer(player.getUniqueId()).isEmpty()) {
-      return;
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        long start = System.currentTimeMillis();
+        Player player = event.getPlayer();
+
+        if (playerWrapperManager.getStaffPlayer(player.getUniqueId()).isEmpty()) {
+            return;
+        }
+
+        StaffPlayerWrapper playerWrapper =
+                playerWrapperManager.getStaffPlayer(player.getUniqueId()).get();
+
+        if (!playerWrapper.isInStaffMode()) return;
+
+        event.setCancelled(true);
+
+        if (!event.hasItem() && player.hasPermission(Permissions.STAFF_MODE_BUILD)) {
+            event.setCancelled(false);
+        }
+
+        if (event.getHand() != EquipmentSlot.HAND) return;
+
+        if (event.getItem() == null) return;
+        if (!event.getItem().hasItemMeta()) return;
+
+        if (!canUseItem(playerWrapper)) return;
+
+        getItem(event.getItem(), playerWrapper).ifPresent(item -> {
+            if (item instanceof ExecutableItem executableItem) executableItem.click(playerWrapper);
+
+            if (item instanceof ExecutableLocationItem executableIcon) {
+                if (event.getClickedBlock() == null) return;
+
+                executableIcon.click(playerWrapper, event.getClickedBlock().getLocation());
+            }
+        });
+
+        logger.debug("PlayerInteractEvent took " + (System.currentTimeMillis() - start) + "ms");
     }
-
-    StaffPlayerWrapper playerWrapper = playerWrapperManager.getStaffPlayer(player.getUniqueId()).get();
-
-    if (!playerWrapper.isInStaffMode()) return;
-
-    event.setCancelled(true);
-
-    if (!event.hasItem() && player.hasPermission(Permissions.STAFF_MODE_BUILD)) {
-      event.setCancelled(false);
-    }
-
-    if (event.getHand() != EquipmentSlot.HAND) return;
-
-    if (event.getItem() == null) return;
-    if (!event.getItem().hasItemMeta()) return;
-
-    if (!canUseItem(playerWrapper)) return;
-
-    getItem(event.getItem(), playerWrapper).ifPresent(item -> {
-      if (item instanceof ExecutableItem executableItem) executableItem.click(playerWrapper);
-
-      if (item instanceof ExecutableLocationItem executableIcon) {
-        if (event.getClickedBlock() == null) return;
-
-        executableIcon.click(playerWrapper, event.getClickedBlock().getLocation());
-      }
-    });
-
-    logger.debug("PlayerInteractEvent took " + (System.currentTimeMillis() - start) + "ms");
-  }
 }

@@ -10,24 +10,29 @@ import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class OnWorldChange implements Listener {
-  @Inject
-  private PlayerWrapperManager<Player> playerWrapperManager;
-  @Inject
-  private JavaPlugin plugin;
+    @Inject
+    private PlayerWrapperManager<Player> playerWrapperManager;
 
-  @EventHandler
-  public void onWorldChange(PlayerChangedWorldEvent event) {
-    Player player = event.getPlayer();
+    @Inject
+    private JavaPlugin plugin;
 
-    playerWrapperManager.getStaffPlayer(player.getUniqueId()).ifPresent(playerWrapper -> {
-      if (!playerWrapper.isStaffModeOrVanish()) {
-        return;
-      }
+    @EventHandler
+    public void onWorldChange(PlayerChangedWorldEvent event) {
+        Player player = event.getPlayer();
 
-      Bukkit.getScheduler().runTaskLater(plugin, () -> {
-        player.setAllowFlight(true);
-        player.setFlying(true);
-      }, 20L);
-    });
-  }
+        playerWrapperManager.getStaffPlayer(player.getUniqueId()).ifPresent(playerWrapper -> {
+            if (!playerWrapper.isStaffModeOrVanish()) {
+                return;
+            }
+
+            Bukkit.getScheduler()
+                    .runTaskLater(
+                            plugin,
+                            () -> {
+                                player.setAllowFlight(true);
+                                player.setFlying(true);
+                            },
+                            20L);
+        });
+    }
 }

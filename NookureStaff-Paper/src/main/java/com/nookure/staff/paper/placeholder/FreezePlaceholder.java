@@ -12,16 +12,18 @@ import org.jetbrains.annotations.Nullable;
 
 @PlaceholderData("freeze")
 public class FreezePlaceholder extends Placeholder {
-  @Inject
-  private FreezeManager freezeManager;
-  @Inject
-  private ConfigurationContainer<BukkitMessages> messages;
+    @Inject
+    private FreezeManager freezeManager;
 
-  @Override
-  public String onPlaceholderRequest(@Nullable Player player, @NotNull String params) {
-    if (player == null) return messages.get().placeholder.placeholderFalse();
+    @Inject
+    private ConfigurationContainer<BukkitMessages> messages;
 
-    return freezeManager.isFrozen(player.getUniqueId()) ?
-        messages.get().placeholder.placeholderTrue() : messages.get().placeholder.placeholderFalse();
-  }
+    @Override
+    public String onPlaceholderRequest(@Nullable Player player, @NotNull String params) {
+        if (player == null) return messages.get().placeholder.placeholderFalse();
+
+        return freezeManager.isFrozen(player.getUniqueId())
+                ? messages.get().placeholder.placeholderTrue()
+                : messages.get().placeholder.placeholderFalse();
+    }
 }

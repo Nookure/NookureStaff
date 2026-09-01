@@ -3,6 +3,7 @@ package com.nookure.staff.api.item;
 import com.nookure.staff.api.config.bukkit.partials.ItemPartial;
 import com.nookure.staff.api.util.ServerUtils;
 import com.nookure.staff.api.util.TextUtils;
+import java.util.List;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -12,8 +13,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.List;
-
 /**
  * Represents a staff item that can be added to the user's inventory.
  * this staff item does not have any functionality until it implements
@@ -22,63 +21,61 @@ import java.util.List;
  * @since 1.0.0
  */
 public abstract class StaffItem {
-  public static final NamespacedKey key = new NamespacedKey("nkstaff-item", "staffitem");
-  private final ItemPartial itemConfig;
-  private final ItemStack itemStack;
-  private final int slot;
+    public static final NamespacedKey key = new NamespacedKey("nkstaff-item", "staffitem");
+    private final ItemPartial itemConfig;
+    private final ItemStack itemStack;
+    private final int slot;
 
-  @SuppressWarnings("deprecation")
-  public StaffItem(ItemPartial itemConfig) {
-    this.itemConfig = itemConfig;
-    ItemStack itemStack = new ItemStack(itemConfig.getMaterial());
-    ItemMeta meta = itemStack.getItemMeta();
+    @SuppressWarnings("deprecation")
+    public StaffItem(ItemPartial itemConfig) {
+        this.itemConfig = itemConfig;
+        ItemStack itemStack = new ItemStack(itemConfig.getMaterial());
+        ItemMeta meta = itemStack.getItemMeta();
 
-    if (ServerUtils.isPaper) {
-      Component displayName = TextUtils.toComponent(itemConfig.getName());
-      displayName = displayName.decoration(TextDecoration.ITALIC, TextDecoration.State.FALSE);
-      meta.displayName(displayName);
+        if (ServerUtils.isPaper) {
+            Component displayName = TextUtils.toComponent(itemConfig.getName());
+            displayName = displayName.decoration(TextDecoration.ITALIC, TextDecoration.State.FALSE);
+            meta.displayName(displayName);
 
-      meta.lore(itemConfig.lore());
-    } else {
-      meta.setDisplayName(
-          LegacyComponentSerializer.legacySection().serialize(TextUtils.toComponent(itemConfig.getName()))
-      );
-      meta.setLore(
-          itemConfig.lore().stream()
-              .map(cmp -> LegacyComponentSerializer.legacySection().serialize(cmp)).toList()
-      );
+            meta.lore(itemConfig.lore());
+        } else {
+            meta.setDisplayName(
+                    LegacyComponentSerializer.legacySection().serialize(TextUtils.toComponent(itemConfig.getName())));
+            meta.setLore(itemConfig.lore().stream()
+                    .map(cmp -> LegacyComponentSerializer.legacySection().serialize(cmp))
+                    .toList());
+        }
+
+        meta.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, itemConfig.getSlot());
+
+        slot = itemConfig.getSlot();
+
+        itemStack.setItemMeta(meta);
+
+        this.itemStack = itemStack;
     }
 
-    meta.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, itemConfig.getSlot());
+    public void setItem(Player playerWrapper) {
+        playerWrapper.getInventory().setItem(itemConfig.getSlot(), itemStack);
+    }
 
-    slot = itemConfig.getSlot();
+    public String getName() {
+        return itemConfig.getName();
+    }
 
-    itemStack.setItemMeta(meta);
+    public String getPermission() {
+        return itemConfig.getPermission();
+    }
 
-    this.itemStack = itemStack;
-  }
+    public List<Component> getLore() {
+        return itemConfig.lore();
+    }
 
-  public void setItem(Player playerWrapper) {
-    playerWrapper.getInventory().setItem(itemConfig.getSlot(), itemStack);
-  }
+    public ItemPartial getItemConfig() {
+        return itemConfig;
+    }
 
-  public String getName() {
-    return itemConfig.getName();
-  }
-
-  public String getPermission() {
-    return itemConfig.getPermission();
-  }
-
-  public List<Component> getLore() {
-    return itemConfig.lore();
-  }
-
-  public ItemPartial getItemConfig() {
-    return itemConfig;
-  }
-
-  public int getSlot() {
-    return slot;
-  }
+    public int getSlot() {
+        return slot;
+    }
 }

@@ -10,18 +10,17 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class OnPlayerLeave implements Listener {
-  @Inject
-  private PlayerWrapperManager<Player> playerWrapperManager;
-  @Inject
-  private Logger logger;
+    @Inject
+    private PlayerWrapperManager<Player> playerWrapperManager;
 
-  @EventHandler(
-      priority = EventPriority.HIGHEST
-  )
-  public void onPlayerLeave(PlayerQuitEvent event) {
-    logger.debug("Player " + event.getPlayer().getName() + " has left the server");
-    logger.debug("Removing player wrapper for " + event.getPlayer().getName());
+    @Inject
+    private Logger logger;
 
-    playerWrapperManager.removePlayerWrapper(event.getPlayer());
-  }
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerLeave(PlayerQuitEvent event) {
+        logger.debug("Player " + event.getPlayer().getName() + " has left the server");
+        logger.debug("Removing player wrapper for " + event.getPlayer().getName());
+
+        playerWrapperManager.removePlayerWrapper(event.getPlayer());
+    }
 }

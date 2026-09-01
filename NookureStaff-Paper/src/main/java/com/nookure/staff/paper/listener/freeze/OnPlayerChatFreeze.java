@@ -14,35 +14,38 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 public class OnPlayerChatFreeze implements Listener {
-  @Inject
-  private FreezeManager freezeManager;
-  @Inject
-  private ServerUtils serverUtils;
-  @Inject
-  private ConfigurationContainer<BukkitMessages> messages;
-  @Inject
-  private PlayerWrapperManager<Player> playerWrapperManager;
+    @Inject
+    private FreezeManager freezeManager;
 
-  @EventHandler
-  public void onPlayerChat(AsyncChatEvent event) {
-    if (!freezeManager.isFrozen(event.getPlayer())) return;
+    @Inject
+    private ServerUtils serverUtils;
 
-    event.setCancelled(true);
+    @Inject
+    private ConfigurationContainer<BukkitMessages> messages;
 
-    String message = messages.get().freeze.freezeChatFormat().
-        replace(
-            "{player}", event.getPlayer().getName()
-        ).replace("{message}",
-            PlainTextComponentSerializer.plainText().serialize(event.message())
-        );
+    @Inject
+    private PlayerWrapperManager<Player> playerWrapperManager;
 
-    playerWrapperManager.getPlayerWrapper(event.getPlayer())
-        .ifPresent(playerWrapper -> playerWrapper.sendMiniMessage(message));
+    @EventHandler
+    public void onPlayerChat(AsyncChatEvent event) {
+        if (!freezeManager.isFrozen(event.getPlayer())) return;
 
-    serverUtils.broadcast(message, Permissions.STAFF_FREEZE);
+        event.setCancelled(true);
 
-    freezeManager.getFreezeContainer(event.getPlayer().getUniqueId()).ifPresent(freezeContainer -> {
-      freezeContainer.setHasTalked(true);
-    });
-  }
+        String message = messages.get()
+                .freeze
+                .freezeChatFormat()
+                .replace("{player}", event.getPlayer().getName())
+                .replace("{message}", PlainTextComponentSerializer.plainText().serialize(event.message()));
+
+        playerWrapperManager
+                .getPlayerWrapper(event.getPlayer())
+                .ifPresent(playerWrapper -> playerWrapper.sendMiniMessage(message));
+
+        serverUtils.broadcast(message, Permissions.STAFF_FREEZE);
+
+        freezeManager.getFreezeContainer(event.getPlayer().getUniqueId()).ifPresent(freezeContainer -> {
+            freezeContainer.setHasTalked(true);
+        });
+    }
 }

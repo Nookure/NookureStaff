@@ -8,15 +8,15 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CommandData {
-  String name();
+    String name();
 
-  String[] aliases() default {};
+    String[] aliases() default {};
 
-  String permission() default "";
+    String permission() default "";
 
-  String usage() default "";
+    String usage() default "";
 
-  String description() default "";
+    String description() default "";
 
-  Class<? extends Command>[] subCommands() default {};
+    Class<? extends Command>[] subCommands() default {};
 }

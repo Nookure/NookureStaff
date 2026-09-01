@@ -11,17 +11,20 @@ import org.jetbrains.annotations.Nullable;
 
 @PlaceholderData("server_count")
 public class ServerCountPlaceholder extends Placeholder {
-  @Inject
-  private PlayerWrapperManager<Player> playerWrapperManager;
+    @Inject
+    private PlayerWrapperManager<Player> playerWrapperManager;
 
-  @Override
-  public String onPlaceholderRequest(@Nullable Player player, @NotNull String params) {
-    return String.valueOf(playerWrapperManager.getPlayerCount() - playerWrapperManager.stream().filter(p -> {
-      if (!(p instanceof StaffPlayerWrapper staffPlayerWrapper)) {
-        return false;
-      }
+    @Override
+    public String onPlaceholderRequest(@Nullable Player player, @NotNull String params) {
+        return String.valueOf(playerWrapperManager.getPlayerCount()
+                - playerWrapperManager.stream()
+                        .filter(p -> {
+                            if (!(p instanceof StaffPlayerWrapper staffPlayerWrapper)) {
+                                return false;
+                            }
 
-      return staffPlayerWrapper.isInStaffMode();
-    }).count());
-  }
+                            return staffPlayerWrapper.isInStaffMode();
+                        })
+                        .count());
+    }
 }

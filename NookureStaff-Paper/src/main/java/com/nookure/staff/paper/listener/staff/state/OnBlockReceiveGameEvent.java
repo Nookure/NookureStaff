@@ -8,19 +8,19 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockReceiveGameEvent;
 
 public class OnBlockReceiveGameEvent implements Listener {
-  @Inject
-  private PlayerWrapperManager<Player> playerWrapperManager;
+    @Inject
+    private PlayerWrapperManager<Player> playerWrapperManager;
 
-  @EventHandler
-  public void onBlockReceiveGameEvent(BlockReceiveGameEvent event) {
-    if (!(event.getEntity() instanceof Player player)) {
-      return;
+    @EventHandler
+    public void onBlockReceiveGameEvent(BlockReceiveGameEvent event) {
+        if (!(event.getEntity() instanceof Player player)) {
+            return;
+        }
+
+        playerWrapperManager.getStaffPlayer(player.getUniqueId()).ifPresent(playerWrapper -> {
+            if (playerWrapper.isStaffModeOrVanish()) {
+                event.setCancelled(true);
+            }
+        });
     }
-
-    playerWrapperManager.getStaffPlayer(player.getUniqueId()).ifPresent(playerWrapper -> {
-      if (playerWrapper.isStaffModeOrVanish()) {
-        event.setCancelled(true);
-      }
-    });
-  }
 }

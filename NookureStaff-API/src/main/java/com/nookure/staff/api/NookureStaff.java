@@ -2,30 +2,27 @@ package com.nookure.staff.api;
 
 import com.google.inject.Injector;
 import com.nookure.staff.api.command.Command;
-
 import java.io.File;
 import java.io.InputStream;
 
 public interface NookureStaff {
-  Logger getPLogger();
+    Logger getPLogger();
 
-  boolean isDebug();
+    boolean isDebug();
 
-  void setDebug(boolean debug);
+    void setDebug(boolean debug);
 
-  void reload();
+    void reload();
 
-  File getPluginDataFolder();
+    File getPluginDataFolder();
 
-  InputStream getPluginResource(String s);
+    InputStream getPluginResource(String s);
 
-  Injector getInjector();
+    Injector getInjector();
 
-  String getPrefix();
+    String getPrefix();
 
-  default void registerCommand(Command command) {
-  }
+    default void registerCommand(Command command) {}
 
-  default void unregisterCommand(Command command) {
-  }
+    default void unregisterCommand(Command command) {}
 }

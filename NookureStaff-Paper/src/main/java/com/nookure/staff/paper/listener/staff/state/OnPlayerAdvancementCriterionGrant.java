@@ -8,17 +8,18 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 public class OnPlayerAdvancementCriterionGrant implements Listener {
-  @Inject
-  private PlayerWrapperManager<Player> playerWrapperManager;
+    @Inject
+    private PlayerWrapperManager<Player> playerWrapperManager;
 
-  @EventHandler
-  public void onPlayerAdvancementDone(PlayerAdvancementCriterionGrantEvent event) {
-    final var staffPlayer = playerWrapperManager.getStaffPlayerOrNull(event.getPlayer().getUniqueId());
+    @EventHandler
+    public void onPlayerAdvancementDone(PlayerAdvancementCriterionGrantEvent event) {
+        final var staffPlayer =
+                playerWrapperManager.getStaffPlayerOrNull(event.getPlayer().getUniqueId());
 
-    if (staffPlayer == null) {
-      return;
+        if (staffPlayer == null) {
+            return;
+        }
+
+        event.setCancelled(staffPlayer.isStaffModeOrVanish());
     }
-
-    event.setCancelled(staffPlayer.isStaffModeOrVanish());
-  }
 }

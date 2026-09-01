@@ -6,11 +6,10 @@ import com.nookure.staff.api.extension.StaffPlayerExtension;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class GlowPlayerExtension extends StaffPlayerExtension {
-  @Inject
-  public GlowPlayerExtension(@NotNull StaffPlayerWrapper player) {
-    super(player);
-  }
+    @Inject
+    public GlowPlayerExtension(@NotNull StaffPlayerWrapper player) {
+        super(player);
+    }
 
-  @NotNull
-  public abstract String getGlowColor();
+    @NotNull public abstract String getGlowColor();
 }

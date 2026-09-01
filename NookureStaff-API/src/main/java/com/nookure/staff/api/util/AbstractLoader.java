@@ -7,20 +7,18 @@ package com.nookure.staff.api.util;
  * @since 1.0.0
  */
 public interface AbstractLoader {
-  /**
-   * load the instance.
-   */
-  void load();
+    /**
+     * load the instance.
+     */
+    void load();
 
-  /**
-   * Reloads the feature
-   */
-  default void reload() {
-  }
+    /**
+     * Reloads the feature
+     */
+    default void reload() {}
 
-  /**
-   * Unloads the feature
-   */
-  default void unload() {
-  }
+    /**
+     * Unloads the feature
+     */
+    default void unload() {}
 }

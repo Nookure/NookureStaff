@@ -13,34 +13,36 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class PlayerVanishListener implements Listener {
-  @Inject
-  private PlayerWrapperManager<Player> playerWrapperManager;
-  @Inject
-  private JavaPlugin javaPlugin;
+    @Inject
+    private PlayerWrapperManager<Player> playerWrapperManager;
 
-  @EventHandler
-  public void onPlayerJoin(PlayerJoinEvent event) {
-    if (event.getPlayer().hasPermission(Permissions.STAFF_VANISH_SEE)) return;
+    @Inject
+    private JavaPlugin javaPlugin;
 
-    playerWrapperManager.stream()
-        .filter(player -> {
-          if (player instanceof StaffPlayerWrapper staffPlayer) {
-            return staffPlayer.isInVanish();
-          }
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        if (event.getPlayer().hasPermission(Permissions.STAFF_VANISH_SEE)) return;
 
-          return false;
-        }).forEach(player -> {
-          StaffPaperPlayerWrapper staffPlayer = (StaffPaperPlayerWrapper) player;
-          event.getPlayer().hidePlayer(javaPlugin, staffPlayer.getPlayer());
+        playerWrapperManager.stream()
+                .filter(player -> {
+                    if (player instanceof StaffPlayerWrapper staffPlayer) {
+                        return staffPlayer.isInVanish();
+                    }
+
+                    return false;
+                })
+                .forEach(player -> {
+                    StaffPaperPlayerWrapper staffPlayer = (StaffPaperPlayerWrapper) player;
+                    event.getPlayer().hidePlayer(javaPlugin, staffPlayer.getPlayer());
+                });
+    }
+
+    @EventHandler
+    public void onPlayerLeave(PlayerQuitEvent event) {
+        playerWrapperManager.stream().forEach(player -> {
+            if (!(player instanceof StaffPaperPlayerWrapper staffPlayer)) return;
+
+            event.getPlayer().showPlayer(javaPlugin, staffPlayer.getPlayer());
         });
-  }
-
-  @EventHandler
-  public void onPlayerLeave(PlayerQuitEvent event) {
-    playerWrapperManager.stream().forEach(player -> {
-      if (!(player instanceof StaffPaperPlayerWrapper staffPlayer)) return;
-
-      event.getPlayer().showPlayer(javaPlugin, staffPlayer.getPlayer());
-    });
-  }
+    }
 }

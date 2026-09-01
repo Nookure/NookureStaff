@@ -9,22 +9,19 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class OnPlayerAttack implements Listener {
-  @Inject
-  private PlayerWrapperManager<Player> playerWrapperManager;
+    @Inject
+    private PlayerWrapperManager<Player> playerWrapperManager;
 
-  @EventHandler(
-      ignoreCancelled = true,
-      priority = EventPriority.HIGHEST
-  )
-  public void onPlayerAttack(EntityDamageByEntityEvent event) {
-    if (!(event.getDamager() instanceof Player player)) {
-      return;
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    public void onPlayerAttack(EntityDamageByEntityEvent event) {
+        if (!(event.getDamager() instanceof Player player)) {
+            return;
+        }
+
+        playerWrapperManager.getStaffPlayer(player.getUniqueId()).ifPresent(playerWrapper -> {
+            if (playerWrapper.isStaffModeOrVanish()) {
+                event.setCancelled(true);
+            }
+        });
     }
-
-    playerWrapperManager.getStaffPlayer(player.getUniqueId()).ifPresent(playerWrapper -> {
-      if (playerWrapper.isStaffModeOrVanish()) {
-        event.setCancelled(true);
-      }
-    });
-  }
 }

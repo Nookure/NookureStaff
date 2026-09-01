@@ -9,46 +9,48 @@ import com.nookure.staff.api.config.bukkit.BukkitMessages;
 import com.nookure.staff.api.manager.PlayerWrapperManager;
 import com.nookure.staff.api.util.ServerUtils;
 import io.papermc.paper.event.player.AsyncChatEvent;
+import java.util.Optional;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
-import java.util.Optional;
-
 public class OnPlayerInStaffChatTalk implements Listener {
-  @Inject
-  private PlayerWrapperManager<Player> playerWrapperManager;
-  @Inject
-  private ConfigurationContainer<BukkitMessages> messages;
-  @Inject
-  private ConfigurationContainer<BukkitConfig> config;
-  @Inject
-  private ServerUtils serverUtils;
+    @Inject
+    private PlayerWrapperManager<Player> playerWrapperManager;
 
-  @EventHandler(
-      priority = EventPriority.HIGH,
-      ignoreCancelled = true
-  )
-  private void onPlayerInStaffChatTalk(AsyncChatEvent event) {
-    Optional<StaffPlayerWrapper> optionalStaffPlayerWrapper = playerWrapperManager.getStaffPlayer(event.getPlayer().getUniqueId());
+    @Inject
+    private ConfigurationContainer<BukkitMessages> messages;
 
-    if (optionalStaffPlayerWrapper.isEmpty()) return;
+    @Inject
+    private ConfigurationContainer<BukkitConfig> config;
 
-    StaffPlayerWrapper staffPlayerWrapper = optionalStaffPlayerWrapper.get();
+    @Inject
+    private ServerUtils serverUtils;
 
-    if (!staffPlayerWrapper.isStaffChatAsDefault()) {
-      return;
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    private void onPlayerInStaffChatTalk(AsyncChatEvent event) {
+        Optional<StaffPlayerWrapper> optionalStaffPlayerWrapper =
+                playerWrapperManager.getStaffPlayer(event.getPlayer().getUniqueId());
+
+        if (optionalStaffPlayerWrapper.isEmpty()) return;
+
+        StaffPlayerWrapper staffPlayerWrapper = optionalStaffPlayerWrapper.get();
+
+        if (!staffPlayerWrapper.isStaffChatAsDefault()) {
+            return;
+        }
+
+        String message = messages.get()
+                .staffChat
+                .format()
+                .replace("{player}", staffPlayerWrapper.getName())
+                .replace("{server}", config.get().getServerName())
+                .replace("{message}", PlainTextComponentSerializer.plainText().serialize(event.message()));
+
+        serverUtils.broadcast(message, Permissions.STAFF_CHAT, config.get().staffChat.logStaffChatInConsole);
+
+        event.setCancelled(true);
     }
-
-    String message = messages.get().staffChat.format()
-        .replace("{player}", staffPlayerWrapper.getName())
-        .replace("{server}", config.get().getServerName())
-        .replace("{message}", PlainTextComponentSerializer.plainText().serialize(event.message()));
-
-    serverUtils.broadcast(message, Permissions.STAFF_CHAT, config.get().staffChat.logStaffChatInConsole);
-
-    event.setCancelled(true);
-  }
 }

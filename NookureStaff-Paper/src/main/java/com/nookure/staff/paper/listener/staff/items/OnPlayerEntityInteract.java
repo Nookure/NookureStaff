@@ -14,48 +14,49 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 public class OnPlayerEntityInteract extends CommonPlayerInteraction implements Listener {
-  @Inject
-  private PlayerWrapperManager<Player> playerWrapperManager;
-  @Inject
-  private Logger logger;
+    @Inject
+    private PlayerWrapperManager<Player> playerWrapperManager;
 
-  @EventHandler
-  public void onPlayerEntityInteract(PlayerInteractEntityEvent event) {
-    long start = System.currentTimeMillis();
-    Player player = event.getPlayer();
+    @Inject
+    private Logger logger;
 
-    if (playerWrapperManager.getStaffPlayer(player.getUniqueId()).isEmpty()) {
-      return;
-    }
+    @EventHandler
+    public void onPlayerEntityInteract(PlayerInteractEntityEvent event) {
+        long start = System.currentTimeMillis();
+        Player player = event.getPlayer();
 
-    StaffPlayerWrapper playerWrapper = playerWrapperManager.getStaffPlayer(player.getUniqueId()).get();
+        if (playerWrapperManager.getStaffPlayer(player.getUniqueId()).isEmpty()) {
+            return;
+        }
 
-    if (!playerWrapper.isInStaffMode()) return;
+        StaffPlayerWrapper playerWrapper =
+                playerWrapperManager.getStaffPlayer(player.getUniqueId()).get();
 
-    event.setCancelled(true);
+        if (!playerWrapper.isInStaffMode()) return;
 
-    ItemStack currentItem = player.getInventory().getItemInMainHand();
+        event.setCancelled(true);
 
-    if ((currentItem.getType().isAir() || (currentItem.getAmount() <= 0))
-            && player.hasPermission(Permissions.STAFF_MODE_BUILD)
-    ) {
-      event.setCancelled(false);
-      return;
-    }
+        ItemStack currentItem = player.getInventory().getItemInMainHand();
 
-    if (event.getHand() != EquipmentSlot.HAND) return;
-    if (!canUseItem(playerWrapper)) return;
+        if ((currentItem.getType().isAir() || (currentItem.getAmount() <= 0))
+                && player.hasPermission(Permissions.STAFF_MODE_BUILD)) {
+            event.setCancelled(false);
+            return;
+        }
 
-    getItem(currentItem, playerWrapper).ifPresent(item -> {
-      if (item instanceof PlayerInteractItem executableItem) {
-        if (!(event.getRightClicked() instanceof Player target)) return;
+        if (event.getHand() != EquipmentSlot.HAND) return;
+        if (!canUseItem(playerWrapper)) return;
 
-        playerWrapperManager.getPlayerWrapper(target).ifPresent(targetWrapper -> {
-          executableItem.click(playerWrapper, targetWrapper);
+        getItem(currentItem, playerWrapper).ifPresent(item -> {
+            if (item instanceof PlayerInteractItem executableItem) {
+                if (!(event.getRightClicked() instanceof Player target)) return;
+
+                playerWrapperManager.getPlayerWrapper(target).ifPresent(targetWrapper -> {
+                    executableItem.click(playerWrapper, targetWrapper);
+                });
+            }
         });
-      }
-    });
 
-    logger.debug("PlayerInteractEntityEvent took " + (System.currentTimeMillis() - start) + "ms");
-  }
+        logger.debug("PlayerInteractEntityEvent took " + (System.currentTimeMillis() - start) + "ms");
+    }
 }

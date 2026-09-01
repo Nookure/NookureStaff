@@ -3,15 +3,15 @@ package com.nookure.staff.api.addons;
 import com.nookure.staff.api.addons.annotations.Addon;
 
 public interface AddonContainer {
-  AddonDescription getDescription();
+    AddonDescription getDescription();
 
-  Object getInstance();
+    Object getInstance();
 
-  void setInstance(Object instance);
+    void setInstance(Object instance);
 
-  AddonStatus getStatus();
+    AddonStatus getStatus();
 
-  void setStatus(AddonStatus status);
+    void setStatus(AddonStatus status);
 
-  Addon getAddon();
+    Addon getAddon();
 }

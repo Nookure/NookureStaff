@@ -7,23 +7,20 @@ import com.nookure.staff.api.command.CommandData;
 import com.nookure.staff.api.command.CommandSender;
 import com.nookure.staff.api.config.ConfigurationContainer;
 import com.nookure.staff.api.config.bukkit.BukkitMessages;
+import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
-@CommandData(
-    name = "reload",
-    description = "Reloads the plugin"
-)
+@CommandData(name = "reload", description = "Reloads the plugin")
 public class ReloadSubCommand extends Command {
-  @Inject
-  private NookureStaff nookureStaff;
-  @Inject
-  private ConfigurationContainer<BukkitMessages> messages;
+    @Inject
+    private NookureStaff nookureStaff;
 
-  @Override
-  public void onCommand(@NotNull CommandSender sender, @NotNull String label, @NotNull List<String> args) {
-    nookureStaff.reload();
-    sender.sendMiniMessage(messages.get().reload());
-  }
+    @Inject
+    private ConfigurationContainer<BukkitMessages> messages;
+
+    @Override
+    public void onCommand(@NotNull CommandSender sender, @NotNull String label, @NotNull List<String> args) {
+        nookureStaff.reload();
+        sender.sendMiniMessage(messages.get().reload());
+    }
 }

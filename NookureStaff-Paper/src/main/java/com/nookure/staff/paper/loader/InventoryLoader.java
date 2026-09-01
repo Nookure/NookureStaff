@@ -14,75 +14,76 @@ import com.nookure.staff.paper.inventory.action.TeleportToPlayerAction;
 import com.nookure.staff.paper.inventory.extenion.DataFormatExtension;
 import com.nookure.staff.paper.inventory.extenion.NookurePlayerExtension;
 import com.nookure.staff.paper.pin.action.PinButtonPressed;
+import java.io.IOException;
+import java.util.concurrent.atomic.AtomicReference;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.IOException;
-import java.util.concurrent.atomic.AtomicReference;
-
 public class InventoryLoader implements AbstractLoader {
-  @Inject
-  private JavaPlugin plugin;
-  @Inject
-  private AtomicReference<PaperNookureInventoryEngine> engine;
-  @Inject
-  private Injector injector;
-  @Inject
-  private ConfigurationContainer<BukkitConfig> config;
+    @Inject
+    private JavaPlugin plugin;
 
-  private static final boolean replaceFolder;
+    @Inject
+    private AtomicReference<PaperNookureInventoryEngine> engine;
 
-  static {
-    String property = System.getProperty("nkstaff.inventory.replace");
+    @Inject
+    private Injector injector;
 
-    if (property == null) {
-      replaceFolder = false;
-    } else {
-      replaceFolder = Boolean.parseBoolean(property);
-    }
-  }
+    @Inject
+    private ConfigurationContainer<BukkitConfig> config;
 
-  @Override
-  public void load() {
-    PaperNookureInventoryEngine.Builder builder = new PaperNookureInventoryEngine.Builder()
-        .plugin(plugin)
-        .templateFolder("inventories")
-        .extensions(
-            new PaginationItemExtension(),
-            new OpenInventoryExtension(),
-            injector.getInstance(NookurePlayerExtension.class),
-            injector.getInstance(DataFormatExtension.class)
-        );
+    private static final boolean replaceFolder;
 
-    engine.set(builder.build());
+    static {
+        String property = System.getProperty("nkstaff.inventory.replace");
 
-    try {
-      JarUtil.CopyOption option;
-
-      option = replaceFolder ? JarUtil.CopyOption.REPLACE_IF_EXIST : JarUtil.CopyOption.COPY_IF_NOT_EXIST;
-
-      JarUtil.copyFolderFromJar("inventories", plugin.getDataFolder(), option);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
+        if (property == null) {
+            replaceFolder = false;
+        } else {
+            replaceFolder = Boolean.parseBoolean(property);
+        }
     }
 
-    CustomActionRegistry registry = Bukkit.getServicesManager().load(CustomActionRegistry.class);
+    @Override
+    public void load() {
+        PaperNookureInventoryEngine.Builder builder = new PaperNookureInventoryEngine.Builder()
+                .plugin(plugin)
+                .templateFolder("inventories")
+                .extensions(
+                        new PaginationItemExtension(),
+                        new OpenInventoryExtension(),
+                        injector.getInstance(NookurePlayerExtension.class),
+                        injector.getInstance(DataFormatExtension.class));
 
-    if (registry == null) {
-      throw new RuntimeException("CustomActionRegistry service not found");
+        engine.set(builder.build());
+
+        try {
+            JarUtil.CopyOption option;
+
+            option = replaceFolder ? JarUtil.CopyOption.REPLACE_IF_EXIST : JarUtil.CopyOption.COPY_IF_NOT_EXIST;
+
+            JarUtil.copyFolderFromJar("inventories", plugin.getDataFolder(), option);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        CustomActionRegistry registry = Bukkit.getServicesManager().load(CustomActionRegistry.class);
+
+        if (registry == null) {
+            throw new RuntimeException("CustomActionRegistry service not found");
+        }
+
+        if (config.get().modules.isPinCode()) {
+            registry.registerAction(injector.getInstance(PinButtonPressed.class));
+        }
+
+        // Register native teleportation action
+        registry.registerAction(injector.getInstance(TeleportToPlayerAction.class));
     }
 
-    if (config.get().modules.isPinCode()) {
-      registry.registerAction(injector.getInstance(PinButtonPressed.class));
+    @Override
+    public void reload() {
+        engine.set(null);
+        load();
     }
-    
-    // Register native teleportation action
-    registry.registerAction(injector.getInstance(TeleportToPlayerAction.class));
-  }
-
-  @Override
-  public void reload() {
-    engine.set(null);
-    load();
-  }
 }

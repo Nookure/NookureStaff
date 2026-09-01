@@ -1,6 +1,5 @@
 package com.nookure.staff.paper.placeholder;
 
-
 import com.google.inject.Inject;
 import com.nookure.staff.api.manager.PlayerWrapperManager;
 import com.nookure.staff.api.placeholder.Placeholder;
@@ -11,11 +10,11 @@ import org.jetbrains.annotations.Nullable;
 
 @PlaceholderData("staff_count")
 public class StaffCountPlaceholder extends Placeholder {
-  @Inject
-  private PlayerWrapperManager<Player> playerWrapperManager;
+    @Inject
+    private PlayerWrapperManager<Player> playerWrapperManager;
 
-  @Override
-  public String onPlaceholderRequest(@Nullable Player player, @NotNull String params) {
-    return String.valueOf(playerWrapperManager.getStaffCount());
-  }
+    @Override
+    public String onPlaceholderRequest(@Nullable Player player, @NotNull String params) {
+        return String.valueOf(playerWrapperManager.getStaffCount());
+    }
 }

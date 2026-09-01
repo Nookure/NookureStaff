@@ -12,16 +12,16 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class EnderchestItem extends StaffItem implements PlayerInteractItem {
-  @Inject
-  public EnderchestItem(ConfigurationContainer<ItemsConfig> itemsConfig) {
-    super(itemsConfig.get().staffItems.getItems().get(Items.ENDER_CHEST.toString()));
-  }
+    @Inject
+    public EnderchestItem(ConfigurationContainer<ItemsConfig> itemsConfig) {
+        super(itemsConfig.get().staffItems.getItems().get(Items.ENDER_CHEST.toString()));
+    }
 
-  @Override
-  public void click(@NotNull PlayerWrapper player, @NotNull PlayerWrapper target) {
-    Player bukkitPlayer = ((PaperPlayerWrapper) player).getPlayer();
-    Player bukkitTarget = ((PaperPlayerWrapper) target).getPlayer();
+    @Override
+    public void click(@NotNull PlayerWrapper player, @NotNull PlayerWrapper target) {
+        Player bukkitPlayer = ((PaperPlayerWrapper) player).getPlayer();
+        Player bukkitTarget = ((PaperPlayerWrapper) target).getPlayer();
 
-    bukkitPlayer.openInventory(bukkitTarget.getEnderChest());
-  }
+        bukkitPlayer.openInventory(bukkitTarget.getEnderChest());
+    }
 }

@@ -8,6 +8,7 @@ plugins {
   alias(libs.plugins.testLogger)
   alias(libs.plugins.minotaur)
   alias(libs.plugins.ebean)
+  alias(libs.plugins.spotless)
 }
 
 val major: String by project
@@ -60,6 +61,7 @@ allprojects {
   apply(plugin = rootProject.libs.plugins.shadowJar.get().pluginId)
   apply(plugin = rootProject.libs.plugins.testLogger.get().pluginId)
   apply(plugin = rootProject.libs.plugins.ebean.get().pluginId)
+  apply(plugin = rootProject.libs.plugins.spotless.get().pluginId)
 
   repositories {
     mavenCentral()
@@ -109,6 +111,18 @@ allprojects {
 
   testlogger {
     theme = ThemeType.MOCHA
+  }
+
+  spotless {
+    java {
+      palantirJavaFormat(rootProject.libs.plugins.palantir.java.format.get().version.displayName)
+      removeUnusedImports();
+      importOrder()
+      trimTrailingWhitespace()
+      endWithNewline()
+      formatAnnotations()
+      targetExclude("build/**", "out/**", "generated/**", "resources/**", "test/**")
+    }
   }
 }
 

@@ -5,55 +5,56 @@ import com.google.inject.Injector;
 import com.nookure.staff.Constants;
 import com.nookure.staff.api.placeholder.Placeholder;
 import com.nookure.staff.api.placeholder.PlaceholderManager;
+import java.util.Optional;
+import java.util.stream.Stream;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Optional;
-import java.util.stream.Stream;
-
 public class PlaceholderApiExtension extends PlaceholderExpansion {
-  public static final String IDENTIFIER = "nkstaff";
-  @Inject
-  private PlaceholderManager placeholderManager;
-  @Inject
-  private Injector in;
+    public static final String IDENTIFIER = "nkstaff";
 
-  @Override
-  public @NotNull String getIdentifier() {
-    return IDENTIFIER;
-  }
+    @Inject
+    private PlaceholderManager placeholderManager;
 
-  @Override
-  public @NotNull String getAuthor() {
-    return "Angelillo15";
-  }
+    @Inject
+    private Injector in;
 
-  @Override
-  public @NotNull String getVersion() {
-    return Constants.VERSION;
-  }
+    @Override
+    public @NotNull String getIdentifier() {
+        return IDENTIFIER;
+    }
 
-  @Override
-  public boolean register() {
-    Stream.of(
-        ServerCountPlaceholder.class,
-        StaffCountPlaceholder.class,
-        StaffModePlaceholder.class,
-        VanishPlaceholder.class,
-        StaffGlowPlaceholder.class,
-        FreezePlaceholder.class
-    ).forEach(p -> placeholderManager.registerPlaceholder(in.getInstance(p)));
+    @Override
+    public @NotNull String getAuthor() {
+        return "Angelillo15";
+    }
 
-    return super.register();
-  }
+    @Override
+    public @NotNull String getVersion() {
+        return Constants.VERSION;
+    }
 
-  @Override
-  public String onPlaceholderRequest(Player player, @NotNull String params) {
-    Optional<Placeholder> placeholder = placeholderManager.getPlaceholder(params);
+    @Override
+    public boolean register() {
+        Stream.of(
+                        ServerCountPlaceholder.class,
+                        StaffCountPlaceholder.class,
+                        StaffModePlaceholder.class,
+                        VanishPlaceholder.class,
+                        StaffGlowPlaceholder.class,
+                        FreezePlaceholder.class)
+                .forEach(p -> placeholderManager.registerPlaceholder(in.getInstance(p)));
 
-    if (placeholder.isEmpty()) return "Not found";
+        return super.register();
+    }
 
-    return placeholder.get().onPlaceholderRequest(player, params);
-  }
+    @Override
+    public String onPlaceholderRequest(Player player, @NotNull String params) {
+        Optional<Placeholder> placeholder = placeholderManager.getPlaceholder(params);
+
+        if (placeholder.isEmpty()) return "Not found";
+
+        return placeholder.get().onPlaceholderRequest(player, params);
+    }
 }

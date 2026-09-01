@@ -4,5 +4,5 @@ import com.nookure.staff.api.PlayerWrapper;
 import org.jetbrains.annotations.NotNull;
 
 public interface PermissionHook {
-  @NotNull String getHighestGroup(@NotNull PlayerWrapper player);
+    @NotNull String getHighestGroup(@NotNull PlayerWrapper player);
 }

@@ -8,37 +8,34 @@ import de.myzelyam.api.vanish.VanishAPI;
 import org.jetbrains.annotations.NotNull;
 
 public class SuperVanishExtension extends VanishExtension {
-  private final StaffPaperPlayerWrapper player;
+    private final StaffPaperPlayerWrapper player;
 
-  @Inject
-  public SuperVanishExtension(@NotNull final StaffPlayerWrapper player) {
-    super(player);
-    this.player = (StaffPaperPlayerWrapper) player;
-  }
+    @Inject
+    public SuperVanishExtension(@NotNull final StaffPlayerWrapper player) {
+        super(player);
+        this.player = (StaffPaperPlayerWrapper) player;
+    }
 
-  @Override
-  public void enableVanish(boolean silent) {
-    if (!isVanished())
-      VanishAPI.hidePlayer(player.getPlayer());
-  }
+    @Override
+    public void enableVanish(boolean silent) {
+        if (!isVanished()) VanishAPI.hidePlayer(player.getPlayer());
+    }
 
-  @Override
-  public void disableVanish(boolean silent) {
-    if (isVanished())
-      VanishAPI.showPlayer(player.getPlayer());
-  }
+    @Override
+    public void disableVanish(boolean silent) {
+        if (isVanished()) VanishAPI.showPlayer(player.getPlayer());
+    }
 
-  @Override
-  public boolean isVanished() {
-    return VanishAPI.isInvisible(player.getPlayer());
-  }
+    @Override
+    public boolean isVanished() {
+        return VanishAPI.isInvisible(player.getPlayer());
+    }
 
-  @Override
-  public void setVanished(boolean vanished) {
-  }
+    @Override
+    public void setVanished(boolean vanished) {}
 
-  @Override
-  public boolean restoreFromDatabase() {
-    return false;
-  }
+    @Override
+    public boolean restoreFromDatabase() {
+        return false;
+    }
 }

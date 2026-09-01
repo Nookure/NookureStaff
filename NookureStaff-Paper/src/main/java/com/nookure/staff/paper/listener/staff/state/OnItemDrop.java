@@ -8,13 +8,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerDropItemEvent;
 
 public class OnItemDrop implements Listener {
-  @Inject
-  private PlayerWrapperManager<Player> playerWrapperManager;
+    @Inject
+    private PlayerWrapperManager<Player> playerWrapperManager;
 
-  @EventHandler
-  public void onItemDrop(PlayerDropItemEvent event) {
-    playerWrapperManager.getStaffPlayer(event.getPlayer().getUniqueId()).ifPresent(playerWrapper -> {
-      if (playerWrapper.isStaffModeOrVanish()) event.setCancelled(true);
-    });
-  }
+    @EventHandler
+    public void onItemDrop(PlayerDropItemEvent event) {
+        playerWrapperManager.getStaffPlayer(event.getPlayer().getUniqueId()).ifPresent(playerWrapper -> {
+            if (playerWrapper.isStaffModeOrVanish()) event.setCancelled(true);
+        });
+    }
 }

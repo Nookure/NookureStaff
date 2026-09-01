@@ -6,27 +6,23 @@ import org.spongepowered.configurate.objectmapping.meta.Setting;
 
 @ConfigSerializable
 public class PlaceholderPartial {
-  @Setting
-  @Comment(
-      """
+    @Setting
+    @Comment("""
           The result to display when a placeholder displays an affirmative value.
-              """
-  )
-  private String placeholderTrue = "<green>✔";
+              """)
+    private String placeholderTrue = "<green>✔";
 
-  @Setting
-  @Comment(
-      """
+    @Setting
+    @Comment("""
           The result to display when a placeholder displays a negative value.
-              """
-  )
-  private String placeholderFalse = "<red>✘";
+              """)
+    private String placeholderFalse = "<red>✘";
 
-  public String placeholderTrue() {
-    return placeholderTrue;
-  }
+    public String placeholderTrue() {
+        return placeholderTrue;
+    }
 
-  public String placeholderFalse() {
-    return placeholderFalse;
-  }
+    public String placeholderFalse() {
+        return placeholderFalse;
+    }
 }

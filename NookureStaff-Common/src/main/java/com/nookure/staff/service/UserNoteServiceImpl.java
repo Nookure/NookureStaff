@@ -1,5 +1,7 @@
 package com.nookure.staff.service;
 
+import static java.util.Objects.requireNonNull;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.nookure.staff.api.Logger;
@@ -15,246 +17,246 @@ import com.nookure.staff.api.util.Object2Text;
 import io.ebean.Database;
 import io.ebean.PagedList;
 import jakarta.persistence.NonUniqueResultException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
-
-import static java.util.Objects.requireNonNull;
-
 @Singleton
 public class UserNoteServiceImpl implements UserNoteService {
-  @Inject
-  private AtomicReference<Database> db;
-  @Inject
-  private ConfigurationContainer<NoteMessages> noteMessages;
-  @Inject
-  private ConfigurationContainer<BukkitMessages> messages;
-  @Inject
-  private Logger logger;
+    @Inject
+    private AtomicReference<Database> db;
 
-  private static final int PER_PAGE = 1;
+    @Inject
+    private ConfigurationContainer<NoteMessages> noteMessages;
 
-  @Override
-  public void addNote(@NotNull CommandSender staff, @NotNull String targetUsername, @NotNull String note, boolean showOnJoin, boolean showOnlyToAdministrators) {
-    requireNonNull(staff, "The staff member cannot be null");
-    requireNonNull(targetUsername, "The target username cannot be null");
-    requireNonNull(note, "The note cannot be null");
+    @Inject
+    private ConfigurationContainer<BukkitMessages> messages;
 
-    PlayerModel player = getByUsername(targetUsername);
+    @Inject
+    private Logger logger;
 
-    if (player == null) {
-      staff.sendMiniMessage(messages.get().playerNotFound(), "player", targetUsername);
-      return;
+    private static final int PER_PAGE = 1;
+
+    @Override
+    public void addNote(
+            @NotNull CommandSender staff,
+            @NotNull String targetUsername,
+            @NotNull String note,
+            boolean showOnJoin,
+            boolean showOnlyToAdministrators) {
+        requireNonNull(staff, "The staff member cannot be null");
+        requireNonNull(targetUsername, "The target username cannot be null");
+        requireNonNull(note, "The note cannot be null");
+
+        PlayerModel player = getByUsername(targetUsername);
+
+        if (player == null) {
+            staff.sendMiniMessage(messages.get().playerNotFound(), "player", targetUsername);
+            return;
+        }
+
+        NoteModel noteModel = new NoteModel()
+                .setPlayer(player)
+                .setNote(note)
+                .setShowOnJoin(showOnJoin)
+                .setShowOnlyToAdministrators(showOnlyToAdministrators);
+
+        staff.sendMiniMessage(noteMessages.get().savingData());
+        noteModel.save();
+        staff.sendMiniMessage(Object2Text.replaceText(noteMessages.get().successfullyCreated(), player, noteModel));
+        displayNote(staff, player, noteModel);
     }
 
-    NoteModel noteModel = new NoteModel()
-        .setPlayer(player)
-        .setNote(note)
-        .setShowOnJoin(showOnJoin)
-        .setShowOnlyToAdministrators(showOnlyToAdministrators);
+    @Override
+    public void removeNote(@NotNull CommandSender staff, @NotNull Long id) {
+        NoteModel note = db.get().find(NoteModel.class).where().eq("id", id).findOne();
 
-    staff.sendMiniMessage(noteMessages.get().savingData());
-    noteModel.save();
-    staff.sendMiniMessage(Object2Text.replaceText(noteMessages.get().successfullyCreated(), player, noteModel));
-    displayNote(staff, player, noteModel);
-  }
+        if (note == null) {
+            staff.sendMiniMessage(noteMessages.get().noteNotFound(), "note.id", id.toString());
+            return;
+        }
 
-  @Override
-  public void removeNote(@NotNull CommandSender staff, @NotNull Long id) {
-    NoteModel note = db.get().find(NoteModel.class).where().eq("id", id).findOne();
+        staff.sendMiniMessage(noteMessages.get().deletingNote());
 
-    if (note == null) {
-      staff.sendMiniMessage(noteMessages.get().noteNotFound(), "note.id", id.toString());
-      return;
+        note.delete();
+        staff.sendMiniMessage(Object2Text.replaceText(noteMessages.get().noteDeleted(), note));
     }
 
-    staff.sendMiniMessage(noteMessages.get().deletingNote());
+    @Override
+    public void displayNotes(@NotNull CommandSender staff, @NotNull String targetUsername, int page) {
+        PlayerModel player = getByUsername(targetUsername);
 
-    note.delete();
-    staff.sendMiniMessage(Object2Text.replaceText(noteMessages.get().noteDeleted(), note));
-  }
+        if (player == null) {
+            staff.sendMiniMessage(messages.get().playerNotFound(), "player", targetUsername);
+            return;
+        }
 
-  @Override
-  public void displayNotes(@NotNull CommandSender staff, @NotNull String targetUsername, int page) {
-    PlayerModel player = getByUsername(targetUsername);
-
-    if (player == null) {
-      staff.sendMiniMessage(messages.get().playerNotFound(), "player", targetUsername);
-      return;
+        displayNotesChat(staff, player, page);
     }
 
-    displayNotesChat(staff, player, page);
-  }
+    public void displayNotesChat(@NotNull CommandSender staff, @NotNull PlayerModel player, int page) {
+        PagedList<NoteModel> notes = db.get()
+                .find(NoteModel.class)
+                .where()
+                .eq("player", player)
+                .orderBy("whenCreated desc")
+                .setFirstRow(page * PER_PAGE)
+                .setMaxRows(PER_PAGE)
+                .findPagedList();
 
-  public void displayNotesChat(@NotNull CommandSender staff, @NotNull PlayerModel player, int page) {
-    PagedList<NoteModel> notes = db.get().find(NoteModel.class)
-        .where()
-        .eq("player", player)
-        .orderBy("whenCreated desc")
-        .setFirstRow(page * PER_PAGE)
-        .setMaxRows(PER_PAGE)
-        .findPagedList();
+        if (notes.getTotalCount() == 0) {
+            staff.sendMiniMessage(Object2Text.replaceText(noteMessages.get().userWithoutNotes(), player));
+            return;
+        }
 
-    if (notes.getTotalCount() == 0) {
-      staff.sendMiniMessage(Object2Text.replaceText(noteMessages.get().userWithoutNotes(), player));
-      return;
+        staff.sendMiniMessage(Object2Text.replaceText(getNotesPaginationHeader(player, notes, page), player));
+
+        notes.getList().forEach(note -> displayNote(staff, player, note));
+
+        if (staff.isConsole()) return;
+
+        staff.sendMiniMessage(Object2Text.replaceText(getNotesPaginationFooter(notes, page), player));
     }
 
-    staff.sendMiniMessage(
-        Object2Text.replaceText(
-            getNotesPaginationHeader(player, notes, page),
-            player
-        )
-    );
+    private String getNotesPaginationFooter(@NotNull PagedList<NoteModel> notes, int page) {
+        StringBuilder noteFooterMessage = new StringBuilder();
 
-    notes.getList().forEach(note -> displayNote(
-        staff,
-        player,
-        note
-    ));
+        if (notes.hasPrev()) {
+            noteFooterMessage.append(
+                    noteMessages.get().paginationPrevious().replace("{prev_page}", String.valueOf(page - 1)));
+        }
 
-    if (staff.isConsole()) return;
+        for (int i = 0; i < notes.getTotalPageCount(); i++) {
+            if (i == page) {
+                noteFooterMessage.append(
+                        noteMessages.get().currentPaginationNumber().replace("{page}", String.valueOf(i)));
+            } else {
+                noteFooterMessage.append(
+                        noteMessages.get().paginationFooterNumber().replace("{page}", String.valueOf(i)));
+            }
 
-    staff.sendMiniMessage(
-        Object2Text.replaceText(
-            getNotesPaginationFooter(notes, page),
-            player
-        )
-    );
-  }
+            if (i < notes.getTotalPageCount() - 1) {
+                noteFooterMessage.append(noteMessages.get().separator());
+            }
+        }
 
-  private String getNotesPaginationFooter(@NotNull PagedList<NoteModel> notes, int page) {
-    StringBuilder noteFooterMessage = new StringBuilder();
+        if (notes.hasNext()) {
+            noteFooterMessage.append(
+                    noteMessages.get().paginationNext().replace("{next_page}", String.valueOf(page + 1)));
+        }
 
-    if (notes.hasPrev()) {
-      noteFooterMessage.append(
-          noteMessages.get().paginationPrevious()
-              .replace("{prev_page}", String.valueOf(page - 1))
-      );
+        return noteFooterMessage.toString();
     }
 
-    for (int i = 0; i < notes.getTotalPageCount(); i++) {
-      if (i == page) {
-        noteFooterMessage.append(noteMessages.get().currentPaginationNumber().replace("{page}", String.valueOf(i)));
-      } else {
-        noteFooterMessage.append(noteMessages.get().paginationFooterNumber().replace("{page}", String.valueOf(i)));
-      }
+    @Override
+    public void toggleShowOnJoin(@NotNull CommandSender staff, @NotNull Long id) {
+        NoteModel note = db.get().find(NoteModel.class).where().eq("id", id).findOne();
 
-      if (i < notes.getTotalPageCount() - 1) {
-        noteFooterMessage.append(noteMessages.get().separator());
-      }
+        if (note == null) {
+            staff.sendMiniMessage(noteMessages.get().noteNotFound(), "note.id", id.toString());
+            return;
+        }
+
+        note.setShowOnJoin(!note.getShowOnJoin());
+        note.save();
+
+        staff.sendMiniMessage(Object2Text.replaceText(
+                note.getShowOnJoin()
+                        ? noteMessages.get().setShowOnJoinOn()
+                        : noteMessages.get().setShowOnJoinOff(),
+                note));
     }
 
-    if (notes.hasNext()) {
-      noteFooterMessage.append(
-          noteMessages.get().paginationNext()
-              .replace("{next_page}", String.valueOf(page + 1))
-      );
+    private String getNotesPaginationHeader(@NotNull PlayerModel player, PagedList<NoteModel> notes, int page) {
+        return noteMessages
+                .get()
+                .paginationHeader()
+                .replace("{player.name}", player.getName())
+                .replace("{page}", String.valueOf(page + 1))
+                .replace("{total_pages}", String.valueOf(notes.getTotalPageCount()));
     }
 
-    return noteFooterMessage.toString();
-  }
+    @Override
+    public void displayNote(@NotNull CommandSender staff, @NotNull PlayerModel player, @NotNull NoteModel note) {
+        staff.sendMiniMessage(Object2Text.replaceText(noteMessages.get().noteDisplayHeader(), player, note));
 
-  @Override
-  public void toggleShowOnJoin(@NotNull CommandSender staff, @NotNull Long id) {
-    NoteModel note = db.get().find(NoteModel.class).where().eq("id", id).findOne();
+        if (staff.hasPermission(Permissions.STAFF_NOTES_ADMIN)) {
+            staff.sendMiniMessage(Object2Text.replaceText(noteMessages.get().noteDisplayBodyAdmin(), player, note));
+        } else {
+            staff.sendMiniMessage(Object2Text.replaceText(noteMessages.get().noteDisplayBody(), player, note));
+        }
 
-    if (note == null) {
-      staff.sendMiniMessage(noteMessages.get().noteNotFound(), "note.id", id.toString());
-      return;
+        if (staff.hasPermission(Permissions.STAFF_NOTES_ADMIN) && staff.isPlayer()) {
+            staff.sendMiniMessage(Object2Text.replaceText(noteMessages.get().noteDisplayFooter(), player, note));
+        }
     }
 
-    note.setShowOnJoin(!note.getShowOnJoin());
-    note.save();
+    @Nullable @Override
+    public PlayerModel getByUsername(@NotNull String username) {
+        requireNonNull(username, "The username cannot be null");
+        try {
+            return db.get().find(PlayerModel.class).where().eq("name", username).findOne();
+        } catch (NonUniqueResultException e) {
+            logger.severe("There are multiple players with the same username: " + username);
+            logger.severe("Maybe you have change your server from offline to online mode?");
+            logger.severe("Please, check your database and remove the duplicated entries.");
+            logger.severe("We are going to try to check if there is a player with the same username and UUID.");
+            logger.severe("and fix the issue automatically.");
+            Player player = Bukkit.getPlayer(username);
 
-    staff.sendMiniMessage(Object2Text.replaceText(
-        note.getShowOnJoin() ? noteMessages.get().setShowOnJoinOn() : noteMessages.get().setShowOnJoinOff(),
-        note)
-    );
-  }
+            if (player == null) {
+                logger.severe("The player is not online, so we cannot fix the issue automatically.");
+                logger.severe("Please, check your database and remove the duplicated entries.");
+                return null;
+            }
 
-  private String getNotesPaginationHeader(@NotNull PlayerModel player, PagedList<NoteModel> notes, int page) {
-    return noteMessages.get().paginationHeader()
-        .replace("{player.name}", player.getName())
-        .replace("{page}", String.valueOf(page + 1))
-        .replace("{total_pages}", String.valueOf(notes.getTotalPageCount()));
-  }
-
-  @Override
-  public void displayNote(@NotNull CommandSender staff, @NotNull PlayerModel player, @NotNull NoteModel note) {
-    staff.sendMiniMessage(Object2Text.replaceText(noteMessages.get().noteDisplayHeader(), player, note));
-
-    if (staff.hasPermission(Permissions.STAFF_NOTES_ADMIN)) {
-      staff.sendMiniMessage(Object2Text.replaceText(noteMessages.get().noteDisplayBodyAdmin(), player, note));
-    } else {
-      staff.sendMiniMessage(Object2Text.replaceText(noteMessages.get().noteDisplayBody(), player, note));
+            if (fixDuplicateEntries(player)) {
+                return db.get()
+                        .find(PlayerModel.class)
+                        .where()
+                        .eq("name", username)
+                        .findOne();
+            } else {
+                logger.severe("The issue was not fixed automatically.");
+                logger.severe("Please, check your database and remove the duplicated entries.");
+                return null;
+            }
+        }
     }
 
-    if (staff.hasPermission(Permissions.STAFF_NOTES_ADMIN) && staff.isPlayer()) {
-      staff.sendMiniMessage(Object2Text.replaceText(noteMessages.get().noteDisplayFooter(), player, note));
+    private boolean fixDuplicateEntries(@NotNull Player player) {
+        requireNonNull(player, "Player cannot be null");
+
+        ArrayList<PlayerModel> playersToRemoves = new ArrayList<>();
+        List<PlayerModel> players = db.get()
+                .find(PlayerModel.class)
+                .where()
+                .eq("name", player.getName())
+                .findList();
+
+        if (players.size() == 1) {
+            logger.info("The issue was fixed automatically.");
+            return true;
+        }
+
+        for (PlayerModel playerModel : players) {
+            if (!playerModel.getUuid().equals(player.getUniqueId())) {
+                playersToRemoves.add(playerModel);
+            }
+        }
+
+        if (playersToRemoves.size() == players.size()) {
+            logger.severe("The issue was not fixed automatically.");
+            logger.severe("Please check your database and remove the duplicated entries.");
+            return false;
+        }
+
+        playersToRemoves.forEach(PlayerModel::delete);
+        logger.info("The issue was fixed automatically.");
+        return true;
     }
-  }
-
-  @Nullable
-  @Override
-  public PlayerModel getByUsername(@NotNull String username) {
-    requireNonNull(username, "The username cannot be null");
-    try {
-      return db.get().find(PlayerModel.class).where().eq("name", username).findOne();
-    } catch (NonUniqueResultException e) {
-      logger.severe("There are multiple players with the same username: " + username);
-      logger.severe("Maybe you have change your server from offline to online mode?");
-      logger.severe("Please, check your database and remove the duplicated entries.");
-      logger.severe("We are going to try to check if there is a player with the same username and UUID.");
-      logger.severe("and fix the issue automatically.");
-      Player player = Bukkit.getPlayer(username);
-
-      if (player == null) {
-        logger.severe("The player is not online, so we cannot fix the issue automatically.");
-        logger.severe("Please, check your database and remove the duplicated entries.");
-        return null;
-      }
-
-      if (fixDuplicateEntries(player)) {
-        return db.get().find(PlayerModel.class).where().eq("name", username).findOne();
-      } else {
-        logger.severe("The issue was not fixed automatically.");
-        logger.severe("Please, check your database and remove the duplicated entries.");
-        return null;
-      }
-    }
-  }
-
-  private boolean fixDuplicateEntries(@NotNull Player player) {
-    requireNonNull(player, "Player cannot be null");
-
-    ArrayList<PlayerModel> playersToRemoves = new ArrayList<>();
-    List<PlayerModel> players = db.get().find(PlayerModel.class).where().eq("name", player.getName()).findList();
-
-    if (players.size() == 1) {
-      logger.info("The issue was fixed automatically.");
-      return true;
-    }
-
-    for (PlayerModel playerModel : players) {
-      if (!playerModel.getUuid().equals(player.getUniqueId())) {
-        playersToRemoves.add(playerModel);
-      }
-    }
-
-    if (playersToRemoves.size() == players.size()) {
-      logger.severe("The issue was not fixed automatically.");
-      logger.severe("Please check your database and remove the duplicated entries.");
-      return false;
-    }
-
-    playersToRemoves.forEach(PlayerModel::delete);
-    logger.info("The issue was fixed automatically.");
-    return true;
-  }
 }

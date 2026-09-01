@@ -10,51 +10,49 @@ import com.nookure.staff.api.config.bukkit.BukkitMessages;
 import com.nookure.staff.api.util.transformer.PlayerTransformer;
 import com.nookure.staff.paper.StaffPaperPlayerWrapper;
 import com.nookure.staff.paper.inventory.player.PlayerEnderchestInventory;
+import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
 @CommandData(
-    name = "enderchest",
-    description = "View the enderchest inventory of another player",
-    permission = Permissions.STAFF_ENDERCHEST
-)
+        name = "enderchest",
+        description = "View the enderchest inventory of another player",
+        permission = Permissions.STAFF_ENDERCHEST)
 public class StaffEnderchestSee extends StaffCommand {
-  private final ConfigurationContainer<BukkitMessages> messages;
+    private final ConfigurationContainer<BukkitMessages> messages;
 
-  @Inject
-  public StaffEnderchestSee(
-      @NotNull final PlayerTransformer transformer,
-      @NotNull final ConfigurationContainer<BukkitMessages> messages
-  ) {
-    super(transformer, messages);
-    this.messages = messages;
-  }
-
-  @Override
-  protected void onStaffCommand(@NotNull StaffPlayerWrapper sender, @NotNull String label, @NotNull List<String> args) {
-    if (args.isEmpty()) {
-      sender.sendMiniMessage(messages.get().staffMode.invseeEnderchestCommandUsage());
-      return;
+    @Inject
+    public StaffEnderchestSee(
+            @NotNull final PlayerTransformer transformer,
+            @NotNull final ConfigurationContainer<BukkitMessages> messages) {
+        super(transformer, messages);
+        this.messages = messages;
     }
 
-    String targetName = args.getFirst();
+    @Override
+    protected void onStaffCommand(
+            @NotNull StaffPlayerWrapper sender, @NotNull String label, @NotNull List<String> args) {
+        if (args.isEmpty()) {
+            sender.sendMiniMessage(messages.get().staffMode.invseeEnderchestCommandUsage());
+            return;
+        }
 
-    Player target = Bukkit.getPlayer(targetName);
+        String targetName = args.getFirst();
 
-    if (target == null) {
-      sender.sendMiniMessage(messages.get().playerNotFound());
-      return;
+        Player target = Bukkit.getPlayer(targetName);
+
+        if (target == null) {
+            sender.sendMiniMessage(messages.get().playerNotFound());
+            return;
+        }
+
+        if (sender instanceof StaffPaperPlayerWrapper player) {
+            if (player.hasPermission(Permissions.STAFF_ENDERCHEST_MODIFY)) {
+                player.getPlayer().openInventory(target.getEnderChest());
+            } else {
+                player.getPlayer().openInventory(new PlayerEnderchestInventory(target).getInventory());
+            }
+        }
     }
-
-    if (sender instanceof StaffPaperPlayerWrapper player) {
-      if (player.hasPermission(Permissions.STAFF_ENDERCHEST_MODIFY)) {
-        player.getPlayer().openInventory(target.getEnderChest());
-      } else {
-        player.getPlayer().openInventory(new PlayerEnderchestInventory(target).getInventory());
-      }
-    }
-  }
 }

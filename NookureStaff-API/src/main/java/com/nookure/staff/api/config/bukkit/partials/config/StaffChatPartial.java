@@ -6,7 +6,7 @@ import org.spongepowered.configurate.objectmapping.meta.Setting;
 
 @ConfigSerializable
 public class StaffChatPartial {
-  @Setting
-  @Comment("If this is enabled, the staff chat will be logged in the console.")
-  public boolean logStaffChatInConsole = true;
+    @Setting
+    @Comment("If this is enabled, the staff chat will be logged in the console.")
+    public boolean logStaffChatInConsole = true;
 }

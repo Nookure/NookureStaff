@@ -9,20 +9,17 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTargetEvent;
 
 public class OnEntityTarget implements Listener {
-  @Inject
-  private PlayerWrapperManager<Player> playerWrapperManager;
+    @Inject
+    private PlayerWrapperManager<Player> playerWrapperManager;
 
-  @EventHandler(
-      ignoreCancelled = true,
-      priority = EventPriority.HIGHEST
-  )
-  public void onEntityTarget(EntityTargetEvent event) {
-    if (!(event.getTarget() instanceof Player player)) {
-      return;
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    public void onEntityTarget(EntityTargetEvent event) {
+        if (!(event.getTarget() instanceof Player player)) {
+            return;
+        }
+
+        playerWrapperManager
+                .getStaffPlayer(player.getUniqueId())
+                .ifPresent(pw -> event.setCancelled(pw.isStaffModeOrVanish()));
     }
-
-    playerWrapperManager.getStaffPlayer(player.getUniqueId()).ifPresent(
-        pw -> event.setCancelled(pw.isStaffModeOrVanish())
-    );
-  }
 }

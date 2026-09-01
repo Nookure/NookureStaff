@@ -10,17 +10,17 @@ import org.jetbrains.annotations.NotNull;
  * @since 1.0.0
  */
 public abstract class CommandManager {
-  /**
-   * Register a command
-   *
-   * @param command The command to register
-   */
-  public abstract void registerCommand(@NotNull Command command);
+    /**
+     * Register a command
+     *
+     * @param command The command to register
+     */
+    public abstract void registerCommand(@NotNull Command command);
 
-  /**
-   * Unregister a command
-   *
-   * @param command The command to unregister
-   */
-  public abstract void unregisterCommand(@NotNull Command command);
+    /**
+     * Unregister a command
+     *
+     * @param command The command to unregister
+     */
+    public abstract void unregisterCommand(@NotNull Command command);
 }

@@ -8,50 +8,49 @@ import com.nookure.staff.api.manager.PlayerWrapperManager;
 import com.nookure.staff.api.util.Scheduler;
 import com.nookure.staff.api.util.TextUtils;
 import com.nookure.staff.paper.extension.FreezePlayerExtension;
+import java.util.Optional;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 
-import java.util.Optional;
-
 public class FreezeTimerTask implements Runnable {
-  @Inject
-  private FreezeManager freezeManager;
-  @Inject
-  private PlayerWrapperManager<Player> playerWrapperManager;
-  @Inject
-  private Scheduler scheduler;
+    @Inject
+    private FreezeManager freezeManager;
 
-  @Override
-  public void run() {
-    freezeManager.stream().forEach(container -> {
-      if (container.timeLeft() == -1) return;
+    @Inject
+    private PlayerWrapperManager<Player> playerWrapperManager;
 
-      Optional<PlayerWrapper> optionalPlayer = playerWrapperManager.getPlayerWrapper(container.target());
-      Optional<StaffPlayerWrapper> optionalStaff = playerWrapperManager.getStaffPlayer(container.staff());
-      if (optionalPlayer.isEmpty() || optionalStaff.isEmpty()) return;
+    @Inject
+    private Scheduler scheduler;
 
+    @Override
+    public void run() {
+        freezeManager.stream().forEach(container -> {
+            if (container.timeLeft() == -1) return;
 
-      PlayerWrapper player = optionalPlayer.get();
-      StaffPlayerWrapper staff = optionalStaff.get();
+            Optional<PlayerWrapper> optionalPlayer = playerWrapperManager.getPlayerWrapper(container.target());
+            Optional<StaffPlayerWrapper> optionalStaff = playerWrapperManager.getStaffPlayer(container.staff());
+            if (optionalPlayer.isEmpty() || optionalStaff.isEmpty()) return;
 
-      if (!(container.timeLeft() < System.currentTimeMillis())) {
-        Component cmp = TextUtils.toComponent(
-            "<red>" + TextUtils.formatTime(container.timeLeft() - System.currentTimeMillis())
-        );
+            PlayerWrapper player = optionalPlayer.get();
+            StaffPlayerWrapper staff = optionalStaff.get();
 
-        player.sendActionbar(cmp);
-        return;
-      }
+            if (!(container.timeLeft() < System.currentTimeMillis())) {
+                Component cmp = TextUtils.toComponent(
+                        "<red>" + TextUtils.formatTime(container.timeLeft() - System.currentTimeMillis()));
 
-      Optional<FreezePlayerExtension> optionalExtension = staff.getExtension(FreezePlayerExtension.class);
+                player.sendActionbar(cmp);
+                return;
+            }
 
-      if (optionalExtension.isEmpty()) return;
+            Optional<FreezePlayerExtension> optionalExtension = staff.getExtension(FreezePlayerExtension.class);
 
-      FreezePlayerExtension extension = optionalExtension.get();
+            if (optionalExtension.isEmpty()) return;
 
-      extension.unfreezePlayer(player);
+            FreezePlayerExtension extension = optionalExtension.get();
 
-      scheduler.sync(() -> extension.executeFreezeCommands(staff, player.getName()));
-    });
-  }
+            extension.unfreezePlayer(player);
+
+            scheduler.sync(() -> extension.executeFreezeCommands(staff, player.getName()));
+        });
+    }
 }

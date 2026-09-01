@@ -31,6 +31,9 @@ google-auto-value = "1.11.0"
 google-auto-service = "1.1.1"
 luckperms = "5.4"
 neznamy-tab-api = "5.0.3"
+spotless = "8.10.1"
+palantir-java-format = "2.97.0"
+
 
 [libraries]
 hikariCP = { group = "com.zaxxer", name = "HikariCP", version.ref = "hikariCP" }
@@ -97,3 +100,5 @@ ebean = { id = "io.ebean", version.ref = "ebean" }
 runPaper = { id = "xyz.jpenilla.run-paper", version = "3.0.2" }
 testLogger = { id = "com.adarshr.test-logger", version = "4.0.0"}
 minotaur = { id = "com.modrinth.minotaur", version = "2.+" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+palantir-java-format = { id = "com.palantir.java-format-spotless", version.ref = "palantir-java-format" }

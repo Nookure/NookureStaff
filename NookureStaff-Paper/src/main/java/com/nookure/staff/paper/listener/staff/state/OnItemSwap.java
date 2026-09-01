@@ -8,13 +8,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 
 public class OnItemSwap implements Listener {
-  @Inject
-  private PlayerWrapperManager<Player> playerWrapperManager;
+    @Inject
+    private PlayerWrapperManager<Player> playerWrapperManager;
 
-  @EventHandler
-  public void onItemSwap(PlayerSwapHandItemsEvent event) {
-    playerWrapperManager.getStaffPlayer(event.getPlayer().getUniqueId()).ifPresent(playerWrapper -> {
-      if (playerWrapper.isStaffModeOrVanish()) event.setCancelled(true);
-    });
-  }
+    @EventHandler
+    public void onItemSwap(PlayerSwapHandItemsEvent event) {
+        playerWrapperManager.getStaffPlayer(event.getPlayer().getUniqueId()).ifPresent(playerWrapper -> {
+            if (playerWrapper.isStaffModeOrVanish()) event.setCancelled(true);
+        });
+    }
 }
