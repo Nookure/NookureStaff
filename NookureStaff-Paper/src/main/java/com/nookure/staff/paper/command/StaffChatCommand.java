@@ -9,8 +9,11 @@ import com.nookure.staff.api.config.ConfigurationContainer;
 import com.nookure.staff.api.config.bukkit.BukkitConfig;
 import com.nookure.staff.api.config.bukkit.BukkitMessages;
 import com.nookure.staff.api.util.ServerUtils;
+import com.nookure.staff.api.util.TextUtils;
 import com.nookure.staff.api.util.transformer.PlayerTransformer;
 import java.util.List;
+
+import com.nookure.staff.paper.StaffPaperPlayerWrapper;
 import org.jetbrains.annotations.NotNull;
 
 @CommandData(
@@ -54,13 +57,19 @@ public class StaffChatCommand extends StaffCommand {
 
         String messageArgs = String.join(" ", args);
 
-        String message = messages.get()
-                .staffChat
-                .format()
-                .replace("{player}", sender.getName())
-                .replace("{server}", config.get().getServerName())
-                .replace("{message}", messageArgs);
+      String message = messages.get()
+          .staffChat
+          .format();
 
-        serverUtils.broadcast(message, Permissions.STAFF_CHAT);
+      StaffPaperPlayerWrapper staffPlayerWrapper = (StaffPaperPlayerWrapper) sender;
+
+      message = TextUtils.parsePlaceholdersWithPAPI(staffPlayerWrapper.getPlayer(), message);
+
+      message = message
+          .replace("{player}", staffPlayerWrapper.getName())
+          .replace("{server}", config.get().getServerName())
+          .replace("{message}", messageArgs);
+
+      serverUtils.broadcast(message, Permissions.STAFF_CHAT, config.get().staffChat.logStaffChatInConsole);
     }
 }
