@@ -2,12 +2,19 @@ package com.nookure.staff.api.util;
 
 import com.nookure.staff.api.Permissions;
 import com.nookure.staff.api.PlayerWrapper;
+import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.AbstractExecutorService;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
-import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class ServerUtils {
+    public static final boolean isBukkit;
     public static final boolean isPaper;
     public static final MinecraftVersion MINECRAFT_VERSION;
     private static final Logger logger = Logger.getLogger("NookureStaff");
@@ -31,10 +38,24 @@ public abstract class ServerUtils {
     /**
      * Broadcast a message to the players with a specific permission
      *
-     * @param message    The message to broadcast
-     * @param permission The permission to check
+     * @param message       The message to broadcast
+     * @param permission    The permission to check
+     * @param showInConsole Whether to show the message in the console
      */
-    public abstract void broadcast(@NotNull String message, @NotNull String permission, boolean showInConsole);
+    public void broadcast(@NotNull String message, @NotNull String permission, boolean showInConsole) {
+        broadcast(message, permission, showInConsole, true);
+    }
+
+    /**
+     * Broadcast a message to the players with a specific permission
+     *
+     * @param message       The message to broadcast
+     * @param permission    The permission to check
+     * @param showInConsole Whether to show the message in the console
+     * @param papi          Whether to use PlaceholderAPI
+     */
+    public abstract void broadcast(
+            @NotNull String message, @NotNull String permission, boolean showInConsole, boolean papi);
 
     /**
      * Broadcast a message to the players with a specific permission
@@ -64,20 +85,25 @@ public abstract class ServerUtils {
     public abstract void sendCommandToProxy(@NotNull String command, @NotNull PlayerWrapper sender);
 
     static {
-        isPaper = hasClass("com.destroystokyo.paper.PaperConfig")
-                || hasClass("io.papermc.paper.configuration.Configuration");
+        isBukkit = hasClass("org.bukkit.Bukkit");
+        isPaper = isBukkit
+                && (hasClass("com.destroystokyo.paper.PaperConfig")
+                        || hasClass("io.papermc.paper.configuration.Configuration"));
 
         MINECRAFT_VERSION = getMinecraftVersionOrDefault();
     }
 
     private static MinecraftVersion getMinecraftVersionOrDefault() {
+        if (!isBukkit) {
+            return new MinecraftVersion(0, 0, 0);
+        }
         try {
             try {
-                return getMinecraftVersionByPaper();
-            } catch (Exception e) {
-                return getMinecraftVersionByBukkit();
+                return BukkitVersionHelper.getMinecraftVersionByPaper();
+            } catch (Throwable e) {
+                return BukkitVersionHelper.getMinecraftVersionByBukkit();
             }
-        } catch (Exception e) {
+        } catch (Throwable e) {
             logger.warning("Failed to get the Minecraft version, defaulting to 0.0.0");
             logger.warning("Keep in mind that this may cause issues with the plugin");
             logger.warning("Because of this, it is recommended to use the latest version of the software");
@@ -85,19 +111,69 @@ public abstract class ServerUtils {
         }
     }
 
-    private static MinecraftVersion getMinecraftVersionByPaper() {
-        String[] version = Bukkit.getMinecraftVersion().split("\\.");
-        return new MinecraftVersion(
-                Integer.parseInt(version[0]), Integer.parseInt(version[1]), Integer.parseInt(version[2]));
+    public static boolean isMock() {
+        if (!isBukkit) {
+            return false;
+        }
+        try {
+            return BukkitVersionHelper.isMock();
+        } catch (Throwable ignored) {
+            return false;
+        }
     }
 
-    private static MinecraftVersion getMinecraftVersionByBukkit() {
-        String version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
-        String[] versionSplit = version.split("_");
-        return new MinecraftVersion(
-                Integer.parseInt(versionSplit[0]),
-                Integer.parseInt(versionSplit[1]),
-                Integer.parseInt(versionSplit[2]));
+    public static Executor defaultAsyncExecutor() {
+        return command -> {
+            if (isMock()) {
+                command.run();
+            } else {
+                ForkJoinPool.commonPool().execute(command);
+            }
+        };
+    }
+
+    public static ExecutorService asyncExecutor(@NotNull String threadPrefix) {
+        ExecutorService virtualExecutor = Executors.newThreadPerTaskExecutor(
+                Thread.ofVirtual().name(threadPrefix, 0).factory());
+        return new AbstractExecutorService() {
+            private volatile boolean shutdown = false;
+
+            @Override
+            public void shutdown() {
+                shutdown = true;
+                virtualExecutor.shutdown();
+            }
+
+            @Override
+            public @NotNull List<Runnable> shutdownNow() {
+                shutdown = true;
+                return virtualExecutor.shutdownNow();
+            }
+
+            @Override
+            public boolean isShutdown() {
+                return shutdown;
+            }
+
+            @Override
+            public boolean isTerminated() {
+                return shutdown && virtualExecutor.isTerminated();
+            }
+
+            @Override
+            public boolean awaitTermination(long timeout, @NotNull TimeUnit unit) throws InterruptedException {
+                return virtualExecutor.awaitTermination(timeout, unit);
+            }
+
+            @Override
+            public void execute(@NotNull Runnable command) {
+                if (isMock()) {
+                    command.run();
+                } else {
+                    virtualExecutor.execute(command);
+                }
+            }
+        };
     }
 
     public record MinecraftVersion(int major, int minor, int patch) {
@@ -126,7 +202,7 @@ public abstract class ServerUtils {
         try {
             Class.forName(className);
             return true;
-        } catch (ClassNotFoundException e) {
+        } catch (Throwable e) {
             return false;
         }
     }
