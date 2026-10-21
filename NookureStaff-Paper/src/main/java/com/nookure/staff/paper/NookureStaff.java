@@ -167,10 +167,12 @@ public class NookureStaff {
             case NONE -> logger.debug("No messenger type was found, events will not be sent");
         }
 
-        Bukkit.getMessenger()
-                .registerIncomingPluginChannel(
-                        plugin, Channels.EVENTS, injector.getInstance(BackendMessageMessenger.class));
-        Bukkit.getMessenger().registerOutgoingPluginChannel(plugin, Channels.EVENTS);
+        if (pluginMessageConfig.get().enabled) {
+            Bukkit.getMessenger()
+                    .registerIncomingPluginChannel(
+                            plugin, Channels.EVENTS, injector.getInstance(BackendMessageMessenger.class));
+            Bukkit.getMessenger().registerOutgoingPluginChannel(plugin, Channels.EVENTS);
+        }
         Bukkit.getMessenger().registerOutgoingPluginChannel(plugin, Channels.COMMANDS);
 
         logger.debug("Registering PM");

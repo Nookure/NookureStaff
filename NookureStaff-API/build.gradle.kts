@@ -46,6 +46,8 @@ dependencies {
 
   testImplementation(libs.guice)
   testImplementation(libs.gson)
+  testImplementation(rootProject.libs.adventureApi)
+  testImplementation(rootProject.libs.miniMessage)
 }
 
 publishing {

@@ -50,10 +50,11 @@ public class BackendMessageMessenger extends EventMessenger implements PluginMes
 
     @Override
     public void publish(@NotNull PlayerWrapper sender, byte @NotNull [] data) {
-        if (config.get().enabled) {
-            data = encryptService.encrypt(data, secretKey.get());
+        if (!config.get().enabled) {
+            return;
         }
 
+        data = encryptService.encrypt(data, secretKey.get());
         sender.sendPluginMessage(Channels.EVENTS, data);
     }
 
@@ -63,25 +64,32 @@ public class BackendMessageMessenger extends EventMessenger implements PluginMes
             return;
         }
 
+        if (!config.get().enabled) {
+            return;
+        }
+
         try {
             logger.debug("Received event from plugin message");
 
-            if (config.get().enabled) {
-                try {
-                    message = encryptService.decrypt(message, secretKey.get());
-                } catch (DataIntegrityCheckFailedException e) {
-                    logger.severe(
-                            "The player %s sent a message with an invalid integrity check".formatted(player.getName()));
-                    if (config.get().playerTamperingDetection) {
-                        player.kick(
-                                Component.text(config.get().playerTamperingDetectionMessage),
-                                PlayerKickEvent.Cause.ILLEGAL_ACTION);
-                    }
-                    return;
-                } catch (Exception e) {
-                    logger.severe("Failed to decrypt message");
-                    return;
+            try {
+                message = encryptService.decrypt(message, secretKey.get());
+            } catch (DataIntegrityCheckFailedException e) {
+                logger.severe(
+                        "The player %s sent a message with an invalid integrity check".formatted(player.getName()));
+                if (config.get().playerTamperingDetection) {
+                    player.kick(
+                            Component.text(config.get().playerTamperingDetectionMessage),
+                            PlayerKickEvent.Cause.ILLEGAL_ACTION);
                 }
+                return;
+            } catch (Exception e) {
+                logger.severe("Failed to decrypt message from %s".formatted(player.getName()));
+                if (config.get().playerTamperingDetection) {
+                    player.kick(
+                            Component.text(config.get().playerTamperingDetectionMessage),
+                            PlayerKickEvent.Cause.ILLEGAL_ACTION);
+                }
+                return;
             }
 
             decodeEvent(message).ifPresent(eventManager::fireEvent);

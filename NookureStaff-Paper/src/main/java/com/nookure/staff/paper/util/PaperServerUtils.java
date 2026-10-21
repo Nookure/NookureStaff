@@ -34,11 +34,16 @@ public class PaperServerUtils extends ServerUtils {
     }
 
     @Override
-    public void broadcast(@NotNull String message, @NotNull String permission, boolean showInConsole) {
+    public void broadcast(@NotNull String message, @NotNull String permission, boolean showInConsole, boolean papi) {
         playerWrapperManager.stream()
                 .findFirst()
                 .ifPresent(player ->
                         eventMessenger.publish(player, new BroadcastMessage(message, permission, showInConsole)));
+    }
+
+    @Override
+    public void broadcast(@NotNull String message, @NotNull String permission, boolean showInConsole) {
+        broadcast(message, permission, showInConsole, true);
     }
 
     @Override
